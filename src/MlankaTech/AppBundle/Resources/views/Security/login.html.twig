@@ -1,0 +1,12 @@
+{% extends "MlankaTechAppBundle:Security:layout.html.twig" %}
+
+{% block title %}Login {% endblock title %}
+
+{% block body %}
+    <div class="panel-body">
+        <div class="card-body">
+            {% include "@MlankaTechApp/Security/form/_login.html.twig" %}
+        </div>
+    </div>
+{% endblock body %}
+

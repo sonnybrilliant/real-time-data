@@ -1,3 +1,3 @@
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
+mlanka_tech_app_security:
+    resource: "@MlankaTechAppBundle/Resources/config/routing.security.yml"
+    prefix:   /
