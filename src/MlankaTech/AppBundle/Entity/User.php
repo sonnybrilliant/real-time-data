@@ -234,7 +234,7 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(name="is_admin", type="boolean")
      * @Gedmo\Versioned
      */
-    protected $isAdmin = false;
+    protected $admin = false;
 
     /**
      * @var boolean
@@ -242,7 +242,7 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(name="is_active", type="boolean")
      * @Gedmo\Versioned
      */
-    protected $IsActive = true;
+    protected $active = true;
 
     /**
      * @var boolean
@@ -250,7 +250,7 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(name="is_expired", type="boolean")
      * @Gedmo\Versioned
      */
-    protected $isExpired = false;
+    protected $expired = false;
 
     /**
      * @var boolean
@@ -258,7 +258,7 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(name="is_locked", type="boolean")
      * @Gedmo\Versioned
      */
-    protected $isLocked = false;
+    protected $locked = false;
 
     /**
      * @var datetime
@@ -492,7 +492,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function isAccountNonExpired()
     {
-        return $this->isExpired?false:true;
+        return $this->expired?false:true;
     }
 
     /**
@@ -507,7 +507,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function isAccountNonLocked()
     {
-        return $this->isLocked?false:true;
+        return $this->locked?false:true;
     }
 
     /**
@@ -522,7 +522,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function isCredentialsNonExpired()
     {
-        return $this->isLocked?false:true;
+        return $this->locked?false:true;
     }
 
     /**
@@ -537,7 +537,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function isEnabled()
     {
-        return $this->IsActive;
+        return $this->active;
     }
 
     /**
@@ -695,121 +695,6 @@ class User implements AdvancedUserInterface, \Serializable
     public function setSalt($salt)
     {
         $this->salt = $salt;
-
-        return $this;
-    }
-
-    /**
-     * Set isDeleted
-     *
-     * @param boolean $isdeleted
-     * @return User
-     */
-    public function setIsDeleted($isdeleted)
-    {
-        $this->isDeleted = $isdeleted;
-
-        return $this;
-    }
-
-    /**
-     * Get isDeleted
-     *
-     * @return boolean
-     */
-    public function getIsDeleted()
-    {
-        return $this->isDeleted;
-    }
-
-    /**
-     * Set isAdmin
-     *
-     * @param boolean $isAdmin
-     * @return User
-     */
-    public function setIsAdmin($isAdmin)
-    {
-        $this->isAdmin = $isAdmin;
-
-        return $this;
-    }
-
-    /**
-     * Get isAdmin
-     *
-     * @return boolean
-     */
-    public function getIsAdmin()
-    {
-        return $this->isAdmin;
-    }
-
-    /**
-     * Set enabled
-     *
-     * @param boolean $enabled
-     * @return User
-     */
-    public function setIsActive($enabled)
-    {
-        $this->IsActive = $enabled;
-
-        return $this;
-    }
-
-    /**
-     * Get enabled
-     *
-     * @return boolean
-     */
-    public function getIsActive()
-    {
-        return $this->IsActive;
-    }
-
-    /**
-     * Set expired
-     *
-     * @param boolean $isExpired
-     * @return User
-     */
-    public function setIsExpired($isExpired)
-    {
-        $this->isExpired = $isExpired;
-
-        return $this;
-    }
-
-    /**
-     * Get expired
-     *
-     * @return boolean
-     */
-    public function getIsExpired()
-    {
-        return $this->isExpired;
-    }
-
-    /**
-     * Get locked
-     *
-     * @return boolean
-     */
-    public function getIsLocked()
-    {
-        return $this->isLocked;
-    }
-
-    /**
-     * Set locked
-     *
-     * @param boolean $isLocked
-     * @return User
-     */
-    public function setIsLocked($isLocked)
-    {
-        $this->isLocked = $isLocked;
 
         return $this;
     }
@@ -1270,5 +1155,4 @@ class User implements AdvancedUserInterface, \Serializable
     {
         return $this->path;
     }
-
 }
