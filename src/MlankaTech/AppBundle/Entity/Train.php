@@ -111,7 +111,7 @@ class Train
      * @ORM\Column(name="is_deleted", type="boolean")
      * @Gedmo\Versioned
      */
-    protected $isDeleted = false;
+    protected $deleted = false;
 
     /**
      * @var boolean
@@ -119,7 +119,7 @@ class Train
      * @ORM\Column(name="is_active", type="boolean")
      * @Gedmo\Versioned
      */
-    protected $IsActive = true;
+    protected $active = true;
 
     /**
      *
@@ -205,52 +205,6 @@ class Train
     public function getUnit()
     {
         return $this->unit;
-    }
-
-    /**
-     * Set isDeleted
-     *
-     * @param boolean $isDeleted
-     * @return Train
-     */
-    public function setIsDeleted($isDeleted)
-    {
-        $this->isDeleted = $isDeleted;
-
-        return $this;
-    }
-
-    /**
-     * Get isDeleted
-     *
-     * @return boolean 
-     */
-    public function getIsDeleted()
-    {
-        return $this->isDeleted;
-    }
-
-    /**
-     * Set IsActive
-     *
-     * @param boolean $isActive
-     * @return Train
-     */
-    public function setIsActive($isActive)
-    {
-        $this->IsActive = $isActive;
-
-        return $this;
-    }
-
-    /**
-     * Get IsActive
-     *
-     * @return boolean 
-     */
-    public function getIsActive()
-    {
-        return $this->IsActive;
     }
 
     /**
@@ -491,5 +445,53 @@ class Train
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set deleted
+     *
+     * @param boolean $deleted
+     *
+     * @return Train
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     *
+     * @return Train
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return $this->active;
     }
 }

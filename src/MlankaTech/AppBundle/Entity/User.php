@@ -394,11 +394,11 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function finalizeUser()
     {
-        if (null == $this->getUsername()) {
+        if (null === $this->getUsername()) {
             $this->setUsername($this->getEmail());
         }
 
-        if (null == $this->getExpiresAt()) {
+        if (null === $this->getExpiresAt()) {
             $date = new \DateTime();
             $this->setExpiresAt($date->modify('+6 months'));
         }
@@ -1154,5 +1154,125 @@ class User implements AdvancedUserInterface, \Serializable
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * Set isDeleted
+     *
+     * @param boolean $isDeleted
+     *
+     * @return User
+     */
+    public function setIsDeleted($isDeleted)
+    {
+        $this->isDeleted = $isDeleted;
+
+        return $this;
+    }
+
+    /**
+     * Get isDeleted
+     *
+     * @return boolean
+     */
+    public function getIsDeleted()
+    {
+        return $this->isDeleted;
+    }
+
+    /**
+     * Set admin
+     *
+     * @param boolean $admin
+     *
+     * @return User
+     */
+    public function setAdmin($admin)
+    {
+        $this->admin = $admin;
+
+        return $this;
+    }
+
+    /**
+     * Get admin
+     *
+     * @return boolean
+     */
+    public function getAdmin()
+    {
+        return $this->admin;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     *
+     * @return User
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set expired
+     *
+     * @param boolean $expired
+     *
+     * @return User
+     */
+    public function setExpired($expired)
+    {
+        $this->expired = $expired;
+
+        return $this;
+    }
+
+    /**
+     * Get expired
+     *
+     * @return boolean
+     */
+    public function getExpired()
+    {
+        return $this->expired;
+    }
+
+    /**
+     * Set locked
+     *
+     * @param boolean $locked
+     *
+     * @return User
+     */
+    public function setLocked($locked)
+    {
+        $this->locked = $locked;
+
+        return $this;
+    }
+
+    /**
+     * Get locked
+     *
+     * @return boolean
+     */
+    public function getLocked()
+    {
+        return $this->locked;
     }
 }
