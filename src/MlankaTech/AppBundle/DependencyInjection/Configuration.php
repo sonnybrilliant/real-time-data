@@ -19,6 +19,7 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('mlanka_tech_app');
+        $rootNode->end();
         return $treeBuilder;
     }
 }
