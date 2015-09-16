@@ -1,6 +1,7 @@
 {
     "name": "mfana/real.time.data",
     "license": "proprietary",
+    "description": "Real time data reporting application",
     "type": "project",
     "autoload": {
         "psr-4": {
