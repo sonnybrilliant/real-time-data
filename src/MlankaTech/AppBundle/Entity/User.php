@@ -175,7 +175,7 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(name="is_deleted", type="boolean")
      * @Gedmo\Versioned
      */
-    protected $isDeleted = false;
+    protected $deleted = false;
 
     /**
      * @var Status
@@ -1157,30 +1157,6 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
-     * Set isDeleted
-     *
-     * @param boolean $isDeleted
-     *
-     * @return User
-     */
-    public function setIsDeleted($isDeleted)
-    {
-        $this->isDeleted = $isDeleted;
-
-        return $this;
-    }
-
-    /**
-     * Get isDeleted
-     *
-     * @return boolean
-     */
-    public function getIsDeleted()
-    {
-        return $this->isDeleted;
-    }
-
-    /**
      * Set admin
      *
      * @param boolean $admin
@@ -1274,5 +1250,29 @@ class User implements AdvancedUserInterface, \Serializable
     public function getLocked()
     {
         return $this->locked;
+    }
+
+    /**
+     * Set deleted
+     *
+     * @param boolean $deleted
+     *
+     * @return User
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
     }
 }
