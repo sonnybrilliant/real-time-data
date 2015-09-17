@@ -1049,7 +1049,8 @@ class User implements AdvancedUserInterface, \Serializable
     {
         // the absolute directory path where uploaded
         // documents should be saved
-        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+        $reflClass = new \ReflectionClass($this);
+        return dirname($reflClass->getFileName()).'/../../../../web/'.$this->getUploadDir();
     }
 
     protected function getUploadDir()
