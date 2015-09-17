@@ -1,0 +1,31 @@
+<nav class="navbar navbar-default">
+    <div class="container no-padding-right">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img src="{{ asset('/assets/img/prasa_logo_small.png') }}" width="120" height="49">
+            </a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="main_menu" id="main-nav-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    {#<a href="{{ path('mlanka_tech_app.train_dashboard') }}.html" alt="Dashboard" title="Dashboard"><i class="fa fa-tachometer fa-lg"></i>Dashboard</a>#}
+                </li>
+                <li>
+                    {#<a href="{{ path('mlanka_tech_app.train_list')}}.html" alt="Trains" title="Trains"><i class="fa fa-train fa-lg"></i>Trains</a>#}
+                </li>
+                <li>
+                    {#<a href="{{ path('mlanka_tech_app.user_list')}}.html" alt="Users" title="Users"><i class="fa fa-users fa-lg"></i>Users</a>#}
+                </li>
+                <li class="embarkment">
+                    <a href="#"><i class="fa fa-cog fa-lg"></i>Settings</a>
+                </li>
+                <li>
+                    <a href="{{ path('_security_logout')}}" alt="Sign off" title="Sign off">
+                        <i class="fa fa-sign-out fa-lg"></i>Sign Off</a>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container -->
+</nav>

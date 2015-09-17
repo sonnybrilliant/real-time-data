@@ -4,11 +4,29 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="noindex,nofollow"/>
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <link rel="stylesheet" href="{{ asset('/assets/css/style.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('/assets/css/support.css') }}" />
+        <script src="{{ asset('/assets/js/vendor/modernizr.js') }}"></script>
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        {% block css_header %}{% endblock%}
+        {% block javascript_header %}{% endblock%}
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+
+    {% include 'top.nav.html.twig' %}
+
+    {% block page_header %}{% endblock%}
+    {% block page_content %}{% endblock %}
+
+    <footer>
+        <div class="container">
+            <p class="pull-left">App by <a href="http://www.mlankatech.co.za" target="_blank"> MlankaTech (PTY) LTD </a>&nbsp; </p>
+            <p>Copyright © 2015 mlankatech.co.za / All rights reserved.</p>
+            <p class="pull-right">V{{g_site_version}}</p>
+        </div>
+    </footer>
+    <script src="{{ asset('/assets/js/vendor/jquery.js') }}"></script>
+    <script src="{{ asset('/assets/js/vendor/bootstrap.min.js') }}"></script>
+    {% block javascript_bottom %}{% endblock%}
     </body>
 </html>

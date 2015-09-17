@@ -17,3 +17,8 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            asdun9u3r34bu9na9fayb8y23r8yb
+
+    site_name: Application
+    site_url: http://localhost:8000/
+    site_domain: www.domain.tld
+    site_version: "0.0.1"

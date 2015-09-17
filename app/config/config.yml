@@ -10,7 +10,7 @@ parameters:
 
 framework:
     #esi:             ~
-    translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: en }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -48,6 +48,12 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+
+    globals:
+       g_site_name: %site_name%
+       g_site_url: %site_url%
+       g_site_domain: %site_domain%
+       g_site_version: %site_version%
 
 # Assetic Configuration
 assetic:
@@ -155,4 +161,16 @@ services:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
             - [ setAnnotationReader, [ @annotation_reader ] ]
+
+    salavert.twig.time_ago:
+        class: Salavert\Twig\Extension\TimeAgoExtension
+        arguments: [@translator]
+        tags:
+        - { name: twig.extension }
+
+    twig.extension.ucwords:
+            class: MlankaTech\AppBundle\Twig\UcwordsExt
+            public: false
+            tags:
+                - { name: twig.extension }
 
