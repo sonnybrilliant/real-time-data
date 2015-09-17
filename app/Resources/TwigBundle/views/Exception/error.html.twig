@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>An  Error Occurred: Page {{ status_text }}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ asset('/assets/css/style.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/assets/css/support.css') }}" />
+    <script src="{{ asset('/assets/js/vendor/modernizr.js') }}"></script>
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+
+<body>
+    <div class="main">
+        <div class="row">
+          <div class="col-sm-8 col-sm-offset-2">
+              <div class="holder">
+                  <div class="vert-center">
+                      <div id="cl-wrapper" class="error-container">
+                          <div class="page-error">
+                            <h1 class="number text-center">{{ status_code }}</h1>
+                            <h2 class="description text-center">Don't worry, there is a little turbulence!</h2>
+                            <h3 class="text-center">We're trying to fix it, please try again later.</h3>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{{ asset('/assets/js/vendor/jquery.js') }}"></script>
+    <script src="{{ asset('/assets/js/vendor/bootstrap.min.js') }}"></script>
+</body>
+</html>
