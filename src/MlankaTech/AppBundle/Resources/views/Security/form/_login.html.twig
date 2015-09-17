@@ -2,7 +2,7 @@
 {% if error is not null %}
     <div class="alert alert-danger alert-dismissible fade in" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-        {{ error.messageKey|trans(error.messageData, 'messages') }}
+        {{ error.messageKey|trans(error.messageData, 'security') }}
     </div>
 {% endif %}
 <form name="login" class="app-login" action="{{ path('_security_check') }}" autocomplete="off" {% if app.debug %} novalidate="true"{% endif %}  method="POST">
