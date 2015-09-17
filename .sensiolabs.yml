@@ -1,0 +1,23 @@
+global_exclude_dirs:
+    - data/
+    - docs/
+    - scripts/
+    - web/assets/js/
+    - web/assets/css/
+
+exclude_patterns:
+    - app/check.php
+    - app/SymfonyRequirements.php
+    - web/config.php
+    - web/app_*.php
+
+rules:
+    doctrine.invalid_schema:
+        enabled: false
+    twig.template_too_complex:
+        enabled: true
+        max_depth: 10
+    symfony.dependency_injection.use_dir_file_constant:
+        enabled: true
+    missing_e_o_l:
+        enabled: false
