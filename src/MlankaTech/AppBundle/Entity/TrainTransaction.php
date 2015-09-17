@@ -75,9 +75,9 @@ class TrainTransaction
     /**
      * @var string
      *
-     * @ORM\Column(name="gps_time", type="datetime")
+     * @ORM\Column(name="gps_date_time", type="datetime")
      */
-    private $gpsTime;
+    private $gpsDateTime;
 
     /**
      * @var string
@@ -126,29 +126,6 @@ class TrainTransaction
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set gpsTime
-     *
-     * @param \DateTime $gpsTime
-     * @return TrainTransaction
-     */
-    public function setGpsTime($gpsTime)
-    {
-        $this->gpsTime = $gpsTime;
-
-        return $this;
-    }
-
-    /**
-     * Get gpsTime
-     *
-     * @return \DateTime 
-     */
-    public function getGpsTime()
-    {
-        return $this->gpsTime;
     }
 
     /**
@@ -380,5 +357,29 @@ class TrainTransaction
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set gpsDateTime
+     *
+     * @param \DateTime $gpsDateTime
+     *
+     * @return TrainTransaction
+     */
+    public function setGpsDateTime($gpsDateTime)
+    {
+        $this->gpsDateTime = $gpsDateTime;
+
+        return $this;
+    }
+
+    /**
+     * Get gpsDateTime
+     *
+     * @return \DateTime
+     */
+    public function getGpsDateTime()
+    {
+        return $this->gpsDateTime;
     }
 }
