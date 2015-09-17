@@ -1,24 +1,23 @@
 _security_login:
-    pattern:  /login.{_format}
+    path:  /login.{_format}
     defaults: { _controller: MlankaTechAppBundle:Security:login , _format: html}
     schemes:  [http]
+    methods:  [GET, POST]
     requirements:
-        _method:  GET|POST
         _format:  html
 
 _security_check:
-    pattern:  /login_check
+    path:  /login_check
     schemes:  [http]
-    requirements:
-        _method:  GET|POST
+    methods:  [GET, POST]
 
 _security_logout:
     pattern:  /logout.html
 
 _homepage:
-    pattern:  /
+    path:  /
     defaults: { _controller: MlankaTechAppBundle:Security:login , _format: html}
     schemes:  [http]
+    methods:  [GET, POST]
     requirements:
-        _method:  GET|POST
         _format:  html

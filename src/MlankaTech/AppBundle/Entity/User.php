@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -117,14 +116,6 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=255)
-     * @Gedmo\Versioned
-     */
-    protected $username;
-
-    /**
-     * @var string
-     *
      * @Assert\NotBlank(message = "Password cannot be blank!")
      * @Assert\Length(
      *      min = "6",
@@ -142,7 +133,6 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @var salt
      *
-     * @ORM\Column(name="salt",type="string", length=255)
      */
     protected $salt;
 
@@ -386,7 +376,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function isEqualTo(AdvancedUserInterface $user)
     {
-        return $this->username === $user->getUsername();
+        return $this->email === $user->getUsername();
     }
 
     /**
@@ -394,26 +384,10 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function finalizeUser()
     {
-        if (null === $this->getUsername()) {
-            $this->setUsername($this->getEmail());
-        }
-
         if (null === $this->getExpiresAt()) {
             $date = new \DateTime();
             $this->setExpiresAt($date->modify('+6 months'));
         }
-    }
-
-    /**
-     * @ORM\PrePersist()
-     */
-    public function encodePassword()
-    {
-        //set password encoding
-        $this->setSalt(md5(time()));
-        $encoder = new MessageDigestPasswordEncoder('sha512', true, 10);
-        $password = $encoder->encodePassword($this->getPassword(), $this->getSalt());
-        $this->setPassword($password);
     }
 
     /**
@@ -429,8 +403,6 @@ class User implements AdvancedUserInterface, \Serializable
             $this->firstName,
             $this->lastName,
             $this->email,
-            $this->username,
-            $this->password,
         ));
     }
 
@@ -450,8 +422,6 @@ class User implements AdvancedUserInterface, \Serializable
             $this->firstName,
             $this->lastName,
             $this->email,
-            $this->username,
-            $this->password,
             ) = unserialize($serialized);
     }
 
@@ -562,23 +532,13 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
-     * Set username
-     *
-     * @param string $username
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-    }
-
-    /**
      * Get username
      *
      * @return string
      */
     public function getUsername()
     {
-        return $this->username;
+        return $this->email;
     }
 
     /**

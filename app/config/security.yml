@@ -1,24 +1,53 @@
-# To get started with security, check out the documentation:
-# http://symfony.com/doc/current/book/security.html
-security:
+jms_security_extra:
+    secure_all_services: false
+    expressions: true
 
-    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+security:
+    # after authentication, the session will be migrated
+    session_fixation_strategy: migrate
+
+    access_denied_url:    ~ # Example: /foo/error403
+    encoders:
+        MlankaTech\AppBundle\Entity\User: bcrypt
+
+
+    role_hierarchy:
+        ROLE_ADMIN:       SUPER_ADMIN
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
     providers:
-        in_memory:
-            memory: ~
+        custom_members:
+           entity: { class: MlankaTechAppBundle:User, property: email }
 
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
         main:
-            anonymous: ~
-            # activate different ways to authenticate
+            pattern: /.*
+            form_login:
+                check_path: _security_check
+                login_path: /login.html
+                target_path_parameter: redirect_url
+                default_target_path: /secured/dashboard.html
+                # by default, the login form *must* be a POST, not a GET
+                post_only:      true
+                remember_me:    true
+            logout:
+                path:   /logout.html
+                target: /login.html
+                invalidate_session: true
+                delete_cookies:
+                    a: { path: null, domain: null }
+                    b: { path: null, domain: null }
+            security: true
+            anonymous: true            #anonymous: ~
+            switch_user: true
+            remember_me:
+                key:      "%secret%"
+                lifetime: 31536000 # 365 days in seconds
+                path:     /
+                domain:   ~ # Defaults to the current domain from $_SERVER
 
-            # http_basic: ~
-            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+    access_control:
+        - { path: ^/login.html, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
+        - { path: ^/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
+        - { path: ^/secured/*, roles: [IS_AUTHENTICATED_FULLY,IS_AUTHENTICATED_REMEMBERED], requires_channel: http }
 
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
