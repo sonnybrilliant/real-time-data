@@ -596,6 +596,20 @@ table th i {
     color: #843534;
 }
 
+/* 404 AND 500 PAGES */
+.page-error .number {
+    /*color: #eb6100;*/
+    color: #02aae4;
+    font-size: 150px;
+    font-family: Arial;
+}
+.page-error .description {
+    color: #FFF;
+    font-size: 40px;
+}
+.page-error h3 {
+    color: #FFF;
+}
 
 /*
     FOOTER

@@ -40,7 +40,7 @@ class TrainTransaction
      *
      * @ORM\Column(name="train_name", type="string", length=50 )
      */
-    private $trainName;
+    private $name;
 
     /**
      * @var Train Type
@@ -126,30 +126,6 @@ class TrainTransaction
     public function getId()
     {
         return $this->id;
-    }
-
-
-    /**
-     * Set trainName
-     *
-     * @param string $trainName
-     * @return TrainTransaction
-     */
-    public function setTrainName($trainName)
-    {
-        $this->trainName = $trainName;
-
-        return $this;
-    }
-
-    /**
-     * Get trainName
-     *
-     * @return string 
-     */
-    public function getTrainName()
-    {
-        return $this->trainName;
     }
 
     /**
@@ -380,5 +356,29 @@ class TrainTransaction
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return TrainTransaction
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }
