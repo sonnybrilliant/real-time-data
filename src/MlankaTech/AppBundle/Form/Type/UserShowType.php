@@ -4,11 +4,9 @@ namespace MlankaTech\AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use JMS\DiExtraBundle\Annotation\Inject;
 
 /**
  * MlankaTech\AppBundle\Form\Type\UserShowType

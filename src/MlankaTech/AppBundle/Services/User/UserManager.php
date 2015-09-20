@@ -7,7 +7,6 @@ use MlankaTech\AppBundle\Entity\User;
 use JMS\DiExtraBundle\Annotation as DI;
 use JMS\DiExtraBundle\Annotation\Inject;
 use MlankaTech\AppBundle\Services\Core\StatusManager;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Monolog\Logger;
 
 /**
@@ -38,11 +37,6 @@ class UserManager
     protected $sm;
 
     /**
-     * @var Event Dispatcher
-     */
-    private $eventDispatcher;
-
-    /**
      * Security Context
      * @var object
      * @Inject("security.context", required = false)
@@ -61,21 +55,18 @@ class UserManager
      * @DI\InjectParams({
      *     "em"                  = @DI\Inject("doctrine.orm.entity_manager"),
      *     "logger"              = @DI\Inject("logger"),
-     *     "sm"                  = @DI\Inject("status.manager"),
-     *     "eventDispatcher"     = @DI\Inject("event_dispatcher")
+     *     "sm"                  = @DI\Inject("status.manager")
      * })
      */
     public function __construct(
         EntityManager $em,
         Logger $logger,
-        StatusManager $sm,
-        EventDispatcherInterface $eventDispatcher
+        StatusManager $sm
     )
     {
         $this->em = $em;
         $this->logger = $logger;
         $this->sm = $sm;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
