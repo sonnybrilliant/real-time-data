@@ -8,6 +8,8 @@ class DashboardController extends Controller
 {
     public function dashboardAction()
     {
-        return $this->render('MlankaTechAppBundle:Dashboard:dashboard.html.twig');
+        return $this->render('MlankaTechAppBundle:Dashboard:dashboard.html.twig',array(
+            'action' => 'dashboard'
+        ));
     }
 }

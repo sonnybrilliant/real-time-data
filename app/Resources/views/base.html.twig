@@ -1,32 +1,101 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="robots" content="noindex,nofollow"/>
-        <title>{% block title %}MCT{% endblock %}</title>
-        <link rel="stylesheet" href="{{ asset('/assets/css/style.min.css') }}" />
-        <link rel="stylesheet" href="{{ asset('/assets/css/support.css') }}" />
-        <script src="{{ asset('/assets/js/vendor/modernizr.js') }}"></script>
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        {% block css_header %}{% endblock%}
-        {% block javascript_header %}{% endblock%}
-    </head>
-    <body>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex,nofollow"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Mission Control Tracer">
+    <meta name="author" content="MlankaTech(PTY)LTD">
+    <title>{% block title %}MCT | Welcome{% endblock%}</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+    <!-- Bootstrap core CSS -->
+    <link href="{{ asset('/assets/js/bootstrap/dist/css/bootstrap.css') }}" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/js/jquery.gritter/css/jquery.gritter.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/js/jquery.nanoscroller/nanoscroller.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/js/jquery.easypiechart/jquery.easy-pie-chart.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/js/bootstrap.switch/bootstrap-switch.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/js/bootstrap.datetimepicker/css/bootstrap-datetimepicker.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/js/jquery.select2/select2.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/js/bootstrap.slider/css/slider.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/js/intro.js/introjs.css') }}" />
+    <!-- Custom styles for this template -->
+    <link href="{{ asset('/assets/css/style.css') }}" rel="stylesheet" />
+    {% block css_header %}
+    {% endblock %}
 
-    {% include 'top.nav.html.twig' %}
+</head>
+<body>
 
-    {% block page_header %}{% endblock%}
-    {% block page_content %}{% endblock %}
+<!-- Fixed navbar -->
+{% include 'Menus/top.nav.html.twig' %}
+<!-- End Fixed navbar -->
 
-    <footer>
-        <div class="container">
-            <p class="pull-left">App by <a href="http://www.mlankatech.co.za" target="_blank"> MlankaTech (PTY) LTD </a>&nbsp; </p>
-            <p>Copyright © 2015 mlankatech.co.za / All rights reserved.</p>
-            <p class="pull-right">V{{g_site_version}}</p>
+
+
+<div id="cl-wrapper" class="fixed-menu">
+    <!-- Fixed Side nav-->
+    {% include 'Menus/side.nav.html.twig' %}
+    <!-- End Fixed Side nav -->
+
+    <div class="container-fluid" id="pcont">
+        {% block header %}
+
+        {% endblock header %}
+
+        <div class="cl-mcont">
+            {% block body %}
+
+            {% endblock body %}
         </div>
-    </footer>
-    <script src="{{ asset('/assets/js/vendor/jquery.js') }}"></script>
-    <script src="{{ asset('/assets/js/vendor/bootstrap.min.js') }}"></script>
-    {% block javascript_bottom %}{% endblock%}
-    </body>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{ asset('/assets/js/jquery.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/jquery.gritter/js/jquery.gritter.js') }}"></script>
+
+<script type="text/javascript" src="{{ asset('/assets/js/jquery.nanoscroller/jquery.nanoscroller.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/behaviour/general.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/jquery.ui/jquery-ui.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/jquery.sparkline/jquery.sparkline.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/jquery.easypiechart/jquery.easy-pie-chart.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/jquery.nestable/jquery.nestable.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/bootstrap.switch/bootstrap-switch.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/bootstrap.datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/jquery.select2/select2.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/skycons/skycons.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/bootstrap.slider/js/bootstrap-slider.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/intro.js/intro.js') }}"></script>
+
+
+<!-- Bootstrap core JavaScript
+  ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+<script type="text/javascript" src="{{ asset('/assets/js/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/jquery.flot/jquery.flot.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/jquery.flot/jquery.flot.pie.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/jquery.flot/jquery.flot.resize.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/jquery.flot/jquery.flot.labels.js') }}"></script>
+{% block javascript_init %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            //initialize the javascript
+            App.init({
+                nanoScroller: false
+            });
+
+            App.dashBoard();
+
+            //introJs().setOption('showBullets', false).start();
+
+        });
+    </script>
+{% endblock javascript_init %}
+</body>
 </html>

@@ -28,87 +28,104 @@ class UserShowType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder
-
-            ->add('title', 'entity', array(
-                'empty_value' => 'Select title',
-                'class' => 'MlankaTechAppBundle:Title',
-                'label' => 'Title ',
+            ->add('group', 'entity', array(
+                'class' => 'MlankaTechAppBundle:UserGroup',
+                'label' => 'Role ',
                 'attr' => array(
                     'class' => 'form-control',
-                    'tabindex' => '1',
-                    'data-parsley-errors-container' => '#parsleyGender',
-                    'data-parsley-required-message' => "Gender is required.",
                 ),
-                'disabled' => 'disabled',
-                'help' => 'User title',
-                'override_col_size' => 'col-sm-7',
-                'parsley_error_container' => 'parsleyGender'
+                'help' => 'Permission',
+                'disabled' => true,
             ))
 
             ->add('firstName', 'text', array(
                 'label' => 'First name ',
                 'attr' => array(
                     'class' => 'form-control',
-                    'tabindex' => '2',
-                    'data-parsley-errors-container' => '#parsleyFirstName',
-                    'data-parsley-required-message' => "First name is required."
                 ),
-                'disabled' => 'disabled',
                 'help' => 'First name',
-                'override_col_size' => 'col-sm-7',
-                'parsley_error_container' => 'parsleyFirstName'
+                'disabled' => true,
             ))
 
             ->add('lastName', 'text', array(
                 'label' => 'Surname ',
                 'attr' => array(
                     'class' => 'form-control',
-                    'tabindex' => '3',
-                    'data-parsley-errors-container' => '#parsleyLastName',
-                    'data-parsley-required-message' => "Surname is required."
                 ),
-                'disabled' => 'disabled',
                 'help' => 'Surname ',
-                'override_col_size' => 'col-sm-7',
-                'parsley_error_container' => 'parsleyLastName'
+                'disabled' => true,
             ))
-
             ->add('gender', 'entity', array(
-                'empty_value' => 'Select gender',
                 'class' => 'MlankaTechAppBundle:Gender',
                 'label' => 'Gender ',
                 'attr' => array(
                     'class' => 'form-control',
-                    'tabindex' => '4',
-                    'data-parsley-errors-container' => '#parsleyGender',
-                    'data-parsley-required-message' => "Gender is required.",
-                    'rowspan' => 5
                 ),
-                'disabled' => 'disabled',
-                'help' => 'User gender',
-                'override_col_size' => 'col-sm-7',
-                'parsley_error_container' => 'parsleyGender'
+                'help' => 'Gender',
+                'disabled' => true,
             ))
-            ->add('group', 'entity', array(
-                'empty_value' => 'Select a role',
-                'class' => 'MlankaTechAppBundle:UserGroup',
-                'label' => 'Permission ',
+
+            ->add('title', 'entity', array(
+                'class' => 'MlankaTechAppBundle:Title',
+                'label' => 'Title ',
                 'attr' => array(
                     'class' => 'form-control',
-                    'tabindex' => '5',
-                    'data-parsley-errors-container' => '#parsleyGroup',
-                    'data-parsley-required-message' => "Security access is required."
                 ),
-                'disabled' => 'disabled',
-                'help' => 'Security access',
-                'override_col_size' => 'col-sm-7',
-                'parsley_error_container' => 'parsleyGroup'
-
+                'help' => 'Title',
+                'disabled' => true,
             ))
 
-        ;
+            ->add('email', 'text', array(
+                'label' => 'Email address ',
+                'attr' => array(
+                    'class' => 'form-control',
+                ),
+                'help' => 'Email address',
+                'disabled' => true,
+            ))
+            ->add('createdAt', 'datetime', array(
+                'label' => 'Created At ',
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd  HH:m:s a',
+                'attr' => array(
+                    'class' => 'form-control',
+                ),
+                'disabled' => true,
+                'help' => 'When was user created',
+            ))
+            ->add('updatedAt', 'datetime', array(
+                'label' => 'Update At ',
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd  HH:m:s a',
+                'attr' => array(
+                    'class' => 'form-control',
+                ),
+                'disabled' => true,
+                'help' => 'When was user last updated',
+            ))
+            ->add('lastLogin', 'datetime', array(
+                'label' => 'Last login At ',
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd  HH:m:s a',
+                'attr' => array(
+                    'class' => 'form-control',
+                ),
+                'disabled' => true,
+                'help' => 'When was user last updated',
+            ))
+            ->add('createdBy', 'entity', array(
+                'empty_value' => 'Select a gender',
+                'class' => 'MlankaTechAppBundle:User',
+                'label' => 'Created By ',
+                'empty_value' => 'Default System user',
+                'attr' => array(
+                    'class' => 'form-control',
+                ),
+                'disabled' => true,
+                'help' => 'Who created the user',
+            ));
+
     }
 
     /**

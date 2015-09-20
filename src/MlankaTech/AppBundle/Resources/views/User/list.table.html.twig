@@ -1,51 +1,40 @@
-<table class="table table-hover">
+<table class="table no-border dataTable hover" id="datatable-icons" aria-describedby="datatable-icons_info">
+
     <thead>
-    <tr>
-        <th>Full name</th>
-        <th>Status</th>
-        <th><i class="fa fa-users"></i> Role</th>
-        <th><i class="fa fa-user"></i> Created By</th>
-        <th><i class="fa fa-calendar"></i> Last updated At</th>
-        <th><i class="fa fa-cogs"></i> Action</th>
-    </tr>
+    <tr role="row">
+        <th {% if pagination.isSorted('u.id') %} class="sorted"{% endif %} style="width: 10px;">{{ knp_pagination_sortable(pagination,'#ID', 'u.id') }}</th>
+        <th {% if pagination.isSorted('u.firstName') %} class="sorted"{% endif %} style="width: 100px;">{{ knp_pagination_sortable(pagination,'Full name', 'u.firstName') }}</th>
+        <th {% if pagination.isSorted('s.name') %} class="sorted"{% endif %} style="width: 20px;">{{ knp_pagination_sortable(pagination,'Status', 's.name') }}</th>
+        <th {% if pagination.isSorted('u.lastLogin') %} class="sorted"{% endif %} style="width: 50px;"><i class="fa fa-calendar"></i>&nbsp;{{ knp_pagination_sortable(pagination,'Last login At', 'u.lastLogin') }}</th>
+        <th {% if pagination.isSorted('u.updatedAt') %} class="sorted"{% endif %} style="width: 50px;"><i class="fa fa-calendar"></i>&nbsp;{{ knp_pagination_sortable(pagination,'Updated At', 'u.updatedAt') }}</th>
+        <th style="width: 50px;"><i class="fa fa-cogs"></i>&nbsp;Action</th></tr>
     </thead>
 
-    <tbody>
+    <tbody role="alert" aria-live="polite" aria-relevant="all">
     {% for user in pagination %}
-        <tr>
-            <td><a href="{{ path('mlanka_tech_app.user_profile',{'slug':user.slug})}}.html" title="View {{ user.fullName | ucwords }}" alt="View {{ user.fullName | ucwords }}">{{user.fullName | ucwords }}</a></td>
-            {% set error = [3,4,8,7,290] %}
-            {% set warning = [300] %}
+        <tr class="gradeA {{ cycle(['odd', 'even'], loop.index0) }}">
+            <td class=" sorting_1">{{ user.id }}</td>
+            <td><a href="{{ path('mlanka_tech_app.user_profile',{'slug':user.slug})}}.html" title="View" alt="View">{{user.fullname |truncate(20) }}</a></td>
             {% if user.status.code == 1 %}
-                <td><span class="label label-success">{{ user.status.name }}</span></td>
-            {% elseif user.status.code in error %}
-                <td><span class="label label-danger">{{ user.status.name }}</span></td>
-            {% elseif user.status.code in warning %}
-                <td><span class="label label-warning">{{ user.status.name }}</span></td>
+                <td><span class="label label-primary btn-sm">{{user.status.name}}</span></td>
             {% else %}
-                <td><span class="label label-inverse">{{ user.status.name }}</span></td>
-            {% endif %}
-            <td>{{user.group | ucwords }}</td>
-            {% if user.createdBy == '' %}
-                <td>Default user</td>
-            {% else %}
-                <td>{{ user.createdBy | ucwords }}</td>
-            {% endif %}
-
+                <td><span class="label label-default btn-sm">{{user.status.name}}</span></td>
+            {% endif%}
+            <td>{{user.lastLogin|date('Y-m-d H:i A')}}</td>
             <td>{{user.updatedAt|date('Y-m-d H:i A')}}</td>
-            <td class="text-center">
-                <a class="btn btn-primary btn-sm" href="{{ path('mlanka_tech_app.user_profile',{'slug':user.slug})}}.html" title="View profile" alt="View profile">
-                    <i class="fa fa-user"></i>View
-                </a>
-                <a class="btn btn-primary btn-sm" href="{{ path('mlanka_tech_app.user_edit',{'slug':user.slug})}}.html" title="Edit" alt="Edit">
-                    <i class="fa fa-edit"></i>Edit
-                </a>
+            <td>
+                <a class="btn btn-default btn-sm" href=" {{ path('mlanka_tech_app.user_profile',{'slug':user.slug})}}.html" data-original-title="View" data-toggle="tooltip"><i class="fa fa-file"></i>&nbsp;View</a>
+                <a class="btn btn-primary btn-sm" href="{{ path('mlanka_tech_app.user_edit',{'slug': user.slug})}}.html" data-original-title="Edit" data-toggle="tooltip"><i class="fa fa-edit"></i>&nbsp;Edit</a>
+                {% if user.status.code == 1 %}
+                    {% set url = path('mlanka_tech_app.user_list',{'slug': user.slug}) %}
+                    <a class="btn btn-danger btn-sm" href="#" data-original-title="Suspend" data-toggle="tooltip" onclick="return confirmSuspend('{{url}}');"><i class="fa fa-lock"></i>&nbsp;Suspend</a>
+                {% elseif user.status.code == 280 %}
+                    {% set url = path('mlanka_tech_app.user_list',{'slug': user.slug}) %}
+                    <a class="btn btn-danger btn-sm" href="#" data-original-title="Activate" data-toggle="tooltip" onclick="return confirmActivation('{{url}}');"><i class="fa fa-unlock"></i>&nbsp;Activate</a>
+                {% endif %}
             </td>
+
         </tr>
     {% endfor %}
     </tbody>
 </table>
-
-
-
-

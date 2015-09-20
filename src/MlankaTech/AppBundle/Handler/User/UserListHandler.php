@@ -101,13 +101,13 @@ class UserListHandler
         $search = $request->query->get('search');
         $sort = $request->query->get('sort', 'u.id');
         $direction = $request->query->get('direction', 'asc');
-        $filterBy = $request->query->get('filterBy', 0);
+        $show = $request->query->get('show', '10');
 
         $options = array(
             'search' => $search,
             'sort' => $sort,
             'direction' => $direction,
-            'filterBy' => $filterBy,
+            'show' => $show,
         );
 
         $pagination = $this->paginator->paginate(
@@ -121,6 +121,7 @@ class UserListHandler
         return array(
             'pagination' => $pagination,
             'direction' => $direction,
+            'show' => $show
         );
     }
 }

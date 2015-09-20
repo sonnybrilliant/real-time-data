@@ -1,42 +1,48 @@
-<!doctype html>
-<html class="no-js" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex,nofollow"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Mission Control Tracer">
+    <meta name="author" content="MlankaTech(PTY)LTD">
     <title>MCT | Login</title>
-    <link rel="stylesheet" href="{{ asset('/assets/css/style.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('/assets/css/support.css') }}" />
-    <script src="{{ asset('/assets/js/vendor/modernizr.js') }}"></script>
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:300,200,100' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="{{ asset('/assets/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/assets/css/lib/nanoscroller.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/assets/css/style.css') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('/favicon.ico') }}" />
 </head>
-<body>
-<div class="main">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6 col-sm-offset-3">
-                <div class="holder">
-                    <div class="vert-center">
-                        <div class="card-center">
-                            <div class="panel panel-default">
-                                <div class="panel-heading card-header dark-gray">
-                                    <div class="figure text-center">
-                                        <img src="{{ asset('/assets/img/prasa_logo_small.png') }}" width="195" height="79">
-                                    </div>
-                                </div>
-                            <!-- start form -->
-                            {% block body %}{% endblock %}
-                            <!-- end form -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<body class="texture">
+<div id="cl-wrapper" class="login-container">
+    <div class="middle-login">
+        <div class="block-flat">
+            <div class="header">
+                <h3 class="text-center"><img src="{{ asset('/assets/images/prasa_logo_small.png') }}" alt="logo" class="logo-img"></h3>
+            </div>
+            <div>
+                {% block body %}
+                {% endblock%}
             </div>
         </div>
+        <div class="text-center out-links"><a href="#">Copyright © 2015 MlankaTech (PTY) LTD.</a></div>
     </div>
 </div>
 
 <script src="{{ asset('/assets/js/vendor/jquery.js') }}"></script>
 <script src="{{ asset('/assets/js/vendor/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/vendor/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/lib/jquery.nanoscroller.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/cleanzone.js') }}"></script>
+<script ype="text/javascript"  src="{{ asset('/assets/js/vendor/bootstrap.min.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        //initialize the javascript
+        App.init();
+    });
 
+</script>
 </body>
 </html>

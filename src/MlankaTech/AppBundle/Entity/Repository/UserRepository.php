@@ -79,28 +79,6 @@ class UserRepository extends EntityRepository
             ->innerJoin('u.group','g');
 
 
-
-        if ((isset($options['filterBy'])) && ($options['filterBy'] == '')) {
-            $qb->andWhere('u.deleted =:status')
-                ->setParameter('status', false);
-        }else{
-            if($options['filterBy'] == 'Active'){
-                $qb->andWhere('u.status =:status')
-                    ->setParameter('status',$this->statusManager->active());
-            }
-
-            if($options['filterBy'] == 'Locked'){
-                $qb->andWhere('u.status =:status_locked')
-                    ->orWhere('u.status =:status_expired')
-                    ->setParameters(array(
-                        'status_locked' => $this->statusManager->locked(),
-                        'status_expired' => $this->statusManager->expired()
-                    ));
-
-
-            }
-        }
-
         // search
         if ($options['search']) {
             if ($options['search'] != "") {

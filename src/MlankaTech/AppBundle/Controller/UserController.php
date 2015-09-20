@@ -24,12 +24,16 @@ class UserController extends Controller
         $this->get('logger')->info('UserController listAction()');
         $handler = $this->get('mlanka_tech_app.user_list_handler');
         $pagination = $handler->handle($request,$page);
+        $showOptions = array(10, 20, 30, 40, 50);
 
         return $this->render('MlankaTechAppBundle:User:list.html.twig',array(
+            'action' => 'user_list',
             'pagination' => $pagination['pagination'],
             'direction' => $pagination['direction'],
             'page_header' => 'List users',
-            'breadcrumb' => 'List'
+            'breadcrumb' => 'List',
+            'showOptions' => $showOptions,
+            'showSelected' => $pagination['show'],
         ));
     }
 
@@ -56,6 +60,7 @@ class UserController extends Controller
         }
 
         return array(
+            'action' => 'user_profile',
             'user'=> $user,
             'form' => $form->createView(),
             'page_header' => $pageHeader,

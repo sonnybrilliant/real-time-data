@@ -48,6 +48,9 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    form:
+       resources:
+              - 'MlankaTechAppBundle:Form:fields.html.twig'
 
     globals:
        g_site_name: %site_name%
@@ -161,6 +164,11 @@ services:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
             - [ setAnnotationReader, [ @annotation_reader ] ]
+
+    twig.extension.text:
+           class: Twig_Extensions_Extension_Text
+           tags:
+              - { name: twig.extension }
 
     salavert.twig.time_ago:
         class: Salavert\Twig\Extension\TimeAgoExtension

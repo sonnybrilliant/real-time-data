@@ -206,24 +206,24 @@ body {
         float: left;
     }
 }
-.table-content:last-child .aside-card ul {
+.aside-card ul {
     list-style: none;
     padding-left: 0;
 }
-.table-content:last-child .aside-card ul li {
+.aside-card ul li {
     padding: 15px 0;
     border-bottom: 1px solid #e5e5e5;
     display: inline-block;
     vertical-align: middle;
     width: 100%;
 }
-.table-content:last-child .aside-card ul li p,
-.table-content:last-child .aside-card ul li div {
+.aside-card ul li p,
+.aside-card ul li div {
     display: inline-block;
     vertical-align: middle;
     width: auto;
 }
-.table-content:last-child .aside-card ul li:last-child {
+.aside-card ul li:last-child {
     border-bottom: none;
 }
 
@@ -413,7 +413,7 @@ body {
     color: #999;
 } */
 table .btn i {
-    padding-right: 4px;
+  padding-right: 4px;
 }
 table th i {
     padding-right: 5px;
@@ -465,7 +465,6 @@ table th i {
     position: relative;
     min-width: 100%;
     background: #fff;
-    height:580px;
 }
 .map-container .map-image {
     text-align: center;
@@ -535,8 +534,8 @@ table th i {
     width: 50%;
 }
 .data-col {
-    display: inline-block;
-    vertical-align: middle;
+  display: inline-block;
+  vertical-align: middle;
 }
 .data-col:first-child {
     width: 45%;
@@ -548,7 +547,7 @@ table th i {
     border-color: #efefef;
 }
 .panel-primary, .panel-warning, .panel-danger, .panel-succes {
-    border-color: #efefef;
+  border-color: #efefef;
 }
 .panel-footer .footer-col {
     display: inline-block;
@@ -556,17 +555,17 @@ table th i {
     vertical-align: middle;
 }
 .stray-div {
-    border: 0;
-    /*margin-top: 112px;*/
+  border: 0;
+  /*margin-top: 112px;*/    
     border-radius: 0;
-    -webkit-box-shadow: none;
-    box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 .stray-div li {
-    padding: 30px 14px;
+  padding: 30px 14px;
 }
 .stray-div li:nth-of-type(n+3) {
-    padding: 15px 14px;
+  padding: 15px 14px;
 }
 
 .pricing-tables .col-sm-4,
@@ -596,28 +595,13 @@ table th i {
     color: #843534;
 }
 
-/* 404 AND 500 PAGES */
-.page-error .number {
-    /*color: #eb6100;*/
-    color: #02aae4;
-    font-size: 150px;
-    font-family: Arial;
-}
-.page-error .description {
-    color: #FFF;
-    font-size: 40px;
-}
-.page-error h3 {
-    color: #FFF;
-}
-
 /*
     FOOTER
 */
 footer {
     padding: 10px 0;
+    margin: 20px 0 0;
     background-color: #efefef;
-    margin: 0;
 }
 footer p {
     margin: 0;

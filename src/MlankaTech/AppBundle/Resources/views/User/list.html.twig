@@ -1,53 +1,94 @@
 {% extends "MlankaTechAppBundle:User:layout.html.twig" %}
 
-{% block title %}MCT | User list{% endblock %}
+{% block title %}MCT | {{ page_header }}{% endblock title %}
 
+{% block css_header %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/css/sweetalert.css') }}" />
+{% endblock css_header %}
 
-{% block page_content %}
-    <section class="app-dash-table">
-        <div class="container">
-            <div class="search_area">
-                <a href="" class="pull-left btn btn-primary btn-sm" style="margin-left: -25px;"><i class="fa fa-user-plus"></i>&nbsp;Create User</a>
-                <form class="form-inline">
-                    <div class="input-group">
-                        <input type="text" name="search" class="form-control" id="exampleInputAmount" placeholder="Search">
-                        <span class="input-group-btn">
-                            <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
-                        </span>
-                    </div>
-                </form>
-            </div>
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            {% include '::alert.html.twig'%}
+            <div class="block-flat">
+                <div class="content">
+                    <div class="table-responsive">
+                        <div id="datatable-icons_wrapper" class="dataTables_wrapper form-inline" role="grid">
+                            <!-- Table Options -->
+                            <div class="row table-options">
+                                <form method="get">
+                                    <div class="col-sm-12">
+                                        <div class="pull-left">
+                                            <div class="form-group">
+                                                <label for="exampleInputName2">Show</label>
+                                                <select id="sltShow" name="show" class="form-control">
+                                                    {% for show in showOptions%}
+                                                        {% if showSelected == show %}
+                                                            <option value="{{show}}" selected>{{show}}</option>
+                                                        {% else %}
+                                                            <option value="{{show}}">{{show}}</option>
+                                                        {% endif %}
 
-            <!-- List Table -->
-            <div class="row">
-                <div class="col-sm-12 prasa-content box-shadow">
-                    {% block alert %}
-                        {% include "::alert.html.twig" %}
-                    {% endblock %}
-                    <div class="table-content">
-                        <div class="content active" id="panel1">
+                                                    {% endfor%}
+                                                </select>
+                                                <label for="show_rows">Rows</label>
+                                            </div>
+                                        </div>
+                                        <div class="pull-right">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="search" name="search" placeholder="Search">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- / Table Options -->
+
+                            <!-- Table -->
+
                             {% include 'MlankaTechAppBundle:User:list.table.html.twig' %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /List Table -->
 
-            <!-- Paginator -->
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="pull-left">
-                        <div style="padding-top: 30px"><span class="label label-primary">Total users {{ pagination.getTotalItemCount }}</span></div>
-                    </div>
-                    <div class="pull-right">
-                        <div class="dataTables_paginate paging_bs_normal">
-                            {{ knp_pagination_render(pagination) }}
+                            <!-- / Table -->
+
+                            <!-- Table footer -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="pull-left">
+                                        <div class="dataTables_info" id="datatable-icons_info">Total entries {{ pagination.getTotalItemCount }}</div>
+                                    </div>
+                                    <div class="pull-right">
+                                        <div class="dataTables_paginate paging_bs_normal">
+                                            {{ knp_pagination_render(pagination) }}
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <!-- / Table footer -->
                         </div>
                     </div>
-                    <div class="clearfix"></div>
                 </div>
             </div>
-            <!-- / Paginator -->
         </div>
-    </section>
-{% endblock %}
+    </div>
+{% endblock body %}
+
+
+{% block javascript_init %}
+    <script src="{{ asset('/assets/js/sweetalert.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            //initialize the javascript
+            App.init({
+                nanoScroller: false
+            });
+
+            $('#sltShow').change(function(){
+                $(this).closest('form').trigger('submit');
+            });
+        });
+    </script>
+{% endblock javascript_init %}

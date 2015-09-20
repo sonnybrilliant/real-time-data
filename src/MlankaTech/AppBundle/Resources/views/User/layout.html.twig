@@ -1,33 +1,20 @@
 {% extends "::base.html.twig" %}
 
+{% block header %}
+    <div class="page-head">
+        <h2>{{ page_header }}</h2>
+        <ol class="breadcrumb">
+            {% if is_granted('ROLE_USER_LIST') %}
+                <li><a href="{{ path('mlanka_tech_app.user_list')}}.html" title="List users" alt="List users">Users</a></li>
+                <li class="active">{{ breadcrumb }}</li>
+            {% else  %}
+                <li>Users</li>
+                <li class="active">{{ breadcrumb }}</li>
+            {% endif %}
+        </ol>
+    </div>
+{% endblock header %}
 
-{% block page_header %}
-    <section class="prasa-header-back">
-        <div class="container no-padding-right">
-            <div class="page-header pull-left">
-                <h3 class="fontWeight">{{ page_header }}</h3>
-                <ol class="breadcrumb">
-                    <li><a href="{{ path('mlanka_tech_app.user_list')}}.html">Users</a></li>
-                    <li class="active">{{ breadcrumb }}</li>
-                </ol>
-            </div>
-            <div class="filter pull-right">
-                <ul class="button-group" role="group">
-                    <li class="btn-group">
-                        <a href="{{ path('mlanka_tech_app.user_list') }}.html" alt="List all user accounts" title="List all users" class="btn btn-default btn-group-xs"><i class="fa fa-list"></i></a>
-                    </li>
-                    <li class="btn-group">
-                        <a href="{{ path('mlanka_tech_app.user_list') }}.html?filterBy=Active" alt="List active user accounts" title="List active user accounts" class="btn btn-default btn-group-xs"><i class="fa fa-users"></i></a>
-                    </li>
-                    <li class="btn-group">
-                        <a href="{{ path('mlanka_tech_app.user_list') }}.html?filterBy=Locked" alt="List locked/expired user accounts" title="List locked/expired user accounts" class="btn btn-expired btn-group-xs"><i class="fa fa-users text-danger"></i></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-{% endblock page_header  %}
 
 {% block body %}
 

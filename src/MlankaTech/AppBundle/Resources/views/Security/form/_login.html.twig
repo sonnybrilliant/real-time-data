@@ -1,24 +1,39 @@
-<p class="lead">Mission Control Tracer v 0.0.1</p>
-{% if error is not null %}
-    <div class="alert alert-danger alert-dismissible fade in" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-        {{ error.messageKey|trans(error.messageData, 'security') }}
+<form style="margin-bottom: 0px !important;" action="{{ path('_security_check') }}" autocomplete="off" {% if app.debug %} novalidate="true"{% endif %}  method="POST" class="form-horizontal">
+    <div class="content">
+        <h4 class="title">Login</h4>
+        {% if error is not null %}
+            <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+        {% include '::alert.html.twig'%}
+        <div class="form-group">
+            <div class="col-sm-12">
+                <div class="input-group"><span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    <input type="email" name="_username" id="username" placeholder="Email address" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <div class="input-group"><span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                    <input id="password" name="_password" type="password" placeholder="Password" class="form-control">
+                </div>
+            </div>
+        </div>
     </div>
-{% endif %}
-<form name="login" class="app-login" action="{{ path('_security_check') }}" autocomplete="off" {% if app.debug %} novalidate="true"{% endif %}  method="POST">
-    <div class="form-group">
-        <input type="email" name="_username" aria-label="email" placeholder="Email address" class="form-control input-lg" value="{{ last_username }}" required="required" autocomplete="off">
-    </div>
-    <div class="form-group">
-        <input type="password" name="_password" aria-label="password" placeholder="Password" class="form-control input-lg" required="required" autocomplete="off">
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-lg btn-block">LOGIN</button>
+    <div class="foot clearfix">
+        <button data-dismiss="modal" type="submit" class="btn btn-primary btn-block">Log me in</button>
+
+        <p class="spacer">
+        <div class="pull-left">
+            <a href="#">Forgot password</a>
+        </div>
+        <div class="pull-right">
+            Need access? <a href="#">Request an account</a>
+        </div>
+        </p>
     </div>
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
 </form>
-
-
-
-
-
