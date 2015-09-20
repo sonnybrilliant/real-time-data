@@ -8,3 +8,7 @@ mlanka_tech_app_security:
 mlanka_tech_app_dashboard:
     resource: "@MlankaTechAppBundle/Resources/config/routing.dashboard.yml"
     prefix:   /
+
+mlanka_tech_app_user:
+    resource: "@MlankaTechAppBundle/Resources/config/routing.user.yml"
+    prefix:   /

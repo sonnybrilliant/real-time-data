@@ -1,0 +1,53 @@
+{% extends "MlankaTechAppBundle:User:layout.html.twig" %}
+
+{% block title %}MCT | User list{% endblock %}
+
+
+{% block page_content %}
+    <section class="app-dash-table">
+        <div class="container">
+            <div class="search_area">
+                <a href="" class="pull-left btn btn-primary btn-sm" style="margin-left: -25px;"><i class="fa fa-user-plus"></i>&nbsp;Create User</a>
+                <form class="form-inline">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control" id="exampleInputAmount" placeholder="Search">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+
+            <!-- List Table -->
+            <div class="row">
+                <div class="col-sm-12 prasa-content box-shadow">
+                    {% block alert %}
+                        {% include "::alert.html.twig" %}
+                    {% endblock %}
+                    <div class="table-content">
+                        <div class="content active" id="panel1">
+                            {% include 'MlankaTechAppBundle:User:list.table.html.twig' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /List Table -->
+
+            <!-- Paginator -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="pull-left">
+                        <div style="padding-top: 30px"><span class="label label-primary">Total users {{ pagination.getTotalItemCount }}</span></div>
+                    </div>
+                    <div class="pull-right">
+                        <div class="dataTables_paginate paging_bs_normal">
+                            {{ knp_pagination_render(pagination) }}
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <!-- / Paginator -->
+        </div>
+    </section>
+{% endblock %}

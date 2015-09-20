@@ -8,7 +8,9 @@ security:
 
     access_denied_url:    ~ # Example: /foo/error403
     encoders:
-        MlankaTech\AppBundle\Entity\User: bcrypt
+        MlankaTech\AppBundle\Entity\User:
+            algorithm: bcrypt
+            cost: 12
 
 
     role_hierarchy:

@@ -1,0 +1,32 @@
+mlanka_tech_app.user_list:
+    path:  /secured/user/list.{_format}
+    defaults: { _controller: MlankaTechAppBundle:User:list , _format: html}
+    schemes:  [http]
+    methods:  [GET]
+    requirements:
+        _format:  html
+
+
+mlanka_tech_app.user_profile:
+    path:  /secured/user/profile/{slug}.{_format}
+    defaults: { _controller: MlankaTechAppBundle:User:profile , _format: html}
+    schemes:  [http]
+    methods:  [GET]
+    requirements:
+        _format:  html
+
+mlanka_tech_app.user_edit:
+    path:  /secured/user/edit/{slug}.{_format}
+    defaults: { _controller: MlankaTechAppBundle:User:edit , _format: html}
+    schemes:  [http]
+    methods:  [GET,POST]
+    requirements:
+        _format:  html
+
+mlanka_tech_app.user_create:
+    path:  /secured/user/create.{_format}
+    defaults: { _controller: MlankaTechAppBundle:User:create , _format: html}
+    schemes:  [http]
+    methods:  [GET,POST]
+    requirements:
+        _format:  html

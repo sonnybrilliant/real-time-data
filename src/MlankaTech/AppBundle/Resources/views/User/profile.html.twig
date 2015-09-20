@@ -1,0 +1,42 @@
+{% extends "MlankaTechAppBundle:User:layout.html.twig" %}
+
+{% block title %}MCT | {{ page_header }}{% endblock %}
+
+
+{% block page_content %}
+    <section class="app-dash-table">
+
+        <div class="container">
+            <div class="col-sm-12 prasa-content">
+                {% block alert %}
+                    {% include "::alert.html.twig" %}
+                {% endblock %}
+                <div class="row box-shadow padding-all-around">
+                    <form class="form-horizontal" action="{{ path('mlanka_tech_app.user_edit',{'slug':user.slug}) }}.html" data-parsley-validate autocomplete="off" {% if app.debug %} novalidate="true"{% endif %}  method="POST" {{ form_enctype(form) }}>
+                    <div class="col-sm-3 text-center">
+                        <div class="figure">
+                            {% if user.path == ''%}
+                                <img src="http://placehold.it/160x160" alt="" class="thumbnail">
+                            {% else %}
+                                {% set directory = '../../uploads/images/user/' %}
+                                {% set image = user.path %}
+                                {% set path = directory ~ image %}
+                                <img src="{{ asset(''~ path ~'') }}" width="160px" class="thumbnail" alt="Profile">
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-8">
+                        <div class="widget-form">
+                            <div class="widget-container">
+                                {% include 'MlankaTechAppBundle:User:Form/profile.html.twig' %}
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

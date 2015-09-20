@@ -1,0 +1,16 @@
+{{ form_row(form.title) }}
+
+{{ form_row(form.firstName) }}
+
+{{ form_row(form.lastName) }}
+
+{{ form_row(form.gender) }}
+
+{{ form_row(form.group) }}
+<div class="form-group">
+    <div class="col-sm-offset-5 col-sm-6 no-padding-left">
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{{ path('mlanka_tech_app.user_list')}}.html" class="btn btn-link">Cancel</a>
+    </div>
+</div>
+{{ form_rest(form) }}
