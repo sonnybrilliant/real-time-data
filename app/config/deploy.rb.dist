@@ -1,0 +1,60 @@
+set :application, "Real-Time-Data"
+set :domain,      "example.co.za"
+set :deploy_to,   "/var/www/html/#{domain}"
+set :app_path,    "app"
+
+# You might want to change this to other branch e.g. "stable"
+set :branch,      "master"
+set :scm_user,    'admin@sulehosting.co.za'
+set :repository,  "git@github.com:sonnybrilliant/real-time-data.git"
+set :scm,         :git
+set :deploy_via,  :remote_cache #If you don’t want to clone the whole repository on every deploy
+
+set :model_manager, "doctrine"
+
+role :web,        domain                         # Your HTTP server, Apache/etc
+role :app,        domain, :primary => true       # This may be the same as your `Web` server
+
+set  :keep_releases,  10
+set :shared_files,      ["app/config/parameters.yml"] # This stops us from having to recreate the parameters file on every deploy.
+set :shared_children,   [app_path + "/logs", web_path + "/uploads", "vendor"]
+set :dump_assetic_assets, true
+set :use_composer, true
+set :composer_options,  "--verbose --prefer-dist --optimize-autoloader --no-interaction"
+set :update_vendors, true
+
+set :writable_dirs,       ["app/cache", "app/logs"]
+set :webserver_user,      "www-data"
+set :permission_method,   :acl
+set :use_set_permissions, true
+
+# Confirmations will not be requested from the command line.
+set :interactive_mode, true
+
+set :use_sudo,    false
+set :user,        "server.user"
+set :server,      "server.ip"
+ssh_options[:forward_agent] = true
+
+# Need to clear *_dev controllers
+set :clear_controllers,     false
+
+# Controllers to clear
+set :controllers_to_clear, ['app_*.php']
+
+# Uncomment this if you need more verbose output from Capifony
+logger.level = Logger::MAX_LEVEL
+
+# Run migrations before warming the cache
+before "symfony:cache:warmup", "symfony:doctrine:schema:update"
+
+# Custom(ised) tasks
+namespace :deploy do
+	# Apache needs to be restarted to make sure that the APC cache is cleared.
+	# This overwrites the :restart task in the parent config which is empty.
+	desc "Restart Apache"
+	task :restart, :except => { :no_release => true }, :roles => :app do
+		run "sudo service apache2 restart"
+		puts "--> Apache successfully restarted".green
+	end
+end
