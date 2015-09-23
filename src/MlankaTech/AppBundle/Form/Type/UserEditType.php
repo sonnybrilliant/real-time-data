@@ -17,7 +17,6 @@ use JMS\DiExtraBundle\Annotation as DI;
  * @package MlankaTechAppBundle
  * @subpackage Form\User
  * @version 0.0.1
- *
  */
 class UserEditType extends AbstractType
 {
