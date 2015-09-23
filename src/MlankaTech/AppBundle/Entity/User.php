@@ -121,8 +121,8 @@ class User implements AdvancedUserInterface, \Serializable
      *      min = "6",
      *      max = "20",
      *      minMessage = "Password must have at least {{ limit }} characters",
-     *      maxMessage = "Password has a limit of {{ limit }} characters"
-     *
+     *      maxMessage = "Password has a limit of {{ limit }} characters",
+     *      groups={"create"}
      * )
      *
      * @ORM\Column(name="password", type="string", length=255)
@@ -199,24 +199,6 @@ class User implements AdvancedUserInterface, \Serializable
      * @Gedmo\Versioned
      */
     protected $gender;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $path;
-
-    /**
-     * @Assert\File(
-     * maxSize="3M",
-     * maxSizeMessage= "The file is too large ({{ size }}). Allowed maximum size is {{ limit }}",
-     * mimeTypes = {"image/jpeg", "image/jpg" , "image/png"},
-     * mimeTypesMessage = "Please upload a valid image file, we only support jpeg and png.",
-     * uploadErrorMessage = "The file could not be uploaded"
-     * )
-     */
-    protected $file;
 
     /**
      * @var boolean
@@ -508,6 +490,28 @@ class User implements AdvancedUserInterface, \Serializable
     public function isEnabled()
     {
         return $this->active;
+    }
+
+    /**
+     * set transient
+     *
+     * @param $transient
+     * @return $this
+     */
+    public function setTransient($transient)
+    {
+        $this->transient = $transient;
+
+        return $this;
+    }
+
+    /**
+     * get transient
+     * @return String
+     */
+    public function getTransient()
+    {
+        return $this->transient;
     }
 
     /**
@@ -1003,132 +1007,6 @@ class User implements AdvancedUserInterface, \Serializable
     public function getDeletedBy()
     {
         return $this->deletedBy;
-    }
-
-    public function getAbsolutePath()
-    {
-        return null === $this->path
-            ? null
-            : $this->getUploadRootDir().'/'.$this->path;
-    }
-
-    public function getWebPath()
-    {
-        return null === $this->path
-            ? null
-            : $this->getUploadDir().'/'.$this->path;
-    }
-
-    protected function getUploadRootDir()
-    {
-        // the absolute directory path where uploaded
-        // documents should be saved
-        $reflClass = new \ReflectionClass($this);
-        return dirname($reflClass->getFileName()).'/../../../../web/'.$this->getUploadDir();
-    }
-
-    protected function getUploadDir()
-    {
-        // get rid of the __DIR__ so it doesn't screw up
-        // when displaying uploaded doc/image in the view.
-        return 'uploads/images/user';
-    }
-
-    /**
-     * @param UploadedFile $file
-     */
-    public function setFile(UploadedFile $file=null)
-    {
-        $this->file = $file;
-        // check if we have an old image path
-        if (isset($this->path)) {
-            // store the old name to delete after the update
-            $this->temp = $this->path;
-            $this->path = null;
-        } else {
-            $this->path = 'initial';
-        }
-    }
-
-    /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function preUpload()
-    {
-        if (null !== $this->getFile()) {
-            // do whatever you want to generate a unique name
-            $filename = sha1(uniqid(mt_rand(), true));
-            $this->path = $filename.'.'.$this->getFile()->guessExtension();
-        }
-    }
-
-    /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
-     */
-    public function upload()
-    {
-        if (null === $this->getFile()) {
-            return;
-        }
-
-        // if there is an error when moving the file, an exception will
-        // be automatically thrown by move(). This will properly prevent
-        // the entity from being persisted to the database on error
-        $this->getFile()->move($this->getUploadRootDir(), $this->path);
-
-        // check if we have an old image
-        if (isset($this->temp)) {
-            // delete the old image
-            unlink($this->getUploadRootDir().'/'.$this->temp);
-            // clear the temp image path
-            $this->temp = null;
-        }
-        $this->file = null;
-    }
-
-    /**
-     * @ORM\PostRemove()
-     */
-    public function removeUpload()
-    {
-        if ($file = $this->getAbsolutePath()) {
-            unlink($file);
-        }
-    }
-
-    /**
-     * get file
-     *
-     * @return UploadedFile
-     */
-    public function getFile()
-    {
-        return $this->file;
-    }
-
-    /**
-     * Set path
-     *
-     * @param string $path
-     * @return Artist
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
-    /**
-     * Get path
-     *
-     * @return string
-     */
-    public function getPath()
-    {
-        return $this->path;
     }
 
     /**

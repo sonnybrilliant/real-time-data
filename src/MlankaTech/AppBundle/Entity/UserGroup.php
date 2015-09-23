@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * UserGroup
  *
  * @ORM\Table(name="USER_GROUP")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MlankaTech\AppBundle\Entity\Repository\UserGroupRepository")
  *
  * @author  Mfana Ronald Conco <ronald.conco@mlankatech.co.za>
  * @package MlankaTechAppBundle

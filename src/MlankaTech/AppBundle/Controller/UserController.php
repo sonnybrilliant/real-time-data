@@ -82,15 +82,18 @@ class UserController extends Controller
 
         $user = new User();
         $form = $this->createForm("UserCreateType",$user);
-
+        $user->setPassword(substr(base_convert(bin2hex(hash('sha256', uniqid(mt_rand(), true), true)), 16, 20), 0, 10));
         $formHandler = $this->get('mlanka_tech_app.user_create_handler');
         if($formHandler->handle($form,$request)){
             return $this->redirect($this->generateUrl('mlanka_tech_app.user_list') . '.html');
         }
 
         return $this->render('MlankaTechAppBundle:User:create.html.twig',array(
+            'action' => 'user_create',
             'user'=> $user,
             'form' => $form->createView(),
+            'page_header' => 'Add new user',
+            'breadcrumb' => 'Add'
         ));
     }
 
@@ -115,9 +118,19 @@ class UserController extends Controller
             return $this->redirect($this->generateUrl('mlanka_tech_app.user_list') . '.html');
         }
 
+        $loggedInUser = $this->getUser();
+
+        $pageHeader = "Edit user profile";
+        if($loggedInUser->getId() == $user->getId()){
+            $pageHeader = "Edit my profile";
+        }
+
         return $this->render('MlankaTechAppBundle:User:edit.html.twig',array(
+            'action' => 'user_edit',
             'user'=> $user,
             'form' => $form->createView(),
+            'page_header' => $pageHeader,
+            'breadcrumb' => 'Edit'
         ));
     }
 

@@ -12,7 +12,7 @@ _security_check:
     methods:  [GET, POST]
 
 _security_logout:
-    pattern:  /logout.html
+    path:  /logout.html
 
 _homepage:
     path:  /

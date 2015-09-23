@@ -1,4 +1,6 @@
 services:
-#    mlanka_tech_core.example:
-#        class: MlankaTech\AppBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    security.authentication.success_handler:
+        class: MlankaTech\AppBundle\Handler\Security\AuthenticationSuccessHandler
+        arguments: [@security.http_utils, {} , @service_container]
+        tags:
+            - { name: 'monolog.logger', channel: 'security'}

@@ -9,17 +9,17 @@ use Symfony\Component\Form\FormBuilderInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 
 /**
- * MlankaTech\AppBundle\Form\Type\UserEditType
+ * MlankaTech\AppBundle\Form\Type\UserCreateType
  *
- * @DI\Service("mlanka_tech_app.form.type.user.edit")
- * @DI\Tag("form.type", attributes = {"alias" = "UserEditType"})
+ * @DI\Service("mlanka_tech_app.form.type.user.create")
+ * @DI\Tag("form.type", attributes = {"alias" = "UserCreateType"})
  * @author Mfana Ronald Conco <ronald.conco@mlankatech.co.za>
  * @package MlankaTechAppBundle
  * @subpackage Form\User
  * @version 0.0.1
  *
  */
-class UserEditType extends AbstractType
+class UserCreateType extends AbstractType
 {
 
     /**
@@ -94,7 +94,6 @@ class UserEditType extends AbstractType
                 ),
                 'help' => 'Email address',
                 'parsley_error_container' => 'parsleyEmailAddress',
-                'disabled' => true,
             ));
 
 
@@ -106,7 +105,7 @@ class UserEditType extends AbstractType
      */
     public function getName()
     {
-        return 'UserEditType';
+        return 'UserCreateType';
     }
 
     public function getDefaultOptions(array $options)

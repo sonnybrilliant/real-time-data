@@ -112,7 +112,7 @@ class UserListHandler
 
         $pagination = $this->paginator->paginate(
             $this->userManager->getListAll($options),
-            $request->query->get('page', $page), 10);
+            $request->query->get('page', $page), $show);
 
         if ($pagination->getTotalItemCount() == 0) {
             $this->flashManager->getWarningMessage('No results found.');

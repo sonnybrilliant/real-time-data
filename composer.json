@@ -22,7 +22,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "doctrine/doctrine-fixtures-bundle": "2.2.*",
         "salavert/time-ago-in-words": "1.*",
-        "twig/extensions": "1.0.*"
+        "twig/extensions": "1.0.*",
+        "raulfraile/ladybug-bundle": "~1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

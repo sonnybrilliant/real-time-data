@@ -23,7 +23,7 @@
             <td>{{user.lastLogin|date('Y-m-d H:i A')}}</td>
             <td>{{user.updatedAt|date('Y-m-d H:i A')}}</td>
             <td>
-                <a class="btn btn-default btn-sm" href=" {{ path('mlanka_tech_app.user_profile',{'slug':user.slug})}}.html" data-original-title="View" data-toggle="tooltip"><i class="fa fa-file"></i>&nbsp;View</a>
+                <a class="btn btn-default btn-sm" href=" {{ path('mlanka_tech_app.user_profile',{'slug':user.slug})}}.html" data-original-title="View" data-toggle="tooltip"><i class="fa fa-eye"></i>&nbsp;View</a>
                 <a class="btn btn-primary btn-sm" href="{{ path('mlanka_tech_app.user_edit',{'slug': user.slug})}}.html" data-original-title="Edit" data-toggle="tooltip"><i class="fa fa-edit"></i>&nbsp;Edit</a>
                 {% if user.status.code == 1 %}
                     {% set url = path('mlanka_tech_app.user_list',{'slug': user.slug}) %}

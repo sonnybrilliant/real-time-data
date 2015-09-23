@@ -7,6 +7,11 @@ use MlankaTech\AppBundle\Entity\User;
 use JMS\DiExtraBundle\Annotation as DI;
 use JMS\DiExtraBundle\Annotation\Inject;
 use MlankaTech\AppBundle\Services\Core\StatusManager;
+use MlankaTech\AppBundle\Event\User\UserEvents;
+use MlankaTech\AppBundle\Event\User\UserEvent;
+use MlankaTech\AppBundle\Services\Core\UserGroupManager;
+use Symfony\Component\Security\Core\Encoder\EncoderFactory;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Monolog\Logger;
 
 /**
@@ -37,6 +42,13 @@ class UserManager
     protected $sm;
 
     /**
+     * UserGroupManager.
+     *
+     * @var Service
+     */
+    protected $userGroupManager;
+
+    /**
      * Security Context
      * @var object
      * @Inject("security.context", required = false)
@@ -44,29 +56,50 @@ class UserManager
     public $securityContext;
 
     /**
+     * @var Event Dispatcher
+     */
+    private $eventDispatcher;
+
+    /**
+     * @var EncoderFactory
+     */
+    private $encoderFactory;
+
+    /**
      *
      * Class construct
      *
      * @param EntityManager $em
+     * @param UserGroupManager $userGroupManager
      * @param Logger $logger
      * @param StatusManager $sm
      * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
+     * @param \Symfony\Component\Security\Core\Encoder\EncoderFactory $encoderFactory
      *
      * @DI\InjectParams({
      *     "em"                  = @DI\Inject("doctrine.orm.entity_manager"),
+     *     "userGroupManager"    = @DI\Inject("user.group.manager"),
      *     "logger"              = @DI\Inject("logger"),
-     *     "sm"                  = @DI\Inject("status.manager")
+     *     "sm"                  = @DI\Inject("status.manager"),
+     *     "eventDispatcher"     = @DI\Inject("event_dispatcher"),
+     *     "encoderFactory"      = @DI\Inject("security.encoder_factory")
      * })
      */
     public function __construct(
         EntityManager $em,
+        UserGroupManager $userGroupManager,
         Logger $logger,
-        StatusManager $sm
+        StatusManager $sm,
+        EventDispatcherInterface $eventDispatcher,
+        EncoderFactory $encoderFactory
     )
     {
         $this->em = $em;
+        $this->userGroupManager = $userGroupManager;
         $this->logger = $logger;
         $this->sm = $sm;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->encoderFactory = $encoderFactory;
     }
 
     /**
@@ -171,6 +204,19 @@ class UserManager
     }
 
     /**
+     * Encode password
+     *
+     * @param User $user
+     * @param $plainPassword
+     * @return string
+     */
+    private function encodePassword(User $user, $plainPassword)
+    {
+        $encoder = $this->encoderFactory->getEncoder($user);
+        return $encoder->encodePassword($plainPassword,$user->getSalt());
+    }
+
+    /**
      * Create user and trigger send confirmation
      *
      * @param User $user
@@ -179,7 +225,16 @@ class UserManager
     {
         $this->logger->info("Service UserManager createUser()");
         //save user
+        $password = substr(base_convert(bin2hex(hash('sha256', uniqid(mt_rand(), true), true)), 16, 20), 0, 10);
+        $user->setPassword($this->encodePassword($user,$password));
+        $user->setTransient($password);
+        $user->setGroup($this->userGroupManager->admin());
         $this->create($user);
+
+        $this->eventDispatcher->dispatch(
+            UserEvents::NEW_ACCOUNT_CREATED,
+            new UserEvent($user)
+        );
     }
 
     /**

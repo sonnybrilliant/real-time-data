@@ -2,7 +2,7 @@
     <li {% if action == 'user_edit' or action == 'user_profile' or action == 'user_list' %} class="active" {% endif %}><a href="#"><i class="fa fa-group"></i><span>Users</span></a>
         <ul class="sub-menu">
             {% if is_granted('ROLE_USER_CREATE') %}
-                <li {% if action == 'user_create' %} class="active" {% endif %}><a href="{{ path('mlanka_tech_app.user_create')}}.html" title="Add new user" alt="Add new user"><i class="fa fa-plus"></i>Add new user</a></li>
+                <li {% if action == 'user_create' %} class="active" {% endif %}><a href="{{ path('mlanka_tech_app.user_create')}}.html" title="Add new user" alt="Add new user"><i class="fa fa-user-plus"></i>Add new user</a></li>
             {% endif %}
             {% if is_granted('ROLE_USER_LIST') %}
                 <li {% if action == 'user_list' %} class="active" {% endif %}><a href="{{ path('mlanka_tech_app.user_list')}}.html" title="list users" alt="list users"><i class="fa fa-list"></i>List users</a></li>
