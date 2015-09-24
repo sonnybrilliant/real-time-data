@@ -14,6 +14,23 @@ _security_check:
 _security_logout:
     path:  /logout.html
 
+_forgot_password:
+    path:  /forgot-password.{_format}
+    defaults: { _controller: MlankaTechAppBundle:Security:forgotPassword , _format: html}
+    schemes:  [http]
+    methods:  [GET, POST]
+    requirements:
+        _format:  html
+
+
+_reset_password:
+    path:  /reset-password/{authString}.{_format}
+    defaults: { _controller: MlankaTechAppBundle:Security:resetPassword , _format: html}
+    schemes:  [http]
+    methods:  [GET, POST]
+    requirements:
+        _format:  html
+
 _homepage:
     path:  /
     defaults: { _controller: MlankaTechAppBundle:Security:login , _format: html}

@@ -4,7 +4,7 @@ namespace MlankaTech\AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 
@@ -53,7 +53,7 @@ class UserEditType extends AbstractType
             ))
 
             ->add('gender', 'entity', array(
-                'empty_value' => 'Select gender',
+                'placeholder' => 'Select gender',
                 'class' => 'MlankaTechAppBundle:Gender',
                 'label' => 'Gender ',
                 'attr' => array(
@@ -68,7 +68,7 @@ class UserEditType extends AbstractType
             ))
 
             ->add('title', 'entity', array(
-                'empty_value' => 'Select title',
+                'placeholder' => 'Select title',
                 'class' => 'MlankaTechAppBundle:Title',
                 'label' => 'Title ',
                 'attr' => array(
@@ -115,7 +115,7 @@ class UserEditType extends AbstractType
         );
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'MlankaTech\AppBundle\Entity\User',

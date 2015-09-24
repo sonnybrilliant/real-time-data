@@ -15,7 +15,8 @@ use Monolog\Logger;
  * @DI\Service("mlanka_tech_app.user_list_handler")
  *
  * @author Mfana Ronald Conco <ronald.conco@mlankatech.co.za>
- *
+ * @package MlankaTechAppBundle
+ * @subpackage Handler\User
  * @version 0.0.1
  */
 class UserListHandler

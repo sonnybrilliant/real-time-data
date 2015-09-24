@@ -122,6 +122,9 @@ class LoadBaseStatusData extends AbstractFixture implements OrderedFixtureInterf
         $offline = new Status("Offline",330);
         $manager->persist($offline);
 
+        $suspended = new Status('Suspended', 340);
+        $manager->persist($suspended);
+
         $manager->flush();
 
         $this->addReference('status-active', $active);

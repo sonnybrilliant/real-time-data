@@ -30,3 +30,27 @@ mlanka_tech_app.user_create:
     methods:  [GET,POST]
     requirements:
         _format:  html
+
+mlanka_tech_app.user_change_password:
+    path:  /secured/user/change/password/{slug}.{_format}
+    defaults: { _controller: MlankaTechAppBundle:User:changePassword , _format: html}
+    schemes:  [http]
+    methods:  [GET,POST]
+    requirements:
+        _format:  html
+
+mlanka_tech_app.user_suspend:
+    path:  /secured/user/suspend/{slug}.{_format}
+    defaults: { _controller: MlankaTechAppBundle:User:suspend , _format: html}
+    schemes:  [http]
+    methods:  [POST]
+    requirements:
+        _format:  html
+
+mlanka_tech_app.user_activate:
+    path:  /secured/user/activate/{slug}.{_format}
+    defaults: { _controller: MlankaTechAppBundle:User:activate , _format: html}
+    schemes:  [http]
+    methods:  [POST]
+    requirements:
+        _format:  html

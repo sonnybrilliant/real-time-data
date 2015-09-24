@@ -14,8 +14,8 @@ use Monolog\Logger;
  *
  * @DI\Service("mlanka_tech_app.user_create_handler")
  *
- * @author Tiko Banyini <admin@tkbean.co.za>
- *
+ * @author Mfana Ronald Conco <ronald.conco@mlankatech.co.za>
+ * @subpackage Handler\User
  * @version 0.0.1
  */
 class UserCreateHandler
@@ -80,7 +80,7 @@ class UserCreateHandler
             return false;
         }
 
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if (!$form->isValid()) {
             $this->flashManager->getErrorMessage();

@@ -1,42 +1,49 @@
 <?php
 
-namespace MlankaTech\AppBundle\Handler\User;
+/**
+ * Created by PhpStorm.
+ * User: tk-mac
+ * Date: 15/05/28
+ * Time: 7:53 PM.
+ */
+namespace MlankaTech\AppBundle\Handler\Security;
 
+use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use MlankaTech\AppBundle\Services\User\UserManager;
 use MlankaTech\AppBundle\Services\Core\FlashMessageManager;
-use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\Form\FormInterface;
 use Monolog\Logger;
 
 /**
- * MlankaTech\AppBundle\Handler\User\Form\UserEditHandler.
+ * Class ResetPasswordFormHandler.
  *
- * @DI\Service("mlanka_tech_app.user_edit_handler")
+ * @DI\Service("reset_password.form_handler")
+ *
  * @author Mfana Ronald Conco <ronald.conco@mlankatech.co.za>
- * @subpackage Handler\User
+ * @subpackage Handler\Security
  * @version 0.0.1
  */
-class UserEditHandler
+class ResetPasswordFormHandler
 {
     /**
      * Monolog logger.
      *
-     * @var Service
+     * @var object
      */
     protected $logger;
 
     /**
      * UserManager.
      *
-     * @var Service
+     * @var \MlankaTech\AppBundle\Services\User\UserManager
      */
     protected $userManager;
 
     /**
-     * Flash manager.
+     * flash manager.
      *
-     * @var Service
+     * @var \MlankaTech\AppBundle\Services\Core\FlashMessageManager
      */
     protected $flashManager;
 
@@ -65,16 +72,15 @@ class UserEditHandler
     }
 
     /**
-     * Handle form request.
-     *
-     * @param \Symfony\Component\Form\FormInterface     $form
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param Request       $request
+     * @param FormInterface $form
      *
      * @return bool
      */
-    public function handle(FormInterface $form, Request $request)
+    public function handle(Request $request, FormInterface $form)
     {
-        $this->logger->info('UserEditFormHandler handle()');
+        $this->logger->info('ForgotPasswordFormHandler handle()');
+
         if (!$request->isMethod('POST')) {
             return false;
         }
@@ -82,11 +88,15 @@ class UserEditHandler
         $form->handleRequest($request);
         if (!$form->isValid()) {
             $this->flashManager->getErrorMessage();
+
             return false;
         }
 
-        $this->userManager->update($form->getData());
-        $this->flashManager->getSuccessMessage('update successfully!');
+        $user = $form->getData();
+
+        $this->userManager->resetPassword($user);
+        $this->flashManager->getSuccessMessage('Your password was changed successfully!');
+
         return true;
     }
 }

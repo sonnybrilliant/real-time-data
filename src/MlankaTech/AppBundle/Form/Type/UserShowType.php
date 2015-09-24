@@ -4,7 +4,7 @@ namespace MlankaTech\AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 
@@ -114,10 +114,9 @@ class UserShowType extends AbstractType
                 'help' => 'When was user last updated',
             ))
             ->add('createdBy', 'entity', array(
-                'empty_value' => 'Select a gender',
                 'class' => 'MlankaTechAppBundle:User',
                 'label' => 'Created By ',
-                'empty_value' => 'Default System user',
+                'placeholder' => 'Default System user',
                 'attr' => array(
                     'class' => 'form-control',
                 ),
@@ -143,7 +142,7 @@ class UserShowType extends AbstractType
         );
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'MlankaTech\AppBundle\Entity\User',

@@ -23,7 +23,7 @@ set :use_composer, true
 set :composer_options,  "--verbose --prefer-dist --optimize-autoloader --no-interaction"
 set :update_vendors, true
 
-set :writable_dirs,       ["app/cache", "app/logs"]
+set :writable_dirs,       ["app/cache", "app/logs", "app/sessions"]
 set :webserver_user,      "www-data"
 set :permission_method,   :acl
 set :use_set_permissions, true

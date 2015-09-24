@@ -6,35 +6,11 @@
         <!-- Group -->
         <div class="form-group {% if errors|length > 0 %}has-error{% endif %}">
             {{ form_label(form) }}
-            {% set timepicker = ''%}
-            {% if time_icon is defined %}
-                {% if time_icon is not null %}
-                    {% set timepicker = 'bootstrap-timepicker'%}
-                {% endif %}
-            {% endif %}
-
-            {% set size_class = '' %}
-            {% if override_col_size is defined %}
-                {% if override_col_size is not null %}
-                    {% set size_class = override_col_size %}
-                {% endif %}
-            {% endif %}
-
-            <div class="{% if size_class != '' %}{{ size_class }}{% else %}col-md-7{%endif%} controls  input-group {{ timepicker }}">
+            <div class="col-md-7 controls  input-group">
                 {{ form_widget(form, { 'attr' : attr|default({}) }) }}
                 {% if help is defined %}
                     {% if help is not null %}
                         <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" title="{{help}}"><i class="fa fa-question-circle"></i></span>
-                    {% endif %}
-                {% endif %}
-                {% if date_icon is defined %}
-                    {% if date_icon is not null %}
-                        <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" title="{{date_icon}}"><i class="fa fa-th"></i></span>
-                    {% endif %}
-                {% endif %}
-                {% if time_icon is defined %}
-                    {% if time_icon is not null %}
-                        <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" title="{{time_icon}}"><i class="fa fa-clock-o"></i></span>
                     {% endif %}
                 {% endif %}
             </div>

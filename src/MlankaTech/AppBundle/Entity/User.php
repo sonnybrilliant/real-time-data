@@ -130,6 +130,13 @@ class User implements AdvancedUserInterface, \Serializable
     protected $password;
 
     /**
+     * @var string
+     * @ORM\Column(name="forgot_password", type="string", length=255 , nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $forgotPassword;
+
+    /**
      * @var salt
      *
      */
@@ -138,7 +145,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="MlankaTech\AppBundle\Entity\Role")
+     * @ORM\ManyToMany(targetEntity="MlankaTech\AppBundle\Entity\Role",inversedBy="users")
      * @ORM\JoinTable(name="USER_ROLE_MAP",
      *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
@@ -278,6 +285,18 @@ class User implements AdvancedUserInterface, \Serializable
     protected $deletedBy;
 
     /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="MlankaTech\AppBundle\Entity\User")
+     */
+    private $suspendedBy;
+
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="MlankaTech\AppBundle\Entity\User")
+     */
+    private $activatedBy;
+
+    /**
      * @var datetime
      *
      * @Gedmo\Timestampable(on="create")
@@ -301,6 +320,20 @@ class User implements AdvancedUserInterface, \Serializable
      * @link https://github.com/stof/StofDoctrineExtensionsBundle
      */
     protected $updatedAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="suspend_at", type="datetime", nullable=true)
+     */
+    private $suspendAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="activated_at", type="datetime", nullable=true)
+     */
+    private $activatedAt;
 
     /**
      * Class construct
@@ -1126,5 +1159,125 @@ class User implements AdvancedUserInterface, \Serializable
     public function getDeleted()
     {
         return $this->deleted;
+    }
+
+    /**
+     * Set forgotPassword
+     *
+     * @param string $forgotPassword
+     *
+     * @return User
+     */
+    public function setForgotPassword($forgotPassword)
+    {
+        $this->forgotPassword = $forgotPassword;
+
+        return $this;
+    }
+
+    /**
+     * Get forgotPassword
+     *
+     * @return string
+     */
+    public function getForgotPassword()
+    {
+        return $this->forgotPassword;
+    }
+
+    /**
+     * Set suspendAt
+     *
+     * @param \DateTime $suspendAt
+     *
+     * @return User
+     */
+    public function setSuspendAt($suspendAt)
+    {
+        $this->suspendAt = $suspendAt;
+
+        return $this;
+    }
+
+    /**
+     * Get suspendAt
+     *
+     * @return \DateTime
+     */
+    public function getSuspendAt()
+    {
+        return $this->suspendAt;
+    }
+
+    /**
+     * Set activatedAt
+     *
+     * @param \DateTime $activatedAt
+     *
+     * @return User
+     */
+    public function setActivatedAt($activatedAt)
+    {
+        $this->activatedAt = $activatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get activatedAt
+     *
+     * @return \DateTime
+     */
+    public function getActivatedAt()
+    {
+        return $this->activatedAt;
+    }
+
+    /**
+     * Set suspendedBy
+     *
+     * @param \MlankaTech\AppBundle\Entity\User $suspendedBy
+     *
+     * @return User
+     */
+    public function setSuspendedBy(\MlankaTech\AppBundle\Entity\User $suspendedBy = null)
+    {
+        $this->suspendedBy = $suspendedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get suspendedBy
+     *
+     * @return \MlankaTech\AppBundle\Entity\User
+     */
+    public function getSuspendedBy()
+    {
+        return $this->suspendedBy;
+    }
+
+    /**
+     * Set activatedBy
+     *
+     * @param \MlankaTech\AppBundle\Entity\User $activatedBy
+     *
+     * @return User
+     */
+    public function setActivatedBy(\MlankaTech\AppBundle\Entity\User $activatedBy = null)
+    {
+        $this->activatedBy = $activatedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get activatedBy
+     *
+     * @return \MlankaTech\AppBundle\Entity\User
+     */
+    public function getActivatedBy()
+    {
+        return $this->activatedBy;
     }
 }

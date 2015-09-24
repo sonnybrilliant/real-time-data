@@ -2,6 +2,7 @@
 
 namespace MlankaTech\AppBundle\Handler\User;
 
+use MlankaTech\AppBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use MlankaTech\AppBundle\Services\User\UserManager;
 use MlankaTech\AppBundle\Services\Core\FlashMessageManager;
@@ -10,14 +11,14 @@ use Symfony\Component\Form\FormInterface;
 use Monolog\Logger;
 
 /**
- * MlankaTech\AppBundle\Handler\User\Form\UserEditHandler.
+ * MlankaTech\AppBundle\Handler\User\Form\UserChangePasswordHandler.
  *
- * @DI\Service("mlanka_tech_app.user_edit_handler")
+ * @DI\Service("mlanka_tech_app.user_change_password_handler")
  * @author Mfana Ronald Conco <ronald.conco@mlankatech.co.za>
  * @subpackage Handler\User
  * @version 0.0.1
  */
-class UserEditHandler
+class UserChangePasswordHandler
 {
     /**
      * Monolog logger.
@@ -72,9 +73,9 @@ class UserEditHandler
      *
      * @return bool
      */
-    public function handle(FormInterface $form, Request $request)
+    public function handle(FormInterface $form, Request $request, User $user)
     {
-        $this->logger->info('UserEditFormHandler handle()');
+        $this->logger->info('UserChangePasswordHandler= handle()');
         if (!$request->isMethod('POST')) {
             return false;
         }
@@ -82,11 +83,15 @@ class UserEditHandler
         $form->handleRequest($request);
         if (!$form->isValid()) {
             $this->flashManager->getErrorMessage();
+
             return false;
         }
 
-        $this->userManager->update($form->getData());
-        $this->flashManager->getSuccessMessage('update successfully!');
+        $userChangePassword = $form->getData();
+        $user->setPassword($userChangePassword->getNewPassword());
+        $this->userManager->resetPassword($user);
+        $this->flashManager->getSuccessMessage('Your password was changed successfully!');
+
         return true;
     }
 }

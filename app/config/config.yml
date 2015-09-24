@@ -22,7 +22,7 @@ framework:
         strict_requirements: ~
     form:            ~
     csrf_protection: ~
-    validation:      { enable_annotations: true }
+    validation:      { enable_annotations: true, strict_email: true }
     #serializer:      { enable_annotations: true }
     templating:
         engines: ['twig']
@@ -192,6 +192,11 @@ services:
             public: false
             tags:
                 - { name: twig.extension }
+
+    twig.extension.debug:
+        class: Twig_Extension_Debug
+        tags:
+            - { name: twig.extension }
 
 
 knp_paginator:

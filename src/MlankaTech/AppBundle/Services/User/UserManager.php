@@ -49,11 +49,11 @@ class UserManager
     protected $userGroupManager;
 
     /**
-     * Security Context
+     * Security Storage Token
      * @var object
-     * @Inject("security.context", required = false)
+     * @Inject("security.token_storage", required = false)
      */
-    public $securityContext;
+    public $securityTokenStorage;
 
     /**
      * @var Event Dispatcher
@@ -109,10 +109,9 @@ class UserManager
      */
     public function getCurrentUser()
     {
-        if($this->securityContext->getToken()){
-            return $this->securityContext->getToken()->getUser();
-        }
-
+       if($this->securityTokenStorage->getToken()){
+           return $this->securityTokenStorage->getToken()->getUser();
+       }
         return false;
     }
 
@@ -170,6 +169,20 @@ class UserManager
         $this->logger->info("Service  UserManager getByToken()");
         return $this->em->getRepository('MlankaTechAppBundle:User')
             ->findOneByConfirmationToken($token);
+    }
+
+    /**
+     * Get user by forgotPassword unique string.
+     *
+     * @param String $forgotPassword
+     * @return MlankaTechAppBundle:User
+     */
+    public function getByforgotPassword($forgotPassword)
+    {
+        $this->logger->info('Service  UserManager getByforgotPassword()');
+
+        return $this->em->getRepository('MlankaTechAppBundle:User')
+            ->findOneByForgotPassword($forgotPassword);
     }
 
     /**
@@ -268,6 +281,24 @@ class UserManager
     }
 
     /**
+     * Reset password
+     *
+     * @param User $user
+     * @return User
+     */
+    public function resetPassword(\MlankaTech\AppBundle\Entity\User $user)
+    {
+        $this->logger->info("Service UserManager resetPassword()");
+
+        $password = $user->getPassword();
+        $user->setForgotPassword(null);
+        $user->setPassword($this->encodePassword($user,$password));
+        $this->em->persist($user);
+        $this->em->flush();
+        return $user;
+    }
+
+    /**
      * Update user
      *
      * @param User $user
@@ -279,6 +310,87 @@ class UserManager
 
         $this->em->persist($user);
         $this->em->flush();
+        return $user;
+    }
+
+    /**
+     * Generate forgot password random string and dispatch an event.
+     *
+     * @param User $user
+     * @return User
+     */
+    public function forgotPassword(\MlankaTech\AppBundle\Entity\User $user)
+    {
+        $this->logger->info('Service UserManager forgotPassword()');
+        $user->setForgotPassword($this->generateRandomString(8));
+        $user->setPasswordRequestedAt(new \DateTime());
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $this->eventDispatcher->dispatch(
+            UserEvents::ON_ACCOUNT_FORGOT_PASSWORD,
+            new UserEvent($user)
+        );
+
+        return $user;
+    }
+
+    /**
+     * Generate a random string.
+     *
+     * @param int $length
+     * @return string
+     */
+    public function generateRandomString($length = 10)
+    {
+        $this->logger->info('Service UserManager generateRandomString()');
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; ++$i) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+
+        return $randomString;
+    }
+
+    /**
+     * Lock user account.
+     *
+     * @param \MlankaTech\AppBundle\Entity\User $user
+     * @return \MlankaTech\AppBundle\Entity\User
+     */
+    public function suspend(\MlankaTech\AppBundle\Entity\User $user)
+    {
+        $this->logger->info('Service UserManager lock()');
+        $user->setStatus($this->sm->suspended());
+        $user->setActive(false);
+        $user->setSuspendAt(new \DateTime());
+        $user->setSuspendedBy($this->getCurrentUser());
+        $user->setLocked(true);
+        $this->em->persist($user);
+        $this->em->flush();
+
+        return $user;
+    }
+
+    /**
+     * Activate operator account.
+     *
+     * @param \MlankaTech\AppBundle\Entity\User $user
+     * @return \MlankaTech\AppBundle\Entity\User
+     */
+    public function activate(\MlankaTech\AppBundle\Entity\User $user)
+    {
+        $this->logger->info('Service UserManager activate()');
+        $user->setStatus($this->sm->active());
+        $user->setActive(true);
+        $user->setActivatedAt(new \DateTime());
+        $user->setActivatedBy($this->getCurrentUser());
+        $user->setLocked(false);
+        $this->em->persist($user);
+        $this->em->flush();
+
         return $user;
     }
 

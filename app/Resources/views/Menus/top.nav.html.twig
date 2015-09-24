@@ -13,6 +13,7 @@
                 <li class="dropdown profile_menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>{{ app.user.getFullName }}</span> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
+                        <li><a href="{{ path('mlanka_tech_app.user_change_password',{slug:app.user.slug})}}.html">Change Password</a></li>
                         <li><a href="{{ path('mlanka_tech_app.user_profile',{slug:app.user.slug})}}.html">Profile</a></li>
                         <li class="divider"></li>
                         <li><a href="{{ path('_security_logout')}}" title="Logout" alt="Logout">Logout</a></li>

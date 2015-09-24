@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  * MlankaTech\AppBundle\Handler\Security\AuthenticationSuccessHandler.
  *
  * @author Mfana Ronald Conco <ronald.conco@mlankatech.co.za>
- *
+ * @subpackage Handler\Security
  * @version 0.0.1
  */
 class AuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler

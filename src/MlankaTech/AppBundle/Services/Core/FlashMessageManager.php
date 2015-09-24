@@ -39,7 +39,7 @@ class FlashMessageManager
      */
     public function getErrorMessage($msg = null)
     {
-        $this->logger->info('FlashMessageManager getErrorMessage()');
+        $this->logger->info('Service FlashMessageManager getErrorMessage()');
         $this->session->getFlashBag()->add(
             'error',
             $msg ? $msg : 'Some information is invalid, Please see the details below!'
@@ -55,7 +55,7 @@ class FlashMessageManager
      */
     public function getSuccessMessage($msg)
     {
-        $this->logger->info('FlashMessageManager getSuccessMessage()');
+        $this->logger->info('Service FlashMessageManager getSuccessMessage()');
         $this->session->getFlashBag()->add(
             'success',
             $msg
@@ -71,7 +71,7 @@ class FlashMessageManager
      */
     public function getWarningMessage($msg)
     {
-        $this->logger->info('FlashMessageManager getWarningMessage()');
+        $this->logger->info('Service FlashMessageManager getWarningMessage()');
         $this->session->getFlashBag()->add(
             'warning',
             $msg
@@ -87,7 +87,7 @@ class FlashMessageManager
      */
     public function getInfoMessage($msg)
     {
-        $this->logger->info('FlashMessageManager getInfoMessage()');
+        $this->logger->info('Service FlashMessageManager getInfoMessage()');
         $this->session->getFlashBag()->add(
             'info',
             $msg

@@ -78,17 +78,91 @@
 
 
 {% block javascript_init %}
+    parent()
     <script src="{{ asset('/assets/js/sweetalert.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function(){
-            //initialize the javascript
-            App.init({
-                nanoScroller: false
-            });
-
             $('#sltShow').change(function(){
                 $(this).closest('form').trigger('submit');
             });
         });
+
+        /**
+         * Suspend organisation
+         *
+         * @param string url
+         * @returns {boolean}
+         */
+        function confirmSuspend(url){
+            swal({
+                        title: "Are you sure?",
+                        text: "User will not be able to login!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Yes, Suspend!",
+                        cancelButtonText: "Cancel ",
+                        closeOnConfirm: false,
+                        closeOnCancel: false },
+                    function(isConfirm){
+                        if (isConfirm) {
+                            var $form = $('<form/>').hide();
+                            //form options
+                            $form.attr({
+                                'action' : url,
+                                'method':'post'
+                            })
+
+                            //add form to parent node
+                            $(this).parent().append($form);
+
+                            $form.submit();
+                        } else {
+                            swal("Cancelled", "User will not be suspended.", "error");
+                        }
+                    });
+
+            return false;
+
+        };
+
+        /**
+         * Activate organisation
+         *
+         * @param string url
+         * @returns {boolean}
+         */
+        function confirmActivation(url){
+            swal({
+                        title: "Are you sure?",
+                        text: "User will be able to login once activated!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Yes, Activate!",
+                        cancelButtonText: "Cancel ",
+                        closeOnConfirm: false,
+                        closeOnCancel: false },
+                    function(isConfirm){
+                        if (isConfirm) {
+                            var $form = $('<form/>').hide();
+                            //form options
+                            $form.attr({
+                                'action' : url,
+                                'method':'post'
+                            })
+
+                            //add form to parent node
+                            $(this).parent().append($form);
+
+                            $form.submit();
+                        } else {
+                            swal("Cancelled", "User will not be activated.", "error");
+                        }
+                    });
+
+            return false;
+
+        };
     </script>
 {% endblock javascript_init %}

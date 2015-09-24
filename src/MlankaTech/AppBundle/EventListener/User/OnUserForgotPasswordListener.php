@@ -2,7 +2,7 @@
 
 namespace MlankaTech\AppBundle\EventListener\User;
 
-use Symfony\Component\Config\Definition\Exception\Exception;
+use MlankaTech\AppBundle\Entity\User;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use JMS\DiExtraBundle\Annotation\Tag;
@@ -11,9 +11,9 @@ use MlankaTech\AppBundle\Event\User\UserEvents;
 use Monolog\Logger;
 
 /**
- * Class NewAccountCreatedListener.
+ * Class OnUserForgotPasswordListener.
  *
- * @DI\Service("listener.user_new_account_created")
+ * @DI\Service("listener.user_on_forgot_password")
  * @Tag("kernel.event_subscriber")
  *
  * @author  Mfana Ronald Conco <ronald.conco@mlankatech.co.za>
@@ -21,7 +21,7 @@ use Monolog\Logger;
  * @subpackage EventHandler\User
  * @version 0.0.1
  */
-class NewAccountCreatedListener implements EventSubscriberInterface
+class OnUserForgotPasswordListener implements EventSubscriberInterface
 {
     /**
      * Monolog logger.
@@ -76,7 +76,7 @@ class NewAccountCreatedListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            UserEvents::NEW_ACCOUNT_CREATED => 'onNewAccountCreated',
+            UserEvents::ON_ACCOUNT_FORGOT_PASSWORD => 'onUserForgotPassword',
         );
     }
 
@@ -108,38 +108,34 @@ class NewAccountCreatedListener implements EventSubscriberInterface
      *
      * @param UserEvent $user
      */
-    public function onNewAccountCreated(UserEvent $user)
+    public function onUserForgotPassword(UserEvent $user)
     {
-        $this->logger->info('NewAccountCreatedListener onNewAccountCreate()');
+        $this->logger->info('OnUserForgotPasswordListener onUserForgotPassword()');
 
-        try {
-            $this->send($this->buildTemplate($user->getUser()));
-        } catch (\Exception $e) {
-            $this->logger->error('NewAccountCreatedListener onNewAccountCreate() Exception:'.$e->getMessage());
-            throw new Exception($e);
-        }
+        $this->send($this->buildTemplate($user->getUser()));
     }
 
     /**
      * Build email template.
      *
-     * @param Mlanka $user
+     * @param User $user
      *
      * @return array
      */
-    private function buildTemplate($user)
+    private function buildTemplate(User $user)
     {
-        $this->logger->info('NewAccountCreatedListener buildTemplate()');
+        $this->logger->info('OnUserForgotPasswordListener buildTemplate()');
 
         $email = array();
-        $email['subject'] = 'Your account has been created on '.$this->siteName;
+        $email['subject'] = 'Reset password link on '.$this->siteName;
         $email['fullName'] = $user->getFullName();
         $email['password'] = $user->getTransient();
         $email['username'] = $user->getEmail();
         $email['emailAddress'] = $user->getEmail();
+        $email['authString'] = $user->getForgotPassword();
 
         $email['bodyHTML'] = $this->templating->render(
-            'MlankaTechAppBundle:Email/Html/User:new_account_created.html.twig',
+            'MlankaTechAppBundle:Email/Html/User:forgot_password_reset.html.twig',
             $email
         );
 
@@ -158,8 +154,7 @@ class NewAccountCreatedListener implements EventSubscriberInterface
      */
     private function send($email)
     {
-        $this->logger->info('NewAccountCreatedListener send()');
-
+        $this->logger->info('UserForgotPasswordListener send()');
         $message = \Swift_Message::newInstance()
             ->setSubject($email['subject'])
             ->setFrom(array($this->fromEmailAddress => $this->fromName))

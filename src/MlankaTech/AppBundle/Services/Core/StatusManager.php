@@ -57,7 +57,7 @@ class StatusManager
      */
     public function getStatusByName($statusName)
     {
-        $this->logger->info('Status.Manager getStatusByName()');
+        $this->logger->info('Service StatusManager getStatusByName()');
 
         $status = $this->em
             ->getRepository('MlankaTechAppBundle:Status')
@@ -77,8 +77,20 @@ class StatusManager
      */
     public function active()
     {
-        $this->logger->info('Status.Manager active()');
+        $this->logger->info('Service StatusManager active()');
         return $this->getStatusByName('Active');
+    }
+
+    /**
+     * get suspended status.
+     *
+     * @return MlankaTechAppBundle:Status
+     */
+    public function suspended()
+    {
+        $this->logger->info('Service StatusManager suspended()');
+
+        return $this->getStatusByName('Suspended');
     }
 
     /**
@@ -87,7 +99,7 @@ class StatusManager
      */
     public function locked()
     {
-        $this->logger->info('Status.Manager locked()');
+        $this->logger->info('Service StatusManager locked()');
         return $this->getStatusByName('Locked');
     }
 
@@ -97,7 +109,7 @@ class StatusManager
      */
     public function expired()
     {
-        $this->logger->info('Status.Manager expired()');
+        $this->logger->info('Service StatusManager expired()');
         return $this->getStatusByName('Expired');
     }
 
@@ -107,7 +119,7 @@ class StatusManager
      */
     public function deleted()
     {
-        $this->logger->info('Status.Manager deleted()');
+        $this->logger->info('Service StatusManager deleted()');
         return $this->getStatusByName('Deleted');
     }
 
@@ -117,7 +129,7 @@ class StatusManager
      */
     public function approved()
     {
-        $this->logger->info('Status.Manager approve()');
+        $this->logger->info('Service StatusManager approve()');
         return $this->getStatusByName('Approved');
     }
 
@@ -127,7 +139,7 @@ class StatusManager
      */
     public function rejected()
     {
-        $this->logger->info('Status.Manager reject()');
+        $this->logger->info('Service StatusManager reject()');
         return $this->getStatusByName('Rejected');
     }
 
@@ -137,7 +149,7 @@ class StatusManager
      */
     public function pending()
     {
-        $this->logger->info('Status.Manager pending()');
+        $this->logger->info('Service StatusManager pending()');
         return $this->getStatusByName('Pending');
     }
 
@@ -147,7 +159,7 @@ class StatusManager
      */
     public function online()
     {
-        $this->logger->info('Status.Manager online()');
+        $this->logger->info('Service StatusManager online()');
         return $this->getStatusByName('Online');
     }
 
@@ -157,7 +169,7 @@ class StatusManager
      */
     public function offline()
     {
-        $this->logger->info('Status.Manager offline()');
+        $this->logger->info('Service StatusManager offline()');
         return $this->getStatusByName('Offline');
     }
 }

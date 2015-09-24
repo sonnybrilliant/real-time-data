@@ -6,6 +6,7 @@ use MlankaTech\AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use MlankaTech\AppBundle\Form\Model\UserChangePassword;
 use Symfony\Component\HttpFoundation\Request;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
@@ -132,6 +133,79 @@ class UserController extends Controller
             'page_header' => $pageHeader,
             'breadcrumb' => 'Edit'
         ));
+    }
+
+    /**
+     * @param Request $request
+     * @param User    $user
+     * @ParamConverter("artist", class="MlankaTechAppBundle:User", options={"slug" = "slug"})
+     * @Secure(roles="ROLE_USER_EDIT")
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function changePasswordAction(Request $request, User $user)
+    {
+        $this->get('logger')->info('UserController changePasswordAction()');
+
+        if ($this->getUser()->getId() != $user->getId()) {
+            $flashManager = $this->get('flash.message.manager');
+            $flashManager->getWarningMessage('An illegal action was performed and the system has logged it.');
+            return $this->redirect($this->generateUrl('mlanka_tech_app.user_profile', array('slug' => $this->getUser()->getSlug())).'.html');
+        }
+
+        $form = $this->createForm("UserChangePasswordType", new UserChangePassword());
+        $formHandler = $this->get('mlanka_tech_app.user_change_password_handler');
+        if ($formHandler->handle($form, $request, $user)) {
+            return $this->redirect($this->generateUrl('mlanka_tech_app.user_profile', array('slug' => $user->getSlug())));
+        }
+
+        return $this->render('MlankaTechAppBundle:User:change.password.html.twig', array(
+            'user' => $user,
+            'form' => $form->createView(),
+            'action' => 'user_change_password',
+            'page_header' => 'Change password',
+            'breadcrumb' => 'Change password',
+        ));
+    }
+
+    /**
+     * Suspend user.
+     *
+     * @param Request $request
+     * @param User    $user
+     * @Secure(roles="ROLE_ADMIN")
+     * @ParamConverter("operator", class="MlankaTechAppBundle:User", options={"slug" = "slug"})
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function suspendAction(Request $request, User $user)
+    {
+        $this->get('logger')->info('UserController suspendAction()');
+
+        $this->get('user.manager')->suspend($user);
+        $this->get('flash.message.manager')->getSuccessMessage('User account suspended successfully.');
+
+        return $this->redirect($this->generateUrl('mlanka_tech_app.user_list').'.html');
+    }
+
+    /**
+     * Activate user.
+     *
+     * @param Request $request
+     * @param User    $user
+     * @Secure(roles="ROLE_ADMIN")
+     * @ParamConverter("operator", class="MlankaTechAppBundle:User", options={"slug" = "slug"})
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function activateAction(Request $request, User $user)
+    {
+        $this->get('logger')->info('UserController activateAction()');
+
+        $this->get('user.manager')->activate($user);
+        $this->get('flash.message.manager')->getSuccessMessage('User account activated successfully.');
+
+        return $this->redirect($this->generateUrl('mlanka_tech_app.user_list').'.html');
     }
 
 }

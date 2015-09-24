@@ -17,6 +17,8 @@
             <td><a href="{{ path('mlanka_tech_app.user_profile',{'slug':user.slug})}}.html" title="View" alt="View">{{user.fullname |truncate(20) }}</a></td>
             {% if user.status.code == 1 %}
                 <td><span class="label label-primary btn-sm">{{user.status.name}}</span></td>
+            {% elseif user.status.code == 340 %}
+                <td><span class="label label-danger btn-sm">{{user.status.name}}</span></td>
             {% else %}
                 <td><span class="label label-default btn-sm">{{user.status.name}}</span></td>
             {% endif%}
@@ -25,13 +27,15 @@
             <td>
                 <a class="btn btn-default btn-sm" href=" {{ path('mlanka_tech_app.user_profile',{'slug':user.slug})}}.html" data-original-title="View" data-toggle="tooltip"><i class="fa fa-eye"></i>&nbsp;View</a>
                 <a class="btn btn-primary btn-sm" href="{{ path('mlanka_tech_app.user_edit',{'slug': user.slug})}}.html" data-original-title="Edit" data-toggle="tooltip"><i class="fa fa-edit"></i>&nbsp;Edit</a>
+
                 {% if user.status.code == 1 %}
-                    {% set url = path('mlanka_tech_app.user_list',{'slug': user.slug}) %}
+                    {% set url = path('mlanka_tech_app.user_suspend',{'slug': user.slug}) %}
                     <a class="btn btn-danger btn-sm" href="#" data-original-title="Suspend" data-toggle="tooltip" onclick="return confirmSuspend('{{url}}');"><i class="fa fa-lock"></i>&nbsp;Suspend</a>
-                {% elseif user.status.code == 280 %}
-                    {% set url = path('mlanka_tech_app.user_list',{'slug': user.slug}) %}
-                    <a class="btn btn-danger btn-sm" href="#" data-original-title="Activate" data-toggle="tooltip" onclick="return confirmActivation('{{url}}');"><i class="fa fa-unlock"></i>&nbsp;Activate</a>
+                {% elseif user.status.code == 340 %}
+                    {% set url = path('mlanka_tech_app.user_activate',{'slug': user.slug}) %}
+                    <a class="btn btn-success btn-sm" href="#" data-original-title="Activate" data-toggle="tooltip" onclick="return confirmActivation('{{url}}');"><i class="fa fa-unlock"></i>&nbsp;Activate</a>
                 {% endif %}
+                </form>
             </td>
 
         </tr>

@@ -2,6 +2,10 @@
 
 {% block title %}MCT | {{ page_header }}{% endblock title %}
 
+{% block css_header %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/css/sweetalert.css') }}" />
+{% endblock css_header %}
+
 {% block body %}
     <div class="row">
         <div class="profile-info clearfix">
@@ -39,15 +43,19 @@
                     {% if is_granted('ROLE_ADMIN') %}
                         {% if app.user.id != user.id %}
                             {% if user.status.code == 1 %}
-                                  <a class="btn btn-danger"
-                                       href="{{ path('mlanka_tech_app.user_edit',{'slug':user.slug}) }}.html"
-                                       title="Suspend account"><i class="fa fa-lock"></i>Suspend Account
-                                  </a>
-                            {% else %}
-                               <a class="btn btn-success"
-                                       href="{{ path('mlanka_tech_app.user_edit',{'slug':user.slug}) }}.html"
-                                       title="Activate account"><i class="fa fa-unlock"></i>Activate Account
-                               </a>
+                                {% set url = path('mlanka_tech_app.user_suspend',{'slug': user.slug}) %}
+                                <a class="btn btn-danger btn-sm" href="#"
+                                   data-original-title="Suspend" data-toggle="tooltip"
+                                   onclick="return confirmSuspend('{{url}}');" title="Suspend account">
+                                    <i class="fa fa-lock"></i>&nbsp;Suspend Account
+                                </a>
+                            {% elseif user.status.code == 340 %}
+                                {% set url = path('mlanka_tech_app.user_activate',{'slug': user.slug}) %}
+                                <a class="btn btn-success btn-sm" href="#" data-original-title="Activate"
+                                   data-toggle="tooltip" title="Activate account"
+                                   onclick="return confirmActivation('{{url}}');">
+                                    <i class="fa fa-unlock"></i>&nbsp;Activate Account
+                                </a>
                             {% endif %}
                         {% endif %}
                     {% endif %}
@@ -59,3 +67,87 @@
         {% include "MlankaTechAppBundle:User/Form:profile.html.twig" %}
     </div>
 {% endblock body %}
+
+{% block javascript_init %}
+    parent()
+    <script src="{{ asset('/assets/js/sweetalert.min.js') }}"></script>
+    <script type="text/javascript">
+        /**
+         * Suspend organisation
+         *
+         * @param string url
+         * @returns {boolean}
+         */
+        function confirmSuspend(url){
+            swal({
+                        title: "Are you sure?",
+                        text: "User will not be able to login!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Yes, Suspend!",
+                        cancelButtonText: "Cancel ",
+                        closeOnConfirm: false,
+                        closeOnCancel: false },
+                    function(isConfirm){
+                        if (isConfirm) {
+                            var $form = $('<form/>').hide();
+                            //form options
+                            $form.attr({
+                                'action' : url,
+                                'method':'post'
+                            })
+
+                            //add form to parent node
+                            $(this).parent().append($form);
+
+                            $form.submit();
+                        } else {
+                            swal("Cancelled", "User will not be suspended.", "error");
+                        }
+                    });
+
+            return false;
+
+        };
+
+        /**
+         * Activate organisation
+         *
+         * @param string url
+         * @returns {boolean}
+         */
+        function confirmActivation(url){
+            swal({
+                        title: "Are you sure?",
+                        text: "User will be able to login once activated!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Yes, Activate!",
+                        cancelButtonText: "Cancel ",
+                        closeOnConfirm: false,
+                        closeOnCancel: false },
+                    function(isConfirm){
+                        if (isConfirm) {
+                            var $form = $('<form/>').hide();
+                            //form options
+                            $form.attr({
+                                'action' : url,
+                                'method':'post'
+                            })
+
+                            //add form to parent node
+                            $(this).parent().append($form);
+
+                            $form.submit();
+                        } else {
+                            swal("Cancelled", "User will not be activated.", "error");
+                        }
+                    });
+
+            return false;
+
+        };
+    </script>
+{% endblock javascript_init %}

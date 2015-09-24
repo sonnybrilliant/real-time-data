@@ -58,7 +58,7 @@ class UserGroupManager
      */
     public function getByName($type)
     {
-        $this->logger->info('UserGroupManager getByName()');
+        $this->logger->info('Service UserGroupManager getByName()');
 
         $userGroup = $this->em
             ->getRepository('MlankaTechAppBundle:UserGroup')
@@ -79,7 +79,7 @@ class UserGroupManager
      */
     public function admin()
     {
-        $this->logger->info('UserGroupManager admin()');
+        $this->logger->info('Service UserGroupManager admin()');
 
         return $this->getByName('Super administrator');
     }
