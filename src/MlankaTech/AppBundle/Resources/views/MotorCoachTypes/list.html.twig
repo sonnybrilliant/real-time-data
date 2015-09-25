@@ -1,0 +1,86 @@
+{% extends "MlankaTechAppBundle:MotorCoachTypes:layout.html.twig" %}
+
+{% block title %}MCT | {{ page_header }}{% endblock title %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            {% include '::alert.html.twig'%}
+            <div class="block-flat">
+                <div class="content">
+                    <div class="table-responsive">
+                        <div id="datatable-icons_wrapper" class="dataTables_wrapper form-inline" role="grid">
+                            <!-- Table Options -->
+                            <div class="row table-options">
+                                <form method="get">
+                                    <div class="col-sm-12">
+                                        <div class="pull-left">
+                                            <div class="form-group">
+                                                <label for="exampleInputName2">Show</label>
+                                                <select id="sltShow" name="show" class="form-control">
+                                                    {% for show in showOptions%}
+                                                        {% if showSelected == show %}
+                                                            <option value="{{show}}" selected>{{show}}</option>
+                                                        {% else %}
+                                                            <option value="{{show}}">{{show}}</option>
+                                                        {% endif %}
+
+                                                    {% endfor%}
+                                                </select>
+                                                <label for="show_rows">Rows</label>
+                                            </div>
+                                        </div>
+                                        <div class="pull-right">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="search" name="search" placeholder="Search">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- / Table Options -->
+
+                            <!-- Table -->
+
+                            {% include 'MlankaTechAppBundle:MotorCoachTypes:list.table.html.twig' %}
+
+                            <!-- / Table -->
+
+                            <!-- Table footer -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="pull-left">
+                                        <div class="dataTables_info" id="datatable-icons_info">Total entries {{ pagination.getTotalItemCount }}</div>
+                                    </div>
+                                    <div class="pull-right">
+                                        <div class="dataTables_paginate paging_bs_normal">
+                                            {{ knp_pagination_render(pagination) }}
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <!-- / Table footer -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+
+
+{% block javascript_init %}
+    {{ parent() }}
+    <script src="{{ asset('/assets/js/sweetalert.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#sltShow').change(function(){
+                $(this).closest('form').trigger('submit');
+            });
+        });
+    </script>
+{% endblock javascript_init %}

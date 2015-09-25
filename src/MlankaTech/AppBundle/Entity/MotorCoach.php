@@ -53,15 +53,7 @@ class MotorCoach
      *
      * @ORM\Column(name="unit", type="string", length=50 ,unique=true)
      */
-    private $unit;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="sort_order", type="integer", length=2)
-     * @Gedmo\Versioned
-     */
-    protected $sortOrder = 0;
+    protected $unit;
 
     /**
      * @Gedmo\Slug(fields={"unit"})
@@ -120,6 +112,14 @@ class MotorCoach
      * @Gedmo\Versioned
      */
     protected $deleted = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_assigned", type="boolean")
+     * @Gedmo\Versioned
+     */
+    protected $assigned = false;
 
     /**
      * @var boolean
@@ -206,30 +206,6 @@ class MotorCoach
     public function getUnit()
     {
         return $this->unit;
-    }
-
-    /**
-     * Set sortOrder
-     *
-     * @param integer $sortOrder
-     *
-     * @return MotorCoach
-     */
-    public function setSortOrder($sortOrder)
-    {
-        $this->sortOrder = $sortOrder;
-
-        return $this;
-    }
-
-    /**
-     * Get sortOrder
-     *
-     * @return integer
-     */
-    public function getSortOrder()
-    {
-        return $this->sortOrder;
     }
 
     /**
@@ -518,5 +494,29 @@ class MotorCoach
     public function getActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Set assigned
+     *
+     * @param boolean $assigned
+     *
+     * @return MotorCoach
+     */
+    public function setAssigned($assigned)
+    {
+        $this->assigned = $assigned;
+
+        return $this;
+    }
+
+    /**
+     * Get assigned
+     *
+     * @return boolean
+     */
+    public function getAssigned()
+    {
+        return $this->assigned;
     }
 }

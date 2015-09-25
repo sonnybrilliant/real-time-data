@@ -1,0 +1,7 @@
+mlanka_tech_app.settings_train_types_list:
+    path:  /secured/settings/train/types/list.{_format}
+    defaults: { _controller: MlankaTechAppBundle:TrainType:list , _format: html}
+    schemes:  [http]
+    methods:  [GET]
+    requirements:
+        _format:  html

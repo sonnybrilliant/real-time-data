@@ -1,0 +1,32 @@
+<table class="table no-border dataTable hover" id="datatable-icons" aria-describedby="datatable-icons_info">
+
+    <thead>
+    <tr role="row">
+        <th {% if pagination.isSorted('t.id') %} class="sorted"{% endif %} style="width: 10px;">{{ knp_pagination_sortable(pagination,'#ID', 't.id') }}</th>
+        <th {% if pagination.isSorted('t.type') %} class="sorted"{% endif %} style="width: 100px;">{{ knp_pagination_sortable(pagination,'Type', 't.type') }}</th>
+        <th style="width: 50px;"><i class="fa fa-user"></i>&nbsp;Created By</th>
+        <th {% if pagination.isSorted('t.updatedAt') %} class="sorted"{% endif %} style="width: 50px;"><i class="fa fa-calendar"></i>&nbsp;{{ knp_pagination_sortable(pagination,'Updated At', 't.updatedAt') }}</th>
+        <th style="width: 50px;"><i class="fa fa-cogs"></i>&nbsp;Action</th></tr>
+    </thead>
+
+    <tbody role="alert" aria-live="polite" aria-relevant="all">
+    {% for trainType in pagination %}
+        <tr class="gradeA {{ cycle(['odd', 'even'], loop.index0) }}">
+            <td class=" sorting_1">{{ trainType.id }}</td>
+            <td>{{trainType.type| capitalize |truncate(20) }}</a></td>
+            <td>
+                {% if trainType.createdBy is null %}
+                    System default
+                {% else %}
+                    {{trainType.createdBy}}
+                {% endif %}
+            </td>
+            <td>{{trainType.updatedAt|date('Y-m-d H:i A')}}</td>
+            <td>
+
+            </td>
+
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

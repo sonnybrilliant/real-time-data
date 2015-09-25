@@ -78,7 +78,7 @@
 
 
 {% block javascript_init %}
-    parent()
+    {{ parent() }}
     <script src="{{ asset('/assets/js/sweetalert.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function(){

@@ -1,0 +1,46 @@
+<form class="form-horizontal group-border-dashed" action="{{ path('mlanka_tech_app.motor_coach_edit',{'slug' : motorCoach.slug}) }}.html" data-parsley-validate style="border-radius: 0px;"  autocomplete="off" {% if app.debug %}  novalidate="true"{% endif %}  method="POST" {{ form_enctype(form) }}>
+    <div class="col-sm-12 col-md-12">
+
+        <fieldset>
+            <legend><i class="fa fa-subway"></i>&nbsp;Motor coach details</legend>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.unit) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.type) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.status) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.condition) }}
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend><i class="fa fa-train"></i>&nbsp;Assigned train details</legend>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.train) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.assigned) }}
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div class="col-sm-12 col-md-12">
+        <div class="text-center">
+            <button class="btn btn-primary btn-lg" type="submit" tabindex="7"><i class="fa fa-floppy-o"></i>&nbsp;Save</button>
+            <a href="{{ path('mlanka_tech_app.user_list') }}.html" class="btn btn-default btn" tabindex="8" title="Cancel" alt="Cancel">Cancel</a>
+        </div>
+    </div>
+    <div class="form-group"></div>
+    {{ form_rest(form) }}
+</form>
+
+
+

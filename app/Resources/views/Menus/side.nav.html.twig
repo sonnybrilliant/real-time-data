@@ -4,13 +4,19 @@
         <div class="menu-space">
             <div class="content">
                 <div class="side-user">
-
+                    <div class="info">
+                        <p>Online Trains: 12 / 123</p>
+                        <div class="progress progress-user">
+                            <div style="width: 9%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-info"></div>
+                        </div>
+                    </div>
                 </div>
                 <ul class="cl-vnavigation">
-                    <li {% if action == 'dashboard' %} class="active" {% endif %}>
-                        <a href="#" alt="Dashboard" title="Dashboard"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
-                    </li>
-                    {% include ':Menus/Side:user.html.twig' %}
+                    {% include 'Menus/Side/dashboard.html.twig' %}
+                    {% include 'Menus/Side/user.html.twig' %}
+                    {% include 'Menus/Side/motor.coach.html.twig' %}
+                    {% include 'Menus/Side/train.html.twig' %}
+                    {% include 'Menus/Side/settings.html.twig' %}
                 </ul>
             </div>
         </div>

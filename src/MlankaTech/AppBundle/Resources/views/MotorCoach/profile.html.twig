@@ -1,0 +1,100 @@
+{% extends "MlankaTechAppBundle:MotorCoach:layout.html.twig" %}
+
+{% block title %}MCT | {{ page_header }}{% endblock title %}
+
+{% block body %}
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+
+                <div class="block-flat no-padding">
+                    <div class="row no-margin">
+                        <div class="row-same-height row-full-height">
+                            {% if motorCoach.condition.name == 'excellent' %}
+                                {% set condition_image = '../../assets/images/traincons/blue-coach.png' %}
+                                {% set condition_a_title = 'Condition excellent' %}
+                                {% set condition_class = 'blue-back' %}
+                            {% elseif motorCoach.condition.name == 'good' %}
+                                {% set condition_image = '../../assets/images/traincons/green-coach.png' %}
+                                {% set condition_a_title = 'Condition good' %}
+                            {% elseif motorCoach.condition.name == 'warning' %}
+                                {% set condition_class = 'green-back' %}
+                                {% set condition_image = '../../assets/images/traincons/yellow-coach.png' %}
+                                {% set condition_a_title = 'Condition warning' %}
+                                {% set condition_class = 'yellow-back' %}
+                            {% elseif motorCoach.condition.name == 'critical' %}
+                                {% set condition_image = '../../assets/images/traincons/red-coach.png' %}
+                                {% set condition_a_title = 'Condition critical' %}
+                                {% set condition_class = 'red-back' %}
+                            {% elseif motorCoach.condition.name == 'unknown' %}
+                                {% set condition_image = '../../assets/images/traincons/red-coach.png' %}
+                                {% set condition_a_title = 'Condition unknown' %}
+                                {% set condition_class = 'red-back' %}
+                            {% endif %}
+                            <div class="col-sm-4 col-sm-height col-full-height {{ condition_class }}">
+                                <div class="widget-profile-block">
+                                    <div class="figure">
+                                        <img src="{{ asset(''~ condition_image ~'') }}" alt="{{ condition_a_title }}" title="{{ condition_a_title }}" class="coach img-responsive" width="169" height="112">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-sm-height col-full-height ">
+                                <div class="widget-profile-data">
+                                    <h3>{{ motorCoach.unit | upper }}</h3>
+                                    <ul class="profile-list">
+                                        <li class="clearfix">
+                                            <p class="pull-left">Condition:</p>
+                                            <b class="pull-right"><span class="label {{ motorCoach.condition.badge }}">{{ motorCoach.condition.name | capitalize }}</span></b>
+                                        </li>
+                                        <li class="clearfix">
+                                            <p class="pull-left">Motor coach type:</p>
+                                            <b class="pull-right">{{ motorCoach.type | upper }}</b>
+                                        </li>
+                                        <li class="clearfix">
+                                            <p class="pull-left">Assigned:</p>
+                                            <b class="pull-right">
+                                                {% if motorCoach.assigned != 1%}
+                                                    <span class="badge badge-danger">No</span>
+                                                {% else %}
+                                                    <span class="badge badge-primary">Yes</span>
+                                                {% endif %}
+                                            </b>
+                                        </li>
+                                        <li class="clearfix">
+                                            <p class="pull-left">Last update at:</p>
+                                            <b class="pull-right">{{ motorCoach.updatedAt | time_ago_in_words }}</b>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-sm-height col-full-height ">
+                                <div class="widget-profile-data">
+                                    <h3>&nbsp;</h3>
+                                    <ul class="profile-list">
+                                        <li class="clearfix">
+                                            <p class="pull-left">Created By:</p>
+                                            <b class="pull-right">
+                                                {% if motorCoach.createdBy is null%}
+                                                    Runtime
+                                                {% else %}
+                                                    {{ motorCoach.createdBy }}
+                                                {% endif %}
+                                            </b>
+                                        </li>
+                                        <li class="clearfix">
+                                            <p class="pull-left">Train:</p>
+                                            <b class="pull-right">{{ motorCoach.train | upper }}</b>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock body %}
+
+
+{% block javascript_init %}
+    {{ parent() }}
+{% endblock javascript_init %}

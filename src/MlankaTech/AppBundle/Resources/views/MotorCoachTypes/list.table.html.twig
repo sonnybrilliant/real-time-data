@@ -1,0 +1,32 @@
+<table class="table no-border dataTable hover" id="datatable-icons" aria-describedby="datatable-icons_info">
+
+    <thead>
+    <tr role="row">
+        <th {% if pagination.isSorted('m.id') %} class="sorted"{% endif %} style="width: 10px;">{{ knp_pagination_sortable(pagination,'#ID', 'm.id') }}</th>
+        <th {% if pagination.isSorted('m.type') %} class="sorted"{% endif %} style="width: 100px;">{{ knp_pagination_sortable(pagination,'Type', 'm.type') }}</th>
+        <th style="width: 50px;"><i class="fa fa-user"></i>&nbsp;Created By</th>
+        <th {% if pagination.isSorted('m.updatedAt') %} class="sorted"{% endif %} style="width: 50px;"><i class="fa fa-calendar"></i>&nbsp;{{ knp_pagination_sortable(pagination,'Updated At', 'm.updatedAt') }}</th>
+        <th style="width: 50px;"><i class="fa fa-cogs"></i>&nbsp;Action</th></tr>
+    </thead>
+
+    <tbody role="alert" aria-live="polite" aria-relevant="all">
+    {% for motorCoachTYpe in pagination %}
+        <tr class="gradeA {{ cycle(['odd', 'even'], loop.index0) }}">
+            <td class=" sorting_1">{{ motorCoachTYpe.id }}</td>
+            <td>{{motorCoachTYpe.type| capitalize |truncate(20) }}</a></td>
+            <td>
+                {% if motorCoachTYpe.createdBy is null %}
+                    System default
+                {% else %}
+                    {{motorCoachTYpe.createdBy}}
+                {% endif %}
+            </td>
+            <td>{{motorCoachTYpe.updatedAt|date('Y-m-d H:i A')}}</td>
+            <td>
+
+            </td>
+
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

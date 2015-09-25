@@ -1,0 +1,19 @@
+{% if is_granted('ROLE_TRAIN_LIST','ROLE_TRAIN_CREATE','ROLE_TRAIN_EDIT','ROLE_TRAIN_PROFILE','ROLE_TRAIN_REMOVE') %}
+    <li {% if action == 'train_edit' or action == 'train_profile' %} class="active" {% endif %}>
+        <a href="#"><i class="fa fa-train"></i><span>Trains</span></a>
+        <ul class="sub-menu">
+            {% if is_granted('ROLE_TRAIN_CREATE') %}
+                <li {% if action == 'train_create' %} class="active" {% endif %}>
+                    <a href="{{ path('mlanka_tech_app.train_create')}}.html"
+                       title="Add new train" alt="Add new train"><i class="fa fa-plus-circle"></i>Add new train</a>
+                </li>
+            {% endif %}
+            {% if is_granted('ROLE_TRAIN_LIST') %}
+                <li {% if action == 'train_list' %} class="active" {% endif %}>
+                    <a href="{{ path('mlanka_tech_app.train_list')}}.html"
+                       title="List trains" alt="List trains"><i class="fa fa-list"></i>List trains</a>
+                </li>
+            {% endif %}
+        </ul>
+    </li>
+{% endif %}

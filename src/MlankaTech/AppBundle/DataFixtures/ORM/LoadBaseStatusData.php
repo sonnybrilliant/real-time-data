@@ -125,6 +125,9 @@ class LoadBaseStatusData extends AbstractFixture implements OrderedFixtureInterf
         $suspended = new Status('Suspended', 340);
         $manager->persist($suspended);
 
+        $notAllocated = new Status('Not allocated', 350);
+        $manager->persist($notAllocated);
+
         $manager->flush();
 
         $this->addReference('status-active', $active);

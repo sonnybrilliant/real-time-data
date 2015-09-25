@@ -1,0 +1,16 @@
+mlanka_tech_app.train_list:
+    path:  /secured/train/list.{_format}
+    defaults: { _controller: MlankaTechAppBundle:Train:list, _format: html}
+    schemes:  [http]
+    methods:  [GET]
+    requirements:
+        _format:  html
+
+mlanka_tech_app.train_create:
+    path:  /secured/train/create.{_format}
+    defaults: { _controller: MlankaTechAppBundle:Train:create , _format: html}
+    schemes:  [http]
+    methods:  [GET,POST]
+    requirements:
+        _format:  html
+

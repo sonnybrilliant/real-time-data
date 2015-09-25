@@ -1,0 +1,15 @@
+{% if is_granted('ROLE_ADMIN') %}
+    <li {% if action == 'settings_train_type_create' %} class="active" {% endif %}>
+        <a href="#"><i class="fa fa-cogs"></i><span>Settings</span></a>
+        <ul class="sub-menu">
+            <li {% if action == 'settings_train_type_list' %} class="active" {% endif %}>
+                <a href="{{ path('mlanka_tech_app.settings_train_types_list') }}.html"
+                   title="List train types" alt="List train types"><i class="fa fa-list-alt"></i>List train types</a>
+            </li>
+            <li {% if action == 'settings_motor_coach_type_list' %} class="active" {% endif %}>
+                <a href="{{ path('mlanka_tech_app.settings_motor_coach_types_list') }}.html"
+                   title="List motor coach types" alt="List motor coach types"><i class="fa fa-list-alt"></i>List motor coach types</a>
+            </li>
+        </ul>
+    </li>
+{% endif %}

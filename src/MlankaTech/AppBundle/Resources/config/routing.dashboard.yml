@@ -1,6 +1,6 @@
-mlankatech_app.dashboard_main:
-    path:  /secured/dashboard.{_format}
-    defaults: { _controller: MlankaTechAppBundle:Dashboard:dashboard , _format: html}
+mlankatech_app.dashboard_activity:
+    path:  /secured/dashboard/activity.{_format}
+    defaults: { _controller: MlankaTechAppBundle:Dashboard:dashboardActivity , _format: html}
     schemes:  [http]
     methods:  [GET]
     requirements:

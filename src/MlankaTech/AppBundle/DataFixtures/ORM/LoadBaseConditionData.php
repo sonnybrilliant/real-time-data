@@ -28,6 +28,9 @@ class LoadBaseConditionData extends AbstractFixture implements OrderedFixtureInt
      */
     function load(ObjectManager $manager)
     {
+        $unknown = new Condition("unknown","label-default");
+        $manager->persist($unknown);
+
         $critical = new Condition("critical","label-danger");
         $manager->persist($critical);
 

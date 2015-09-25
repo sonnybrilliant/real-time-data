@@ -1,0 +1,44 @@
+<table class="table no-border dataTable hover" id="datatable-icons" aria-describedby="datatable-icons_info">
+
+    <thead>
+    <tr role="row">
+        <th {% if pagination.isSorted('m.id') %} class="sorted"{% endif %} style="width: 10px;">{{ knp_pagination_sortable(pagination,'#ID', 'm.id') }}</th>
+        <th {% if pagination.isSorted('m.unit') %} class="sorted"{% endif %} style="width: 10px;">{{ knp_pagination_sortable(pagination,'Unit name', 'm.unit') }}</th>
+        <th {% if pagination.isSorted('c.condition') %} class="sorted"{% endif %} style="width: 10px;">{{ knp_pagination_sortable(pagination,'Condition', 'c.name') }}</th>
+        <th {% if pagination.isSorted('s.status') %} class="sorted"{% endif %} style="width: 10px;">{{ knp_pagination_sortable(pagination,'Status', 's.name') }}</th>
+        <th style="width: 50px;"><i class="fa fa-user"></i>&nbsp;Created By</th>
+        <th {% if pagination.isSorted('m.updatedAt') %} class="sorted"{% endif %} style="width: 50px;"><i class="fa fa-calendar"></i>&nbsp;{{ knp_pagination_sortable(pagination,'Updated At', 'm.updatedAt') }}</th>
+        <th style="width: 50px;"><i class="fa fa-cogs"></i>&nbsp;Action</th></tr>
+    </thead>
+
+    <tbody role="alert" aria-live="polite" aria-relevant="all">
+    {% for motorCoach in pagination %}
+        <tr class="gradeA {{ cycle(['odd', 'even'], loop.index0) }}">
+            <td class=" sorting_1">{{ motorCoach.id }}</td>
+            <td>{{motorCoach.unit| upper |truncate(20) }}</a></td>
+            <td><span class="label {{ motorCoach.condition.badge }} btn-sm">{{motorCoach.condition.name| capitalize |truncate(20) }}</a></span></td>
+            {% if motorCoach.status.code == 1 %}
+                <td><span class="label label-primary btn-sm">{{motorCoach.status.name}}</span></td>
+            {% elseif motorCoach.status.code == 340 %}
+                <td><span class="label label-danger btn-sm">{{motorCoach.status.name}}</span></td>
+            {% else %}
+                <td><span class="label label-default btn-sm">{{motorCoach.status.name}}</span></td>
+            {% endif%}
+            <td>
+                {% if motorCoach.createdBy is null %}
+                    Runtime
+                {% else %}
+                    {{motorCoach.createdBy}}
+                {% endif %}
+            </td>
+            <td>{{motorCoach.updatedAt|date('Y-m-d H:i A')}}</td>
+            <td>
+                <a class="btn btn-default btn-sm" href="{{ path('mlanka_tech_app.motor_coach_profile',{'slug':motorCoach.slug}) }}.html" data-original-title="View" data-toggle="tooltip"><i class="fa fa-eye"></i>&nbsp;View</a>
+                <a class="btn btn-primary btn-sm" href="{{ path('mlanka_tech_app.motor_coach_edit',{'slug':motorCoach.slug}) }}.html" data-original-title="Edit" data-toggle="tooltip"><i class="fa fa-edit"></i>&nbsp;Edit</a>
+
+            </td>
+
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

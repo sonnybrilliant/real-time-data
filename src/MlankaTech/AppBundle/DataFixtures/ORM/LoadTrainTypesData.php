@@ -30,12 +30,15 @@ class LoadTrainTypesData extends AbstractFixture implements OrderedFixtureInterf
     function load(ObjectManager $manager)
     {
         $trainMetro = new TrainType("metro");
+        $trainMetro->setDescription('City to city bound');
         $manager->persist($trainMetro);
 
         $trainMetroPlus = new TrainType("metro plus");
+        $trainMetroPlus->setDescription('City to city bound');
         $manager->persist($trainMetroPlus);
 
         $trainBusinessExpress = new TrainType("business express");
+        $trainBusinessExpress->setDescription('City to city bound');
         $manager->persist($trainBusinessExpress);
 
 

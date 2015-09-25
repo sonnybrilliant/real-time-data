@@ -1,0 +1,7 @@
+mlanka_tech_app.settings_motor_coach_types_list:
+    path:  /secured/settings/motor/coach/types/list.{_format}
+    defaults: { _controller: MlankaTechAppBundle:MotorCoachType:list , _format: html}
+    schemes:  [http]
+    methods:  [GET]
+    requirements:
+        _format:  html

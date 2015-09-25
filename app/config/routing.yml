@@ -12,3 +12,19 @@ mlanka_tech_app_dashboard:
 mlanka_tech_app_user:
     resource: "@MlankaTechAppBundle/Resources/config/routing.user.yml"
     prefix:   /
+
+mlanka_tech_app_settings_train_types:
+    resource: "@MlankaTechAppBundle/Resources/config/routing.train.types.yml"
+    prefix:   /
+
+mlanka_tech_app_settings_motor_coach_types:
+    resource: "@MlankaTechAppBundle/Resources/config/routing.motor.coach.types.yml"
+    prefix:   /
+
+mlanka_tech_app_motor_coach:
+    resource: "@MlankaTechAppBundle/Resources/config/routing.motor.coach.yml"
+    prefix:   /
+
+mlanka_tech_app_train:
+    resource: "@MlankaTechAppBundle/Resources/config/routing.train.yml"
+    prefix:   /

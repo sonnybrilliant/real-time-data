@@ -1,0 +1,12 @@
+{% if is_granted('ROLE_TRAIN_DASHBOARD') %}
+    <li {% if action == 'dashboard' %} class="active" {% endif %}>
+        <a href="#"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+        <ul class="sub-menu">
+            {% if is_granted('ROLE_TRAIN_DASHBOARD') %}
+                <li {% if action == 'dashboard_activity' %} class="active" {% endif %}>
+                    <a href="{{ path('mlankatech_app.dashboard_activity') }}.html" title="Add new user" alt=""><i class="fa fa-map"></i>Activity</a>
+                </li>
+            {% endif %}
+        </ul>
+    </li>
+{% endif %}

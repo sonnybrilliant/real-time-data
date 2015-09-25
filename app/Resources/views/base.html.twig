@@ -29,6 +29,8 @@
     <link href="{{ asset('/assets/css/style-override1.css') }}" rel="stylesheet" />
     {% block css_header %}
     {% endblock %}
+    {% block javascript_header %}
+    {% endblock %}
 
 </head>
 <body>
@@ -62,6 +64,7 @@
 
 <script type="text/javascript" src="{{ asset('/assets/js/jquery.nanoscroller/jquery.nanoscroller.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/assets/js/behaviour/general.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/assets/js/behaviour/general.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/assets/js/jquery.ui/jquery-ui.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/assets/js/jquery.sparkline/jquery.sparkline.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/assets/js/jquery.easypiechart/jquery.easy-pie-chart.js') }}"></script>
@@ -79,10 +82,6 @@
 <!-- Placed at the end of the document so the pages load faster -->
 
 <script type="text/javascript" src="{{ asset('/assets/js/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('/assets/js/jquery.flot/jquery.flot.js') }}"></script>
-<script type="text/javascript" src="{{ asset('/assets/js/jquery.flot/jquery.flot.pie.js') }}"></script>
-<script type="text/javascript" src="{{ asset('/assets/js/jquery.flot/jquery.flot.resize.js') }}"></script>
-<script type="text/javascript" src="{{ asset('/assets/js/jquery.flot/jquery.flot.labels.js') }}"></script>
 {% block javascript_init %}
     <script type="text/javascript">
         $(document).ready(function(){

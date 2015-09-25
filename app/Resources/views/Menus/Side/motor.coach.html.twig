@@ -1,0 +1,19 @@
+{% if is_granted('ROLE_MOTOR_COACH_LIST','ROLE_MOTOR_COACH_CREATE','ROLE_MOTOR_COACH_EDIT','ROLE_MOTOR_COACH_PROFILE','ROLE_MOTOR_COACH_REMOVE') %}
+    <li {% if action == 'motor_coach_edit' or action == 'motor_coach_profile' %} class="active" {% endif %}>
+        <a href="#"><i class="fa fa-subway"></i><span>Motor coaches</span></a>
+        <ul class="sub-menu">
+            {% if is_granted('ROLE_MOTOR_COACH_CREATE') %}
+                <li {% if action == 'motor_coach_create' %} class="active" {% endif %}>
+                    <a href="{{ path('mlanka_tech_app.motor_coach_create')}}.html"
+                       title="Add new motor coach" alt="Add new motor coach"><i class="fa fa-plus-circle"></i>Add new motor coach</a>
+                </li>
+            {% endif %}
+            {% if is_granted('ROLE_MOTOR_COACH_LIST') %}
+                <li {% if action == 'motor_coach_list' %} class="active" {% endif %}>
+                    <a href="{{ path('mlanka_tech_app.motor_coach_list')}}.html"
+                       title="List motor coaches" alt="List motor coaches"><i class="fa fa-list"></i>List motor coaches</a>
+                </li>
+            {% endif %}
+        </ul>
+    </li>
+{% endif %}

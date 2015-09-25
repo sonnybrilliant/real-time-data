@@ -1,0 +1,16 @@
+{% extends "::base.html.twig" %}
+
+{% block header %}
+    <div class="page-head">
+        <h2>{{ page_header }}</h2>
+        <ol class="breadcrumb">
+                <li><a href="{{ path('mlanka_tech_app.settings_train_types_list')}}.html" title="List train types" alt="List train types">Train types</a></li>
+                <li class="active">{{ breadcrumb }}</li>
+        </ol>
+    </div>
+{% endblock header %}
+
+
+{% block body %}
+
+{% endblock body %}

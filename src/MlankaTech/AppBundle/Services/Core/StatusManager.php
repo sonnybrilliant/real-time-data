@@ -12,7 +12,7 @@ use JMS\DiExtraBundle\Annotation as DI;
  * @DI\Service("status.manager")
  * @author Mfana Ronald Conco <ronald.conco@mlankatech.co.za>
  * @package MlankaTechAppBundle
- * @subpackage Services
+ * @subpackage Services/Core
  * @version 0.0.1
  *
  */
@@ -171,5 +171,15 @@ class StatusManager
     {
         $this->logger->info('Service StatusManager offline()');
         return $this->getStatusByName('Offline');
+    }
+
+    /**
+     * get not allocated status
+     * @return MlankaTechAppBundle:Status
+     */
+    public function notAllocated()
+    {
+        $this->logger->info('Service StatusManager notAllocated()');
+        return $this->getStatusByName('Not allocated');
     }
 }

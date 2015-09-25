@@ -52,6 +52,6 @@ class AuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler
             return new RedirectResponse($this->router->generate('mlanka_tech_app.user_profile', array('slug' => $user->getSlug())).'.html');
         }
 
-        return new RedirectResponse($this->router->generate('mlankatech_app.dashboard_main').'.html');
+        return new RedirectResponse($this->router->generate('mlankatech_app.dashboard_activity').'.html');
     }
 }

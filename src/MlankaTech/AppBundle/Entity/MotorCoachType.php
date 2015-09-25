@@ -3,12 +3,13 @@
 namespace MlankaTech\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * MotorCoachType
  *
  * @ORM\Table(name="MOTOR_COACH_TYPE")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MlankaTech\AppBundle\Entity\Repository\MotorCoachTypeRepository")
  *
  * @author  Mfana Ronald Conco <ronald.conco@mlankatech.co.za>
  * @package MlankaTechAppBundle
@@ -32,6 +33,37 @@ class MotorCoachType
      * @ORM\Column(name="type", type="string", length=30)
      */
     private $type;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=200)
+     */
+    private $description;
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="MlankaTech\AppBundle\Entity\User")
+     */
+    protected $createdBy = null;
+
+    /**
+     * @var datetime
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="created_at", type="datetime")
+     * @link https://github.com/stof/StofDoctrineExtensionsBundle
+     */
+    protected $createdAt;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="updated_at", type="datetime")
+     * @Gedmo\Timestampable(on="update")
+     * @link https://github.com/stof/StofDoctrineExtensionsBundle
+     */
+    protected $updatedAt;
 
     /**
      * Class Construct
@@ -83,5 +115,101 @@ class MotorCoachType
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return MotorCoachType
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return MotorCoachType
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return MotorCoachType
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param \MlankaTech\AppBundle\Entity\User $createdBy
+     *
+     * @return MotorCoachType
+     */
+    public function setCreatedBy(\MlankaTech\AppBundle\Entity\User $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return \MlankaTech\AppBundle\Entity\User
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
     }
 }

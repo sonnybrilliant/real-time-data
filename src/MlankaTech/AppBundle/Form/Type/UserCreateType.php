@@ -51,7 +51,6 @@ class UserCreateType extends AbstractType
                     'tabindex' => '3',
                     'data-parsley-errors-container' => '#parsleyGender',
                     'data-parsley-required-message' => 'Gender is required.',
-                    'rowspan' => 5,
                 ),
                 'help' => 'Gender',
                 'parsley_error_container' => 'parsleyGender',

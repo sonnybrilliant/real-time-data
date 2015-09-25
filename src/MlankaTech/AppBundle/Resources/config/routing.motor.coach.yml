@@ -1,0 +1,31 @@
+mlanka_tech_app.motor_coach_list:
+    path:  /secured/motor/coach/list.{_format}
+    defaults: { _controller: MlankaTechAppBundle:MotorCoach:list, _format: html}
+    schemes:  [http]
+    methods:  [GET]
+    requirements:
+        _format:  html
+
+mlanka_tech_app.motor_coach_create:
+    path:  /secured/motor/coach/create.{_format}
+    defaults: { _controller: MlankaTechAppBundle:MotorCoach:create , _format: html}
+    schemes:  [http]
+    methods:  [GET,POST]
+    requirements:
+        _format:  html
+
+mlanka_tech_app.motor_coach_edit:
+    path:  /secured/motor/coach/edit/{slug}.{_format}
+    defaults: { _controller: MlankaTechAppBundle:MotorCoach:edit , _format: html}
+    schemes:  [http]
+    methods:  [GET,POST]
+    requirements:
+        _format:  html
+
+mlanka_tech_app.motor_coach_profile:
+    path:  /secured/motor/coach/profile/{slug}.{_format}
+    defaults: { _controller: MlankaTechAppBundle:MotorCoach:profile , _format: html}
+    schemes:  [http]
+    methods:  [GET]
+    requirements:
+        _format:  html
