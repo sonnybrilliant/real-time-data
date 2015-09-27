@@ -19,6 +19,33 @@ use MlankaTech\AppBundle\Entity\Train;
 class TrainController extends Controller
 {
     /**
+     * List all trains
+     *
+     * @author Mfana Ronald Conco <ronald.conco@mlankatech.co.za>
+     * @param Request $request
+     * @param int $page
+     * @Secure(roles="ROLE_TRAIN_LIST")
+     * @return array
+     */
+    public function listAction(Request $request, $page = 1)
+    {
+        $this->get('logger')->info('TrainController  listAction()');
+        $handler = $this->get('mlanka_tech_app.train_list_handler');
+        $pagination = $handler->handle($request,$page);
+        $showOptions = array(10, 20, 30, 40, 50);
+
+        return $this->render('MlankaTechAppBundle:Train:list.html.twig',array(
+            'action' => 'train_list',
+            'pagination' => $pagination['pagination'],
+            'direction' => $pagination['direction'],
+            'page_header' => 'List trains',
+            'breadcrumb' => 'List',
+            'showOptions' => $showOptions,
+            'showSelected' => $pagination['show'],
+        ));
+    }
+
+    /**
      * Create train
      *
      * @author Mfana Ronald Conco <ronald.conco@mlankatech.co.za>
@@ -46,6 +73,27 @@ class TrainController extends Controller
         ));
     }
 
+    /**
+     * Train profile
+     *
+     * @author Mfana Ronald Conco <ronald.conco@mlankatech.co.za>
+     * @param Request $request
+     * @param Train $train
+     * @ParamConverter("train", class="MlankaTechAppBundle:Train", options={"slug" = "slug"})
+     * @Secure(roles="ROLE_TRAIN_PROFILE")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function profileAction(Request $request, Train $train)
+    {
+        $this->get('logger')->info('TrainController  profileAction()');
+
+        return $this->render('MlankaTechAppBundle:Train:profile.html.twig',array(
+            'action' => 'train_profile',
+            'train'=> $train,
+            'page_header' => 'Train profile',
+            'breadcrumb' => 'Profile'
+        ));
+    }
 
 
 }

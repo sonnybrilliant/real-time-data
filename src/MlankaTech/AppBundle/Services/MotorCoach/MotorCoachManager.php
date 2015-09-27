@@ -113,12 +113,9 @@ class MotorCoachManager
     public function getBySlug($slug)
     {
         $this->logger->info("Service MotorCoachManager getBySlug()");
-        $results = $this->em->getRepository('MlankaTechAppBundle:MotorCoach')
+        return $this->em->getRepository('MlankaTechAppBundle:MotorCoach')
             ->findBySlug($slug);
-        if(is_array($results)){
-            return $results[0];
-        }
-        return false;
+
     }
 
     /**

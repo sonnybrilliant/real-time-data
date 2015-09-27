@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use MlankaTech\AppBundle\Entity\MotorCoach;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * MlankaTech\AppBundle\Controller\MotorCoachController.
@@ -110,19 +111,70 @@ class MotorCoachController extends Controller
      * @param Request $request
      * @param MotorCoach $motorCoach
      * @ParamConverter("motorCoach", class="MlankaTechAppBundle:MotorCoach", options={"slug" = "slug"})
-     * @Secure(roles="ROLE_MOTOR_COACH_PROFILE")
+     * @Secure(roles="ROLE_MOTOR_COACH_CREATE")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function profileAction(Request $request, MotorCoach $motorCoach)
     {
         $this->get('logger')->info('MotorCoachController  profileAction()');
+        $transactions = $this->get('motor.coach.transaction.manager')->getByMotorCoach($motorCoach,6);
 
+        $lastTransaction = null;
+
+        if(sizeof($transactions) > 0){
+            $lastTransaction = $transactions[0];
+        }
         return $this->render('MlankaTechAppBundle:MotorCoach:profile.html.twig',array(
             'action' => 'motor_coach_profile',
             'motorCoach'=> $motorCoach,
             'page_header' => 'Motor coach profile',
-            'breadcrumb' => 'Profile'
+            'breadcrumb' => 'Profile',
+            'transactions' => $transactions,
+            'lastTransaction' => $lastTransaction
         ));
+    }
+
+    /**
+     * Get latest activity
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getTransactionAjaxAction(Request $request)
+    {
+        $this->get('logger')->info('MotorCoachController  getTransactionAjaxAction()');
+
+        $trans = $this->get('motor.coach.transaction.manager')->getRecentTransactionPerMotorCoach(30);
+
+        $data = array();
+        $data['status'] = 200;
+        if($trans){
+            $processed = array();
+           foreach($trans as $transaction)
+           {
+               if(!in_array($transaction->getMotorCoach()->getId(),$processed)){
+                   $tmp = array(
+                       'id' => $transaction->getMotorCoach()->getId(),
+                       'name' => $transaction->getMotorCoach()->getUnit(),
+                       'statusName' => $transaction->getStatus()->getName(),
+                       'statusCode' => $transaction->getStatus()->getCode(),
+                       'conditionName' => $transaction->getCondition()->getName(),
+                       'gpsSpeed' => $transaction->getGpsSpeed(),
+                       'latitude' => $transaction->getLatitude(),
+                       'longitude' => $transaction->getLongitude(),
+                   );
+
+                   $processed[] = $transaction->getMotorCoach()->getId();
+                   $data['motorCoaches'][] = $tmp;
+               }
+
+
+           }
+        }
+
+        $data['count'] = sizeof($data['motorCoaches']);
+        return New JsonResponse($data);
+
     }
 
 }

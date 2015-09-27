@@ -1,0 +1,12 @@
+<ul class="items">
+    {% for transaction in transactions %}
+        {% if transaction.condition.name == 'good' %}
+            {% set condition_class = 'alert-success' %}
+        {% elseif transaction.condition.name == 'warning' %}
+            {% set condition_class = 'alert-warning' %}
+        {% elseif transaction.condition.name == 'critical' %}
+            {% set condition_class = 'alert-danger' %}
+        {% endif %}
+        <li><strong class="{{ condition_class }}">{{ motorCoach.unit }}</strong> <span class="badge pull-right">{{ transaction.createdAt | time_ago_in_words }}</span><small>{{ transaction.errorMessage }}</small></li>
+    {% endfor %}
+</ul>

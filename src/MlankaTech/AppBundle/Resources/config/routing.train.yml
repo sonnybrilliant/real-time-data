@@ -14,3 +14,11 @@ mlanka_tech_app.train_create:
     requirements:
         _format:  html
 
+mlanka_tech_app.train_profile:
+    path:  /secured/train/profile/{slug}.{_format}
+    defaults: { _controller: MlankaTechAppBundle:Train:profile , _format: html}
+    schemes:  [http]
+    methods:  [GET]
+    requirements:
+        _format:  html
+

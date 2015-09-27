@@ -24,3 +24,10 @@ parameters:
     site_url: http://localhost:8000/
     site_domain: www.domain.tld
     site_version: "0.0.1"
+
+    #rabbitmq settings
+    rabbitmq_host: localhost
+    rabbitmq_port: 5672
+    rabbitmq_user: user
+    rabbitmq_password: password
+    rabbitmq_vhost: vhost

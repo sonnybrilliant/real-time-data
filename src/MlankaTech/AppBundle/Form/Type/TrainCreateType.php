@@ -5,6 +5,7 @@ namespace MlankaTech\AppBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
+use Doctrine\ORM\EntityRepository;
 use JMS\DiExtraBundle\Annotation as DI;
 
 /**
@@ -57,6 +58,12 @@ class TrainCreateType extends AbstractType
                 'placeholder' => 'Select status',
                 'class' => 'MlankaTechAppBundle:Status',
                 'label' => 'Status ',
+                'query_builder' => function (EntityRepository $er) {
+                    $codes = array(2,1,30,280,290,310,320,330);
+                    return $er->createQueryBuilder('s')
+                        ->andWhere('s.code IN (:codes)')
+                        ->setParameter('codes',$codes);
+                },
                 'attr' => array(
                     'class' => 'form-control',
                     'tabindex' => '3',
@@ -71,6 +78,12 @@ class TrainCreateType extends AbstractType
                 'placeholder' => 'Assign motor coaches',
                 'class' => 'MlankaTechAppBundle:MotorCoach',
                 'label' => 'Motor coaches ',
+                'multiple' => true,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('m')
+                        ->andWhere('m.assigned =:assigned ')
+                        ->setParameter('assigned',false);
+                },
                 'attr' => array(
                     'class' => 'form-control',
                     'tabindex' => '4',

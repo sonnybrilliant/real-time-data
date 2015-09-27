@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new RaulFraile\Bundle\LadybugBundle\RaulFraileLadybugBundle(),
+            new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new MlankaTech\AppBundle\MlankaTechAppBundle()
         );

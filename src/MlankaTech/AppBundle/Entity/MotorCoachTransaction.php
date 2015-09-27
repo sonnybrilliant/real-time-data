@@ -51,7 +51,7 @@ class MotorCoachTransaction
     /**
      * @var string
      *
-     * @ORM\Column(name="train_name", type="string", length=50 )
+     * @ORM\Column(name="train_name", type="string", length=50, nullable=true )
      */
     private $trainName;
 

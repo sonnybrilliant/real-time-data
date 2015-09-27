@@ -1,24 +1,24 @@
 <?php
 
-namespace MlankaTech\AppBundle\Handler\MotorCoach;
+namespace MlankaTech\AppBundle\Handler\Train;
 
 use Symfony\Component\HttpFoundation\Request;
-use MlankaTech\AppBundle\Services\MotorCoach\MotorCoachManager;
+use MlankaTech\AppBundle\Services\Train\TrainManager;
 use MlankaTech\AppBundle\Services\Core\FlashMessageManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Monolog\Logger;
 
 /**
- * MlankaTech\AppBundle\Handler\MotorCoach\MotorCoachListHandler.
+ * MlankaTech\AppBundle\Handler\Train\TrainListHandler.
  *
- * @DI\Service("mlanka_tech_app.motor_coach_list_handler")
+ * @DI\Service("mlanka_tech_app.train_list_handler")
  *
  * @author Mfana Ronald Conco <ronald.conco@mlankatech.co.za>
  * @package MlankaTechAppBundle
- * @subpackage Handler\MotorCoach
+ * @subpackage Handler\Train
  * @version 0.0.1
  */
-class MotorCoachListHandler
+class TrainListHandler
 {
     /**
      * Monolog logger.
@@ -28,11 +28,11 @@ class MotorCoachListHandler
     protected $logger;
 
     /**
-     * MotorCoachManager.
+     * Train Manager.
      *
      * @var object
      */
-    protected $motorCoachManager;
+    protected $trainManager;
 
     /**
      * Session.
@@ -58,25 +58,25 @@ class MotorCoachListHandler
     /**
      * Class construct.
      *
-     * @param MotorCoachManager        $motorCoachManager
+     * @param TrainManager             $trainMananger
      * @param FlashMessageManager      $flashManager
      * @param Logger                   $logger
      * @param Paginator                $paginator
      *
      * @DI\InjectParams({
-     *     "motorCoachManager"        = @DI\Inject("motor.coach.manager"),
+     *     "trainManager"             = @DI\Inject("train.manager"),
      *     "flashManager"             = @DI\Inject("flash.message.manager"),
      *     "logger"                   = @DI\Inject("logger"),
      *     "paginator"                = @DI\Inject("knp_paginator"),
      * })
      */
     public function __construct(
-        MotorCoachManager $motorCoachManager,
+        TrainManager $trainManager,
         FlashMessageManager $flashManager,
         Logger $logger,
         $paginator
     ) {
-        $this->motorCoachManager = $motorCoachManager;
+        $this->trainManager = $trainManager;
         $this->logger = $logger;
         $this->paginator = $paginator;
         $this->flashManager = $flashManager;
@@ -92,11 +92,11 @@ class MotorCoachListHandler
      */
     public function handle(Request $request, $page)
     {
-        $this->logger->info('MotorCoachListHandler handle()');
+        $this->logger->info('TrainListHandler handle()');
 
         $search = $request->query->get('search');
-        $sort = $request->query->get('sort', 'm.updatedAt');
-        $direction = $request->query->get('direction', 'DESC');
+        $sort = $request->query->get('sort', 't.id');
+        $direction = $request->query->get('direction', 'asc');
         $show = $request->query->get('show', '10');
 
         $options = array(
@@ -107,7 +107,7 @@ class MotorCoachListHandler
         );
 
         $pagination = $this->paginator->paginate(
-            $this->motorCoachManager->getListAll($options),
+            $this->trainManager->getListAll($options),
             $request->query->get('page', $page), $show);
 
         if ($pagination->getTotalItemCount() == 0) {

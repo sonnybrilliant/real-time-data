@@ -1,0 +1,46 @@
+<table class="table no-border dataTable hover" id="datatable-icons" aria-describedby="datatable-icons_info">
+
+    <thead>
+    <tr role="row">
+        <th {% if pagination.isSorted('t.id') %} class="sorted"{% endif %} style="width: 10px;">{{ knp_pagination_sortable(pagination,'#ID', 't.id') }}</th>
+        <th {% if pagination.isSorted('t.unit') %} class="sorted"{% endif %} style="width: 10px;">{{ knp_pagination_sortable(pagination,'Unit name', 't.unit') }}</th>
+        <th {% if pagination.isSorted('c.condition') %} class="sorted"{% endif %} style="width: 10px;">{{ knp_pagination_sortable(pagination,'Condition', 'c.name') }}</th>
+        <th {% if pagination.isSorted('s.status') %} class="sorted"{% endif %} style="width: 10px;">{{ knp_pagination_sortable(pagination,'Status', 's.name') }}</th>
+        <th style="width: 50px;"><i class="fa fa-train"></i>&nbsp;Motor coaches</th>
+        <th style="width: 40px;"><i class="fa fa-user"></i>&nbsp;Created By</th>
+        <th {% if pagination.isSorted('t.updatedAt') %} class="sorted"{% endif %} style="width: 50px;"><i class="fa fa-calendar"></i>&nbsp;{{ knp_pagination_sortable(pagination,'Updated At', 't.updatedAt') }}</th>
+        <th style="width: 50px;"><i class="fa fa-cogs"></i>&nbsp;Action</th></tr>
+    </thead>
+
+    <tbody role="alert" aria-live="polite" aria-relevant="all">
+    {% for train in pagination %}
+        <tr class="gradeA {{ cycle(['odd', 'even'], loop.index0) }}">
+            <td class=" sorting_1">{{ train.id }}</td>
+            <td>{{train.unit| upper |truncate(20) }}</a></td>
+            <td><span class="label {{ train.condition.badge }} btn-sm">{{train.condition.name| capitalize |truncate(20) }}</a></span></td>
+            {% if train.status.code == 1 %}
+                <td><span class="label label-primary btn-sm">{{train.status.name}}</span></td>
+            {% elseif train.status.code == 340 %}
+                <td><span class="label label-danger btn-sm">{{train.status.name}}</span></td>
+            {% else %}
+                <td><span class="label label-default btn-sm">{{train.status.name}}</span></td>
+            {% endif%}
+            <td><span class="badge badge-default">{{ train.motorcoaches.count() }}</span></td>
+            <td>
+                {% if train.createdBy is null %}
+                    Runtime
+                {% else %}
+                    {{train.createdBy}}
+                {% endif %}
+            </td>
+            <td>{{train.updatedAt|date('Y-m-d H:i A')}}</td>
+            <td>
+                <a class="btn btn-default btn-sm" href="{{ path('mlanka_tech_app.train_profile',{'slug':train.slug}) }}.html" data-original-title="View" data-toggle="tooltip"><i class="fa fa-eye"></i>&nbsp;View</a>
+                <a class="btn btn-primary btn-sm" href="{{ path('mlanka_tech_app.motor_coach_edit',{'slug':train.slug}) }}.html" data-original-title="Edit" data-toggle="tooltip"><i class="fa fa-edit"></i>&nbsp;Edit</a>
+
+            </td>
+
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

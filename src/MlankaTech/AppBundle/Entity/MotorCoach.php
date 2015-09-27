@@ -130,6 +130,13 @@ class MotorCoach
     protected $active = true;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="error_data", type="string", length=100, nullable=true )
+     */
+    private $errorData;
+
+    /**
      *
      * @ORM\ManyToOne(targetEntity="MlankaTech\AppBundle\Entity\User")
      */
@@ -518,5 +525,29 @@ class MotorCoach
     public function getAssigned()
     {
         return $this->assigned;
+    }
+
+    /**
+     * Set errorData
+     *
+     * @param string $errorData
+     *
+     * @return MotorCoach
+     */
+    public function setErrorData($errorData)
+    {
+        $this->errorData = $errorData;
+
+        return $this;
+    }
+
+    /**
+     * Get errorData
+     *
+     * @return string
+     */
+    public function getErrorData()
+    {
+        return $this->errorData;
     }
 }

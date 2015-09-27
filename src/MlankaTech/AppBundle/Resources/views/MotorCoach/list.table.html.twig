@@ -17,7 +17,8 @@
             <td class=" sorting_1">{{ motorCoach.id }}</td>
             <td>{{motorCoach.unit| upper |truncate(20) }}</a></td>
             <td><span class="label {{ motorCoach.condition.badge }} btn-sm">{{motorCoach.condition.name| capitalize |truncate(20) }}</a></span></td>
-            {% if motorCoach.status.code == 1 %}
+            {% set green = [1,320,280] %}
+            {% if motorCoach.status.code in green %}
                 <td><span class="label label-primary btn-sm">{{motorCoach.status.name}}</span></td>
             {% elseif motorCoach.status.code == 340 %}
                 <td><span class="label label-danger btn-sm">{{motorCoach.status.name}}</span></td>

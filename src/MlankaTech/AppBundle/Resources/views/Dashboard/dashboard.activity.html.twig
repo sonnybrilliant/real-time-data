@@ -10,26 +10,27 @@
     <div class="row">
         <div class="col-md-12">
             <div class="block-flat">
-                <div id="map" style="height: 600px;" class="content"></div>
+                <div id="map-canvas" style="height: 600px;" class="content"></div>
             </div>
         </div>
     </div>
+
 {% endblock %}
 
 {% block javascript_init %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
     <script type="text/javascript">
+        {% set motorCoachBlueIcon = asset('../../assets/images/map/pin-blue.png') %}
+        {% set motorCoachGreenIcon = asset('../../assets/images/map/pin-green.png') %}
+        {% set motorCoachOrangeIcon = asset('../../assets/images/map/pin-orange.png') %}
+        {% set motorCoachRedIcon = asset('../../assets/images/map/pin-red.png') %}
+
+        var motorCoaches =[];
+        var markers = [];
+        var map;
+
         function initialize() {
-
-            //var styles = [{"featureType":"administrative.locality","elementType":"all","stylers":[{"hue":"#2c2e33"},{"saturation":7},{"lightness":19},{"visibility":"on"}]},{"featureType":"landscape","elementType":"all","stylers":[{"hue":"#ffffff"},{"saturation":-100},{"lightness":100},{"visibility":"simplified"}]},{"featureType":"poi","elementType":"all","stylers":[{"hue":"#ffffff"},{"saturation":-100},{"lightness":100},{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"hue":"#bbc0c4"},{"saturation":-93},{"lightness":31},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"hue":"#bbc0c4"},{"saturation":-93},{"lightness":31},{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"labels","stylers":[{"hue":"#bbc0c4"},{"saturation":-93},{"lightness":-2},{"visibility":"simplified"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"hue":"#e9ebed"},{"saturation":-90},{"lightness":-8},{"visibility":"simplified"}]},{"featureType":"transit","elementType":"all","stylers":[{"hue":"#e9ebed"},{"saturation":10},{"lightness":69},{"visibility":"on"}]},{"featureType":"water","elementType":"all","stylers":[{"hue":"#e9ebed"},{"saturation":-78},{"lightness":67},{"visibility":"simplified"}]}]
-
-
-            //var styles = [{"featureType":"administrative","stylers":[{"visibility":"off"}]},{"featureType":"poi","stylers":[{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"simplified"}]},{"featureType":"water","stylers":[{"visibility":"simplified"}]},{"featureType":"transit","stylers":[{"visibility":"simplified"}]},{"featureType":"landscape","stylers":[{"visibility":"simplified"}]},{"featureType":"road.highway","stylers":[{"visibility":"off"}]},{"featureType":"road.local","stylers":[{"visibility":"on"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"water","stylers":[{"color":"#84afa3"},{"lightness":52}]},{"stylers":[{"saturation":-17},{"gamma":0.36}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#3f518c"}]}];
-
-            //var styles = [{"featureType":"administrative.land_parcel","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"landscape.man_made","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"simplified"},{"lightness":20}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"hue":"#f49935"}]},{"featureType":"road.highway","elementType":"labels","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"hue":"#fad959"}]},{"featureType":"road.arterial","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"road.local","elementType":"labels","stylers":[{"visibility":"simplified"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"water","elementType":"all","stylers":[{"hue":"#a1cdfc"},{"saturation":30},{"lightness":49}]}];
-
-            //var styles = [{"featureType":"all","elementType":"all","stylers":[{"invert_lightness":true},{"saturation":10},{"lightness":30},{"gamma":0.5},{"hue":"#435158"}]}];
-
-            var styles = [{"featureType":"all","stylers":[{"saturation":0},{"hue":"#e7ecf0"}]},{"featureType":"road","stylers":[{"saturation":-70}]},{"featureType":"transit","stylers":[{"visibility":"on"}]},{"featureType":"poi","stylers":[{"visibility":"off"}]},{"featureType":"water","stylers":[{"visibility":"simplified"},{"saturation":-60}]}];
 
             var styles = [{"featureType":"water","elementType":"geometry","stylers":[{"color":"#2D333C"}]}];
 
@@ -42,11 +43,90 @@
             };
 
 
-            map = new google.maps.Map(document.getElementById('map'),options);
+            map = new google.maps.Map(document.getElementById('map-canvas'),options);
 
-        }
+            fetchMotorCoaches();
+
+            //call every minute
+            //setInterval(fetchMotorCoaches,50000);
+
+        };
 
         google.maps.event.addDomListener(window, 'load', initialize);
+
+        var fetchMotorCoaches = function(){
+
+            var infoWindow =  new google.maps.InfoWindow({
+                content: ''
+            });
+
+            // remove markers from the map
+            if(markers.length > 0){
+                for(var x = 0 ; x < markers.length; x++){
+                    var mark = markers[x];
+                        mark.setMap(null);
+                }
+                markers = [];
+            }
+
+            jQuery.ajax({
+                url : Routing.generate('mlanka_tech_app.motor_coach_dashboard_activity'),
+                dataType : 'json',
+                success : function(response) {
+
+                    if (response.status == '200') {
+                          if(response.count > 0){
+                              var motorCoaches = response.motorCoaches;
+
+                              for(var i = 0; i < motorCoaches.length ; i++){
+                                  var motorCoach = motorCoaches[i];
+                                  var motorCoachName = motorCoach.name;
+                                  var MotorCoachIcon = null
+
+                                  if(motorCoach.conditionName === 'critical'){
+                                      MotorCoachIcon = '{{ motorCoachRedIcon }}';
+                                  }else if(motorCoach.conditionName === 'warning'){
+                                      MotorCoachIcon = '{{ motorCoachOrangeIcon }}';
+                                  }else if(motorCoach.conditionName === 'good'){
+                                      MotorCoachIcon = '{{ motorCoachGreenIcon }}';
+                                  }else if(motorCoach.conditionName === 'excellent'){
+                                      MotorCoachIcon = '{{ motorCoachBlueIcon }}';
+                                  }
+
+                                  var motorCoachMarker = new google.maps.Marker({
+                                      position: new google.maps.LatLng(motorCoach.latitude,motorCoach.longitude),
+                                      map: map,
+                                      title: motorCoachName,
+                                      icon: MotorCoachIcon
+                                  });
+
+                                  markers[markers.length] = motorCoachMarker;
+                                  var contentString = '<div id="content">'+
+                                          '<div id="siteNotice">'+
+                                          '</div>'+
+                                          '<h1 id="firstHeading" class="firstHeading">'+motorCoach.name+'</h1>'+
+                                          '<div id="bodyContent">'+
+                                          '<p><strong>Status : </strong>'+motorCoach.statusName+'</b><br />' +
+                                          '<strong>Condition : </strong>'+motorCoach.conditionName+'</b>'+
+                                          '</p>'+
+                                          '</div>'+
+                                          '</div>';
+
+                                  bindInfoWindow(motorCoachMarker, map, infoWindow,contentString)
+                              }//end for
+                          }//end if
+                    }// response check
+                }//success
+            })
+         };
+
+
+        var bindInfoWindow = function(marker, map, infowindow, html) {
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.setContent(html);
+                infowindow.open(map, marker);
+            });
+        }
     </script>
     {{  parent() }}
 {% endblock%}

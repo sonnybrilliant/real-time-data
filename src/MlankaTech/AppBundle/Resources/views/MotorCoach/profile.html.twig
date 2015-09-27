@@ -2,99 +2,186 @@
 
 {% block title %}MCT | {{ page_header }}{% endblock title %}
 
-{% block body %}
-        <div class="row">
-            <div class="col-sm-12 col-md-12">
+{% block javascript_header %}
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;amp;sensor=false" type="text/javascript"></script>
+{% endblock %}
 
-                <div class="block-flat no-padding">
-                    <div class="row no-margin">
-                        <div class="row-same-height row-full-height">
-                            {% if motorCoach.condition.name == 'excellent' %}
-                                {% set condition_image = '../../assets/images/traincons/blue-coach.png' %}
-                                {% set condition_a_title = 'Condition excellent' %}
-                                {% set condition_class = 'blue-back' %}
-                            {% elseif motorCoach.condition.name == 'good' %}
-                                {% set condition_image = '../../assets/images/traincons/green-coach.png' %}
-                                {% set condition_a_title = 'Condition good' %}
-                            {% elseif motorCoach.condition.name == 'warning' %}
-                                {% set condition_class = 'green-back' %}
-                                {% set condition_image = '../../assets/images/traincons/yellow-coach.png' %}
-                                {% set condition_a_title = 'Condition warning' %}
-                                {% set condition_class = 'yellow-back' %}
-                            {% elseif motorCoach.condition.name == 'critical' %}
-                                {% set condition_image = '../../assets/images/traincons/red-coach.png' %}
-                                {% set condition_a_title = 'Condition critical' %}
-                                {% set condition_class = 'red-back' %}
-                            {% elseif motorCoach.condition.name == 'unknown' %}
-                                {% set condition_image = '../../assets/images/traincons/red-coach.png' %}
-                                {% set condition_a_title = 'Condition unknown' %}
-                                {% set condition_class = 'red-back' %}
-                            {% endif %}
-                            <div class="col-sm-4 col-sm-height col-full-height {{ condition_class }}">
-                                <div class="widget-profile-block">
-                                    <div class="figure">
-                                        <img src="{{ asset(''~ condition_image ~'') }}" alt="{{ condition_a_title }}" title="{{ condition_a_title }}" class="coach img-responsive" width="169" height="112">
-                                    </div>
+{% block body %}
+    <div class="row">
+        <div class="col-sm-9 col-md-9">
+
+            <div class="block-flat no-padding">
+                <div class="row no-margin">
+                    <div class="row-same-height row-full-height">
+                        {% if motorCoach.condition.name == 'excellent' %}
+                            {% set condition_image = '../../assets/images/traincons/blue-coach.png' %}
+                            {% set condition_a_title = 'Condition excellent' %}
+                            {% set condition_class = 'blue-back' %}
+                            {% set trainIcon = '../../assets/images/map/pin-blue.png' %}
+                        {% elseif motorCoach.condition.name == 'good' %}
+                            {% set condition_class = 'green-back' %}
+                            {% set condition_image = '../../assets/images/traincons/green-coach.png' %}
+                            {% set condition_a_title = 'Condition good' %}
+                            {% set trainIcon = '../../assets/images/map/pin-good.png' %}
+                        {% elseif motorCoach.condition.name == 'warning' %}
+                            {% set condition_image = '../../assets/images/traincons/yellow-coach.png' %}
+                            {% set condition_a_title = 'Condition warning' %}
+                            {% set condition_class = 'yellow-back' %}
+                            {% set trainIcon = '../../assets/images/map/pin-orange.png' %}
+                        {% elseif motorCoach.condition.name == 'critical' %}
+                            {% set condition_image = '../../assets/images/traincons/red-coach.png' %}
+                            {% set condition_a_title = 'Condition critical' %}
+                            {% set condition_class = 'red-back' %}
+                            {% set trainIcon = '../../assets/images/map/pin-red.png' %}
+                        {% elseif motorCoach.condition.name == 'unknown' %}
+                            {% set condition_image = '../../assets/images/traincons/red-coach.png' %}
+                            {% set condition_a_title = 'Condition unknown' %}
+                            {% set condition_class = 'red-back' %}
+                            {% set trainIcon = '../../assets/images/map/pin-red.png' %}
+                        {% endif %}
+                        <div class="col-sm-4 col-sm-height col-full-height {{ condition_class }}">
+                            <div class="widget-profile-block">
+                                <div class="figure">
+                                    <img src="{{ asset(''~ condition_image ~'') }}" alt="{{ condition_a_title }}" title="{{ condition_a_title }}" class="coach img-responsive" width="169" height="112">
                                 </div>
                             </div>
-                            <div class="col-sm-4 col-sm-height col-full-height ">
-                                <div class="widget-profile-data">
-                                    <h3>{{ motorCoach.unit | upper }}</h3>
-                                    <ul class="profile-list">
-                                        <li class="clearfix">
-                                            <p class="pull-left">Condition:</p>
-                                            <b class="pull-right"><span class="label {{ motorCoach.condition.badge }}">{{ motorCoach.condition.name | capitalize }}</span></b>
-                                        </li>
-                                        <li class="clearfix">
-                                            <p class="pull-left">Motor coach type:</p>
-                                            <b class="pull-right">{{ motorCoach.type | upper }}</b>
-                                        </li>
-                                        <li class="clearfix">
-                                            <p class="pull-left">Assigned:</p>
-                                            <b class="pull-right">
-                                                {% if motorCoach.assigned != 1%}
-                                                    <span class="badge badge-danger">No</span>
-                                                {% else %}
-                                                    <span class="badge badge-primary">Yes</span>
-                                                {% endif %}
-                                            </b>
-                                        </li>
-                                        <li class="clearfix">
-                                            <p class="pull-left">Last update at:</p>
-                                            <b class="pull-right">{{ motorCoach.updatedAt | time_ago_in_words }}</b>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-sm-4 col-sm-height col-full-height ">
-                                <div class="widget-profile-data">
-                                    <h3>&nbsp;</h3>
-                                    <ul class="profile-list">
-                                        <li class="clearfix">
-                                            <p class="pull-left">Created By:</p>
-                                            <b class="pull-right">
-                                                {% if motorCoach.createdBy is null%}
-                                                    Runtime
-                                                {% else %}
-                                                    {{ motorCoach.createdBy }}
-                                                {% endif %}
-                                            </b>
-                                        </li>
-                                        <li class="clearfix">
-                                            <p class="pull-left">Train:</p>
-                                            <b class="pull-right">{{ motorCoach.train | upper }}</b>
-                                        </li>
-                                    </ul>
-                                </div>
+                        </div>
+                        <div class="col-sm-8 col-sm-height col-full-height ">
+                            <div class="widget-profile-data">
+                                <h3>{{ motorCoach.unit | upper }}</h3>
+                                <ul class="profile-list">
+                                    <li class="clearfix">
+                                        <p class="pull-left">Condition:</p>
+                                        <b class="pull-right"><span class="label {{ motorCoach.condition.badge }}">{{ motorCoach.condition.name | capitalize }}</span></b>
+                                    </li>
+                                    <li class="clearfix">
+                                        <p class="pull-left">Status:</p>
+                                        <b class="pull-right">
+                                            {% set green = [1,320,280] %}
+                                            {% if motorCoach.status.code in green %}
+                                                <span class="label label-primary btn-sm">{{motorCoach.status.name}}</span>
+                                            {% elseif motorCoach.status.code == 340 %}
+                                                <span class="label label-danger btn-sm">{{motorCoach.status.name}}</span>
+                                            {% else %}
+                                                <span class="label label-default btn-sm">{{motorCoach.status.name}}</span>
+                                            {% endif%}
+                                        </b>
+                                    </li>
+                                    <li class="clearfix">
+                                        <p class="pull-left">Motor coach type:</p>
+                                        <b class="pull-right">{{ motorCoach.type | upper }}</b>
+                                    </li>
+                                    <li class="clearfix">
+                                        <p class="pull-left">Assigned:</p>
+                                        <b class="pull-right">
+                                            {% if motorCoach.assigned != 1%}
+                                                <span class="badge badge-danger">No</span>
+                                            {% else %}
+                                                <span class="badge badge-primary">Yes</span>
+                                            {% endif %}
+                                        </b>
+                                    </li>
+                                    <li class="clearfix">
+                                        <p class="pull-left">Created By:</p>
+                                        <b class="pull-right">
+                                            {% if motorCoach.createdBy is null%}
+                                                Runtime
+                                            {% else %}
+                                                {{ motorCoach.createdBy }}
+                                            {% endif %}
+                                        </b>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="block-flat">
+                <div class="header">
+                    <h3>Last known GPS position</h3>
+                </div>
+                <div class="content">
+                    {% include 'MlankaTechAppBundle:MotorCoach:profile.map.html.twig' %}
+                </div>
+            </div>
         </div>
+
+        <div class="col-sm-3 col-md-3">
+            <div class="block">
+                <div class="header">
+                    <h2>Recent Activity </h2>
+
+                </div>
+                <div class="content no-padding">
+                    {% include 'MlankaTechAppBundle:MotorCoach:profile.recent.activity.html.twig' %}
+                </div>
+
+            </div>
+        </div>
+
+    </div>
 {% endblock body %}
 
 
+
 {% block javascript_init %}
-    {{ parent() }}
-{% endblock javascript_init %}
+
+
+    <script type="text/javascript">
+
+        {% if lastTransaction is defined and lastTransaction is null %}
+          {% set latitude = '-25.73' %}
+          {% set longitude = '28.18' %}
+          {% set zoom = 5 %}
+        {% else %}
+            {% set latitude = lastTransaction.latitude %}
+            {% set longitude = lastTransaction.longitude %}
+            {% set zoom = 13 %}
+        {% endif %}
+
+        var map;
+
+        function initialize() {
+
+            var styles = [{"featureType":"water","elementType":"geometry","stylers":[{"color":"#2D333C"}]}];
+
+            var options = {
+                center:new google.maps.LatLng('{{ latitude }}', '{{ longitude }}'),
+                zoom:{{ zoom }},
+                mapTypeId:google.maps.MapTypeId.ROADMAP,
+                mapTypeControl:true,
+                styles: styles
+            };
+
+            map = new google.maps.Map(document.getElementById('map'),options)
+
+            {% if motorCoach.condition.name == 'excellent' %}
+            {% set trainIcon = asset('../../assets/images/map/pin-blue.png') %}
+            {% elseif motorCoach.condition.name == 'good' %}
+            {% set trainIcon = asset('../../assets/images/map/pin-green.png') %}
+            {% elseif motorCoach.condition.name == 'warning' %}
+            {% set trainIcon = asset('../../assets/images/map/pin-orange.png') %}
+            {% elseif motorCoach.condition.name == 'critical' %}
+            {% set trainIcon = asset('../../assets/images/map/pin-red.png') %}
+            {% elseif motorCoach.condition.name == 'unknown' %}
+            {% set trainIcon = asset('../../assets/images/map/pin-red.png') %}
+            {% endif %}
+
+            {% if  lastTransaction is not null %}
+            var motorCoachMarker = new google.maps.Marker({
+                position: new google.maps.LatLng('{{ latitude }}','{{ longitude }}'),
+                map: map,
+                title:'{{ motorCoach.unit }}',
+                icon: '{{ trainIcon }}'
+            });
+            {% endif %}
+
+        };
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+    {{  parent() }}
+{% endblock%}

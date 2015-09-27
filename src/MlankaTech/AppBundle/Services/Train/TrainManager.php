@@ -8,6 +8,9 @@ use JMS\DiExtraBundle\Annotation as DI;
 use JMS\DiExtraBundle\Annotation\Inject;
 use MlankaTech\AppBundle\Services\Core\StatusManager;
 use MlankaTech\AppBundle\Services\Core\ConditionManager;
+use MlankaTech\AppBundle\Event\MotorCoach\MotorCoachEvent;
+use MlankaTech\AppBundle\Event\MotorCoach\MotorCoachEvents;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Monolog\Logger;
 
 /**
@@ -50,32 +53,40 @@ class TrainManager
     public $securityTokenStorage;
 
     /**
+     * @var Event Dispatcher
+     */
+    private $eventDispatcher;
+
+    /**
      *
      * Class construct
      *
-     * @param EntityManager    $em
-     * @param Logger           $logger
-     * @param StatusManager    $sm
-     * @param ConditionManager $conditionManager
-     *
+     * @param EntityManager            $em
+     * @param Logger                   $logger
+     * @param StatusManager            $sm
+     * @param ConditionManager         $conditionManager
+     * @param EventDispatcherInterface $eventDispatcher
      * @DI\InjectParams({
      *     "em"                  = @DI\Inject("doctrine.orm.entity_manager"),
      *     "logger"              = @DI\Inject("logger"),
      *     "sm"                  = @DI\Inject("status.manager"),
-     *     "conditionManager"    = @DI\Inject("condition.manager")
+     *     "conditionManager"    = @DI\Inject("condition.manager"),
+     *     "eventDispatcher"     = @DI\Inject("event_dispatcher"),
      * })
      */
     public function __construct(
         EntityManager $em,
         Logger $logger,
         StatusManager $sm,
-        ConditionManager $conditionManager
+        ConditionManager $conditionManager,
+        EventDispatcherInterface $eventDispatcher
     )
     {
         $this->em = $em;
         $this->logger = $logger;
         $this->sm = $sm;
         $this->conditionManager = $conditionManager;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -130,7 +141,7 @@ class TrainManager
     {
         $this->logger->info("Service TrainManager getListAll()");
 
-        return $this->em->getRepository('MlankaTechAppBundle:MotorCoach')
+        return $this->em->getRepository('MlankaTechAppBundle:Train')
             ->getAllQueryList($options);
 
     }
@@ -154,8 +165,26 @@ class TrainManager
             $train->setCreatedBy(NULL);
         }
 
+
         $this->em->persist($train);
         $this->em->flush();
+
+        /**
+         * Mark motor coach as assigned
+         */
+        $motorCoaches = $train->getMotorcoaches();
+
+        if(!$motorCoaches->isEmpty()){
+            foreach($motorCoaches as $coach){
+                $coach->setTrain($train);
+                $coach->setAssigned(true);
+                $coach->setStatus($this->sm->offline());
+                $this->eventDispatcher->dispatch(
+                    MotorCoachEvents::ASSIGNED_TO_TRAIN,
+                    new MotorCoachEvent($coach)
+                );
+            }
+        }
         return $train;
     }
 

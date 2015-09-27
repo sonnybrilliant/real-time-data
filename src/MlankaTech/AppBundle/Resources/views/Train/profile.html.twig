@@ -1,0 +1,159 @@
+{% extends "MlankaTechAppBundle:Train:layout.html.twig" %}
+
+{% block title %}MCT | {{ page_header }}{% endblock title %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-9 col-md-9">
+
+            <div class="block-flat no-padding">
+                <div class="row no-margin">
+                    <div class="row-same-height row-full-height">
+                        {% if train.condition.name == 'excellent' %}
+                            {% set condition_image = '../../assets/images/traincons/blue-coach.png' %}
+                            {% set condition_a_title = 'Condition excellent' %}
+                            {% set condition_class = 'blue-back' %}
+                        {% elseif train.condition.name == 'good' %}
+                            {% set condition_image = '../../assets/images/traincons/green-coach.png' %}
+                            {% set condition_a_title = 'Condition good' %}
+                        {% elseif train.condition.name == 'warning' %}
+                            {% set condition_class = 'green-back' %}
+                            {% set condition_image = '../../assets/images/traincons/yellow-coach.png' %}
+                            {% set condition_a_title = 'Condition warning' %}
+                            {% set condition_class = 'yellow-back' %}
+                        {% elseif train.condition.name == 'critical' %}
+                            {% set condition_image = '../../assets/images/traincons/red-coach.png' %}
+                            {% set condition_a_title = 'Condition critical' %}
+                            {% set condition_class = 'red-back' %}
+                        {% elseif train.condition.name == 'unknown' %}
+                            {% set condition_image = '../../assets/images/traincons/red-coach.png' %}
+                            {% set condition_a_title = 'Condition unknown' %}
+                            {% set condition_class = 'red-back' %}
+                        {% endif %}
+                        <div class="col-sm-4 col-sm-height col-full-height {{ condition_class }}">
+                            <div class="widget-profile-block">
+                                <div class="figure">
+                                    <img src="{{ asset(''~ condition_image ~'') }}" alt="{{ condition_a_title }}" title="{{ condition_a_title }}" class="coach img-responsive" width="169" height="112">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-8 col-sm-height col-full-height ">
+                            <div class="widget-profile-data">
+                                <h3>{{ train.unit | upper }}</h3>
+                                <ul class="profile-list">
+                                    <li class="clearfix">
+                                        <p class="pull-left">Status:</p>
+                                        <b class="pull-right">
+                                            {% if train.status.code == 1 %}
+                                                <span class="label label-primary btn-sm">{{train.status.name}}</span>
+                                            {% elseif train.status.code == 340 %}
+                                                <span class="label label-danger btn-sm">{{train.status.name}}</span>
+                                            {% else %}
+                                                <span class="label label-default btn-sm">{{train.status.name}}</span>
+                                            {% endif%}
+                                        </b>
+                                    </li>
+                                    <li class="clearfix">
+                                        <p class="pull-left">Condition:</p>
+                                        <b class="pull-right"><span class="label {{ train.condition.badge }}">{{ train.condition.name | capitalize }}</span></b>
+                                    </li>
+
+                                    <li class="clearfix">
+                                        <p class="pull-left">Train type:</p>
+                                        <b class="pull-right">{{ train.type | upper }}</b>
+                                    </li>
+                                    <li class="clearfix">
+                                        <p class="pull-left">Last update at:</p>
+                                        <b class="pull-right">{{ train.updatedAt | time_ago_in_words }}</b>
+                                    </li>
+                                    <li class="clearfix">
+                                        <p class="pull-left">Number of coaches:</p>
+                                        <b class="pull-right"><span class="badge">{{ train.motorcoaches.count() }}</span></b>
+                                    </li>
+                                    <li class="clearfix">
+                                        <p class="pull-left">Created By:</p>
+                                        <b class="pull-right">
+                                            {% if train.createdBy is null%}
+                                                Runtime
+                                            {% else %}
+                                                {{ train.createdBy }}
+                                            {% endif %}
+                                        </b>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="block-flat">
+                <div class="content">
+                    <div class="table-responsive">
+                        <table class="table no-border hover">
+                            <thead class="no-border">
+                            <tr>
+                                <th style="width:10%;"><strong>Name</strong></th>
+                                <th style="width:10%;"><strong>Type</strong></th>
+                                <th style="width:10%;"><strong>Condition</strong></th>
+                                <th style="width:10%;"><strong>Status</strong></th>
+                                <th style="width:20%;"><strong>Last updated at</strong></th>
+                                <th style="width:25%;"><strong>Action</strong></th>
+                            </tr>
+                            </thead>
+                            <tbody class="no-border-y">
+                            {% for motorCoach in train.motorcoaches %}
+                            <tr>
+                                <td class="blue-txt">{{ motorCoach.unit }}</td>
+                                <td>{{ motorCoach.type }}</td>
+                                <td><span class="label {{ motorCoach.condition.badge }} btn-sm">{{motorCoach.condition.name| capitalize |truncate(20) }}</a></span></td>
+                                {% if motorCoach.status.code == 1 %}
+                                    <td><span class="label label-primary btn-sm">{{motorCoach.status.name}}</span></td>
+                                {% elseif motorCoach.status.code == 340 %}
+                                    <td><span class="label label-danger btn-sm">{{motorCoach.status.name}}</span></td>
+                                {% else %}
+                                    <td><span class="label label-default btn-sm">{{motorCoach.status.name}}</span></td>
+                                {% endif%}
+                                <td>{{motorCoach.updatedAt|date('Y-m-d H:i A')}}</td>
+                                <td>
+                                    <a class="btn btn-default btn-sm" href="{{ path('mlanka_tech_app.motor_coach_profile',{'slug':motorCoach.slug}) }}.html" data-original-title="View" data-toggle="tooltip"><i class="fa fa-eye"></i>&nbsp;View</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3 col-md-3">
+            <div class="block">
+                <div class="header">
+                    <h2>Recent Activity </h2>
+
+                </div>
+                <div class="content no-padding">
+                    <ul class="items">
+                        <li><strong class="alert-danger">DC-16</strong> <span class="badge pull-right">4 days ago</span><small>Brake pressure low</small></li>
+                        <li><strong class="alert-info">DC-16</strong> <span class="badge pull-right">4 days ago</span><small>Brake pressure low</small></li>
+                        <li><strong class="alert-danger">DC-16</strong> <span class="badge pull-right">4 days ago</span><small>Brake pressure low</small></li>
+                        <li><strong class="alert-warning">DC-16</strong> <span class="badge pull-right">4 days ago</span><small>Brake pressure low</small></li>
+                        <li><strong class="alert-danger">DC-16</strong> <span class="badge pull-right">4 days ago</span><small>Brake pressure low</small></li>
+                        <li><strong class="alert-info">DC-16</strong> <span class="badge pull-right">4 days ago</span><small>Brake pressure low</small></li>
+                        <li><strong class="alert-danger">DC-16</strong> <span class="badge pull-right">4 days ago</span><small>Brake pressure low</small></li>
+                        <li><strong class="alert-warning">DC-16</strong> <span class="badge pull-right">4 days ago</span><small>Brake pressure low</small></li>
+                        <li><strong class="alert-danger">DC-16</strong> <span class="badge pull-right">4 days ago</span><small>Brake pressure low</small></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+{% endblock body %}
+
+
+{% block javascript_init %}
+    {{ parent() }}
+{% endblock javascript_init %}

@@ -210,3 +210,22 @@ knp_paginator:
         pagination: MlankaTechAppBundle:Pagination:sliding.html.twig     # sliding pagination controls template
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
 
+old_sound_rabbit_mq:
+    connections:
+        default:
+            host:      %rabbitmq_host%
+            port:      5672
+            user:      %rabbitmq_user%
+            password:  %rabbitmq_password%
+            vhost:     %rabbitmq_vhost%
+
+    consumers:
+        motor_coach_transaction_feed:
+            connection: default
+            exchange_options: {name: 'PROXY', type: direct , durable: true}
+            queue_options:
+                name: q_proxy
+                durable: true
+                routing_keys:
+                          - proxy.pass
+            callback: 'consumer.motor.coach.feed'
