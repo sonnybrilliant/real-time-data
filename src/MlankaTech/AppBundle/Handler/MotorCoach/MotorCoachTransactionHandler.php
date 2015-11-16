@@ -12,6 +12,7 @@ use MlankaTech\AppBundle\Entity\MotorCoachTransaction;
 use MlankaTech\AppBundle\Services\Core\StatusManager;
 use MlankaTech\AppBundle\Services\Core\ConditionManager;
 use Monolog\Logger;
+use GuzzleHttp\Exception\ClientException;
 
 /**
  * MotorCoachTransactionManager
@@ -67,6 +68,13 @@ class MotorCoachTransactionHandler
     public $securityTokenStorage;
 
     /**
+     * Guzzle client
+     * @var object
+     * @Inject("guzzle.client.api_broadcast", required = false)
+     */
+    public $guzzle;
+
+    /**
      * Keep track of errors
      * @var null
      */
@@ -99,6 +107,7 @@ class MotorCoachTransactionHandler
         ConditionManager $conditionManager,
         MotorCoachManager $motorCoachManager,
         TrainManager $trainManager
+
     )
     {
         $this->em = $em;
@@ -114,13 +123,24 @@ class MotorCoachTransactionHandler
         $this->logger->info('Service MotorCoachTransactionHandler process()');
 
         $latitude = preg_replace("/[^A-Za-z0-9\\/'.-]/", '-',$payload->lat);
+        $latitude = str_replace('------','-',$latitude);
         $latitude = str_replace('--','-',$latitude);
         $latitude =  str_replace("-S",'"S',$latitude);
+
+        if(!strpos($latitude,"S-")){
+            $latitude =  str_replace("S",'S-',$latitude);
+        }
+        var_dump($latitude);
         $latitude =  $this->parse($latitude);
 
         $longitude = preg_replace("/[^A-Za-z0-9\\/'.-]/", '-',$payload->long);
+        $longitude = str_replace('------','-',$longitude);
         $longitude = str_replace('--','-',$longitude);
         $longitude =  str_replace("-E",'"E',$longitude);
+        if(!strpos($longitude,"E-")){
+            $longitude=  str_replace("E",'E-',$longitude);
+        }
+        var_dump($longitude);
         $longitude =  $this->parse($longitude);
 
         $sanitizedData = array(
@@ -185,15 +205,25 @@ class MotorCoachTransactionHandler
                 $trans->setTrainName($train->getUnit());
                 $trans->setTrain($train);
                 $trans->setTrainType($train->getType());
+
+                $train->setStatus($this->sm->online());
+                $train->setCondition($conditionalRules);
+                $this->em->persist($train);
             }
 
             $motorCoach->setErrorData($this->errorMessage);
             $motorCoach->setCondition($conditionalRules);
             $motorCoach->setStatus($this->sm->online());
 
+
+
             $this->em->persist($trans);
             $this->em->persist($motorCoach);
             $this->em->flush();
+
+            //Publish event to socket server
+            $this->publishFeed($trans);
+            return;
         }else{
             //create new motor coach
             $motorCoach = new MotorCoach();
@@ -229,7 +259,7 @@ class MotorCoachTransactionHandler
             return $warning;
         }
 
-        if(($data['breakValve'] >= 0)  && ($data['breakValve'] < 59 ))
+        if(($data['breakValve'] >= 0)  && ($data['breakValve'] < 59 ) && ($data['gpsSpeed'] > 1))
         {
             $this->errorMessage = "Brake pressure is low";
             return $critical;
@@ -237,7 +267,7 @@ class MotorCoachTransactionHandler
             return $good;
         }
 
-        if(($data['Supply100'] >= 0)  && ($data['Supply100'] < 90 )){
+        if(($data['Supply100'] >= 0)  && ($data['Supply100'] < 90 ) && ($data['gpsSpeed'] > 1)){
             $this->errorMessage = "MA Voltage is low";
             return $critical;
         }elseif(($data['Supply100'] >= 91)  && ($data['Supply100'] < 114 )){
@@ -253,9 +283,9 @@ class MotorCoachTransactionHandler
         if((floatval($strLineVoltage) > 2.8)  && (floatval($strLineVoltage) < 3.8 )){
             return $good;
         }else{
-            if(floatval($strLineVoltage) > 2.8){
+            if((floatval($strLineVoltage) > 2.8) && ($data['gpsSpeed'] > 1) ){
                 $this->errorMessage = "line voltage is low";
-            }elseif(floatval($strLineVoltage) < 3.8){
+            }elseif((floatval($strLineVoltage) < 3.8) && ($data['gpsSpeed'] > 1)){
                 $this->errorMessage = "line voltage is high";
             }
             return $critical;
@@ -341,6 +371,57 @@ class MotorCoachTransactionHandler
         return $this->DMS2Decimal($degrees,$minutes,$seconds,$direction);
     }
 
+    /**
+     * Publish event to socket server
+     *
+     * @param MotorCoachTransaction $train
+     */
+    private function publishFeed(MotorCoachTransaction $train)
+    {
+        $this->logger->info('Service MotorCoachTransactionHandler publishFeed()');
 
+        $feed = array(
+            'trainId' => '',
+            'trainName' => '',
+            'coachId' => trim($train->getMotorCoach()->getId()),
+            'coachName' => trim($train->getMotorCoachName()),
+            'gpsTime' => trim($train->getGpsTime()->getTimestamp()),
+            'gpsSpeed' => trim($train->getGpsSpeed()),
+            'lat' => $train->getLatitude(),
+            'long' => $train->getLongitude(),
+            'lineVoltage' => trim($train->getLineVoltage()),
+            'maOutPutVoltage' => trim($train->getMAOutputVoltage()),
+            'speedo' => trim($train->getSpeedo()),
+            'brakeVacuum' => trim($train->getBrakeVacuum()),
+            'boggie1Current' => trim($train->getBoggie1Current()),
+            'boggie2Current' => trim($train->getBoggie2Current()),
+            'shaftEncoder1' => trim($train->getShaftEncoder1Speed()),
+            'shaftEncoder2' => trim($train->getShaftEncoder2Speed()),
+            'shaftEncoder3' => trim($train->getShaftEncoder3Speed()),
+            'shaftEncoder4' => trim($train->getShaftEncoder4Speed()),
+            'condition' => trim($train->getCondition()->getName()),
+            'badge' => trim($train->getCondition()->getBadge()),
+            'error' => trim($train->getErrorMessage()),
+            'status' => trim($train->getStatus()->getName())
+        );
 
+        if($train->getTrain()){
+            $feed['trainId'] = $train->getTrain()->getId();
+            $feed['trainName'] = $train->getTrain()->getUnit();
+        }
+
+        try{
+            $response = $this->guzzle->get('broadcast?'.http_build_query($feed));
+            if(200 != (int)$response->getStatusCode()){
+                $msg = "Service MotorCoachTransactionHandler publishFeed() failed to broadcast error:";
+                $msg .= $response->getStatusCode();
+                $this->logger->error($msg);
+            }
+        }catch(ClientException $e){
+            $msg = "Service MotorCoachTransactionHandler publishFeed() ClientException:";
+            $msg .= $e->getMessage();
+            $this->logger->error($msg);
+        }
+        return;
+    }
 }

@@ -1,0 +1,42 @@
+{% extends "MlankaTechAppBundle:Train:layout.html.twig" %}
+
+{% block title %}MCT | {{ page_header }}{% endblock title %}
+
+{% block body %}
+    <div class="row" ng-app="prasaMonitor">
+        <div ui-view></div>
+    </div>
+{% endblock body %}
+
+
+{% block javascript_init %}
+    {{ parent() }}
+<script type="text/javascript">
+    var g_motorCoaches = {{ motorCoaches | json_encode| raw }};
+    var g_siteUrl = "{{ g_site_url }}";
+    var g_templatePath = g_siteUrl+'../bundles/MonitorBundle/modules/train/views/train.html';
+    var g_templatePathNoData = g_siteUrl+'../bundles/MonitorBundle/modules/train/views/no.train.html';
+</script>
+<script type="text/javascript" src="{{ asset('/assets/js/socket.io-1.3.7.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/lib/angular/angular.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/lib/angular/angular.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/lib/angular-ui-router/angular-ui-router.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/lib/justgage/raphael-min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/lib/justgage/justgage.1.0.1.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/lib/justgage/ng-justgage.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/lib/ngRadialGauge/d3.v3.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/lib/ngRadialGauge/ng-radial-gauge-dir.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/lib/angular-socket-io/socket.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/js/app.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/js/controllers.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/js/directives.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/js/filters.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/js/services.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/modules/train/trainModule.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/modules/train/js/controllers.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/modules/train/js/directives.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/modules/train/js/filters.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/modules/train/js/services.js') }}"></script>
+
+
+{% endblock javascript_init %}

@@ -18,7 +18,7 @@
             <td class=" sorting_1">{{ train.id }}</td>
             <td>{{train.unit| upper |truncate(20) }}</a></td>
             <td><span class="label {{ train.condition.badge }} btn-sm">{{train.condition.name| capitalize |truncate(20) }}</a></span></td>
-            {% if train.status.code == 1 %}
+            {% if train.status.code == 1 or train.status.code == 320 %}
                 <td><span class="label label-primary btn-sm">{{train.status.name}}</span></td>
             {% elseif train.status.code == 340 %}
                 <td><span class="label label-danger btn-sm">{{train.status.name}}</span></td>
@@ -36,8 +36,8 @@
             <td>{{train.updatedAt|date('Y-m-d H:i A')}}</td>
             <td>
                 <a class="btn btn-default btn-sm" href="{{ path('mlanka_tech_app.train_profile',{'slug':train.slug}) }}.html" data-original-title="View" data-toggle="tooltip"><i class="fa fa-eye"></i>&nbsp;View</a>
-                <a class="btn btn-primary btn-sm" href="{{ path('mlanka_tech_app.motor_coach_edit',{'slug':train.slug}) }}.html" data-original-title="Edit" data-toggle="tooltip"><i class="fa fa-edit"></i>&nbsp;Edit</a>
-
+                <a class="btn btn-primary btn-sm" href="{{ path('mlanka_tech_app.train_edit',{'slug':train.slug}) }}.html" data-original-title="Edit" data-toggle="tooltip"><i class="fa fa-edit"></i>&nbsp;Edit</a>
+                <a class="btn btn-primary btn-sm" href="{{ path('mlanka_tech_app.train_monitor',{'slug':train.slug}) }}.html" data-original-title="Edit" data-toggle="tooltip"><i class="fa fa-dashboard"></i>&nbsp;Monitor</a>
             </td>
 
         </tr>

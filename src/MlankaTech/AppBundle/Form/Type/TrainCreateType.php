@@ -85,13 +85,9 @@ class TrainCreateType extends AbstractType
                         ->setParameter('assigned',false);
                 },
                 'attr' => array(
-                    'class' => 'form-control',
+                    'class' => 'select2',
                     'tabindex' => '4',
-                    'data-parsley-errors-container' => '#parsleyMotorCoaches',
-                    'data-parsley-required-message' => 'Motor coaches are required.',
                 ),
-                'help' => 'Assign motor coaches',
-                'parsley_error_container' => 'parsleyMotorCoaches',
             ));
 
     }

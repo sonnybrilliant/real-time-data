@@ -1,0 +1,24 @@
+{
+  "name": "csv-parser",
+  "version": "0.0.1",
+  "description": "Parse csv data",
+  "main": "app.js",
+  "dependencies": {
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/sonnybrilliant/real-time-data.git"
+  },
+  "keywords": [
+    "socket"
+  ],
+  "author": "Mfana Ronald Conco",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sonnybrilliant/real-time-data/issues"
+  },
+  "homepage": "https://github.com/sonnybrilliant/real-time-data#readme"
+}

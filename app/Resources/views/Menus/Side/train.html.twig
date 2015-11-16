@@ -1,5 +1,5 @@
-{% if is_granted('ROLE_TRAIN_LIST','ROLE_TRAIN_CREATE','ROLE_TRAIN_EDIT','ROLE_TRAIN_PROFILE','ROLE_TRAIN_REMOVE') %}
-    <li {% if action == 'train_edit' or action == 'train_profile' %} class="active" {% endif %}>
+{% if is_granted('ROLE_TRAIN_LIST','ROLE_TRAIN_CREATE','ROLE_TRAIN_EDIT','ROLE_TRAIN_PROFILE','ROLE_TRAIN_REMOVE','ROLE_TRAIN_MONITOR') %}
+    <li {% if action == 'train_edit' or action == 'train_profile' or action == 'train_monitor' %} class="active" {% endif %}>
         <a href="#"><i class="fa fa-train"></i><span>Trains</span></a>
         <ul class="sub-menu">
             {% if is_granted('ROLE_TRAIN_CREATE') %}

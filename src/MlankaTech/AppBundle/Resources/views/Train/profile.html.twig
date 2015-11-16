@@ -9,6 +9,9 @@
             <div class="block-flat no-padding">
                 <div class="row no-margin">
                     <div class="row-same-height row-full-height">
+                        {% set condition_image = '' %}
+                        {% set condition_a_title = '' %}
+                        {% set condition_class = '' %}
                         {% if train.condition.name == 'excellent' %}
                             {% set condition_image = '../../assets/images/traincons/blue-coach.png' %}
                             {% set condition_a_title = 'Condition excellent' %}
@@ -16,8 +19,8 @@
                         {% elseif train.condition.name == 'good' %}
                             {% set condition_image = '../../assets/images/traincons/green-coach.png' %}
                             {% set condition_a_title = 'Condition good' %}
-                        {% elseif train.condition.name == 'warning' %}
                             {% set condition_class = 'green-back' %}
+                        {% elseif train.condition.name == 'warning' %}
                             {% set condition_image = '../../assets/images/traincons/yellow-coach.png' %}
                             {% set condition_a_title = 'Condition warning' %}
                             {% set condition_class = 'yellow-back' %}

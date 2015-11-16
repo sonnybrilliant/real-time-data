@@ -1,0 +1,109 @@
+<div class="row prasa-content">
+    <div class="prasa-content col-sm-12">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-content box-shadow">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="figure">
+                                <img src="/assets/img/traincons/active-train.png" width="700" height="100">
+                            </div>
+                            <div class="row train-dash">
+                                <div class="col-sm-2">
+                                    <div class="dark-gray">
+                                        <img src="/assets/img/traincons/train-cons-1.png" width="101" height="100">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="dark-gray">
+                                        <img src="/assets/img/traincons/train-cons-2.png" width="101" height="100">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="dark-gray">
+                                        <img src="/assets/img/traincons/train-cons-3.png" width="101" height="100">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="dark-gray">
+                                        <img src="/assets/img/traincons/train-cons-4.png" width="101" height="100">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="dark-gray">
+                                        <img src="/assets/img/traincons/train-cons-5.png" width="101" height="100">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-content">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="aside-card box-shadow">
+                                <ul class="card-list-info">
+                                    <li class="clearfix">
+                                        <p class="pull-left">BRAKE VALVE</p>
+                                        <just-gage id="motorCoachBrake" class="g-100x60" value="motorCoach.brakeVacuum" min=0 max=100 title=""></just-gage>
+                                    </li>
+                                    <li class="clearfix">
+                                        <p class="pull-left">LINE VOLTAGE</p>
+                                        <p class="green-txt pull-right">{{motorCoach.lineVoltage}}Kv</p>
+                                    </li>
+                                    <li class="clearfix">
+                                        <p class="pull-left">POWER CONSUMPTION</p>
+                                        <p class="pull-right"><strong>1021KWH</strong></p>
+                                    </li>
+                                    <li class="clearfix">
+                                        <p class="pull-left">BOGIE CURRENT</p>
+                                        <p class="green-txt pull-right">OK</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="aside-card box-shadow">
+                                <div class="card-header">
+                                    <div class="settings-aside">
+                                        <i class="fa fa-arrows-alt"></i>
+                                    </div>
+                                    <h3 class="underlined">Train speed</h3>
+                                </div>
+                                <div class="card-body-stnd">
+                                    <div class="figure">
+
+                                        <div width="180" style="padding-top: 20px;" ng-radial-gauge ranges="ranges" value="trainSpeed" value-unit="unit" precision="precision" lower-limit="lowerLimit" upper-limit="upperLimit"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="aside-card box-shadow">
+                                <ul class="card-list-info">
+                                    <li class="clearfix">
+                                        <p class="pull-left">HVAC</p>
+                                        <p class="green-txt pull-right">OK</p>
+                                    </li>
+                                    <li class="clearfix">
+                                        <p class="pull-left">ATC</p>
+                                        <p class="green-txt pull-right">OK</p>
+                                    </li>
+                                    <li class="clearfix">
+                                        <p class="pull-left">ENERGY</p>
+                                        <p class="green-txt pull-right">OK</p>
+                                    </li>
+                                    <li class="clearfix">
+                                        <p class="pull-left">SHAFT ENCODERS</p>
+                                        <div class="g-100x60 pull-right" id="inGage-2"></div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

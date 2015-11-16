@@ -1,0 +1,26 @@
+{
+  "name": "real-time-socket-server",
+  "version": "0.0.1",
+  "description": "Real time socket server",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^3.5.1",
+    "socket.io": "^1.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/sonnybrilliant/real-time-data.git"
+  },
+  "keywords": [
+    "socket"
+  ],
+  "author": "Mfana Ronald Conco",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sonnybrilliant/real-time-data/issues"
+  },
+  "homepage": "https://github.com/sonnybrilliant/real-time-data#readme"
+}

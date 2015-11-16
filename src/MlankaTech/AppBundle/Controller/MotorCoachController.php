@@ -153,15 +153,34 @@ class MotorCoachController extends Controller
            foreach($trans as $transaction)
            {
                if(!in_array($transaction->getMotorCoach()->getId(),$processed)){
+                   $trainId = null;
+                   $trainName = null;
+                   if($transaction->getTrain()){
+                       $trainId = $transaction->getTrain()->getId();
+                       $trainName = $transaction->getTrain()->getUnit();
+                   }
+
                    $tmp = array(
-                       'id' => $transaction->getMotorCoach()->getId(),
-                       'name' => $transaction->getMotorCoach()->getUnit(),
-                       'statusName' => $transaction->getStatus()->getName(),
-                       'statusCode' => $transaction->getStatus()->getCode(),
-                       'conditionName' => $transaction->getCondition()->getName(),
+                       'coachId' => $transaction->getMotorCoach()->getId(),
+                       'coachName' => $transaction->getMotorCoach()->getUnit(),
+                       'status' => $transaction->getStatus()->getName(),
+                       'condition' => $transaction->getCondition()->getName(),
                        'gpsSpeed' => $transaction->getGpsSpeed(),
-                       'latitude' => $transaction->getLatitude(),
-                       'longitude' => $transaction->getLongitude(),
+                       'lat' => $transaction->getLatitude(),
+                       'long' => $transaction->getLongitude(),
+                       'brakeVacuum' => $transaction->getBrakeVacuum(),
+                       'lineVoltage' => $transaction->getLineVoltage(),
+                       'boggie1Current' => $transaction->getBoggie1Current(),
+                       'boggie2Current' => $transaction->getBoggie2Current(),
+                       'shaftEncoder1' => $transaction->getShaftEncoder1Speed(),
+                       'shaftEncoder2' => $transaction->getShaftEncoder2Speed(),
+                       'shaftEncoder3' => $transaction->getShaftEncoder3Speed(),
+                       'shaftEncoder4' => $transaction->getShaftEncoder4Speed(),
+                       'shaftEncoder4' => $transaction->getShaftEncoder4Speed(),
+                       'maOutPutVoltage' => $transaction->getMAOutputVoltage(),
+                       'trainId' => $trainId,
+                       'trainName' => $trainName,
+                       'error' => $transaction->getMotorCoach()->getErrorData()
                    );
 
                    $processed[] = $transaction->getMotorCoach()->getId();

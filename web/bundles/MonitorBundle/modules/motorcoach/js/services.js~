@@ -1,0 +1,77 @@
+'use strict'
+
+angular.module('prasaMonitor.motorCoach.services',[]).factory('TrainService', function(){
+    return {
+        trainData: {
+            id: null,
+            name: null,
+            type: null,
+            statusName: null,
+            statusCode: null,
+            conditionName: null,
+            gpsSpeed: null,
+            latitude: null,
+            longitude: null,
+            dateTime: ""
+        },
+        motorCoachData: {
+            id: null,
+            name: null,
+            type: null,
+            gpsDate: null,
+            gpsTime: null,
+            latitude: null,
+            longitude: null,
+            evNo: null,
+            lineVoltage: null,
+            maOutPutVoltage: null,
+            speedo: null,
+            brakeVacuum: null,
+            boggie1Current: null,
+            boggie2Current: null,
+            shaftEncoder1Speed: null,
+            shaftEncoder2Speed: null,
+            shaftEncoder3Speed: null,
+            shaftEncoder4Speed: null,
+            error: null,
+            statusName: null,
+            statusCode: null,
+            conditionName: null
+        }
+    }
+}).factory('PayloadService', function($log,$http,$q,$timeout){
+    var serverInstance = {};
+
+    serverInstance.hasError = false;
+    serverInstance.errorMessage = null;
+
+    serverInstance.payload = {};
+
+    serverInstance.getPayload = function(apiUrl){
+        $log.info("connecting to restful api on "+apiUrl);
+        var deferred = $q.defer();
+        $http({
+            method : 'GET',
+            url : apiUrl
+
+        }).success(function(response){
+            if(response.statusCode !== 200){
+                $log.error("OnError: response->1->"+response.statusText);
+                serverInstance.hasError = true;
+                serverInstance.errorMessage = response.statusText;
+            } else {
+                serverInstance.payload = response.data;
+                deferred.resolve(response);
+            }
+        }).error(function(response){
+            $log.error("OnError: response->2->"+response.statusText);
+            serverInstance.hasError = true;
+            serverInstance.errorMessage = response.statusText;
+            deferred.reject();
+        });
+        $log.info("connection closed .....");
+        return deferred.promise;
+    };
+
+    return serverInstance;
+});;

@@ -1,0 +1,22 @@
+{% extends "MlankaTechAppBundle:Train:layout.html.twig" %}
+
+{% block title %}MCT | {{ page_header }}{% endblock title %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            {% include '::alert.html.twig'%}
+            <div class="block-flat">
+                <div class="content">
+                    {% include "MlankaTechAppBundle:Train/Form:edit.html.twig" %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+
+{% block javascript_init %}
+    <script src="{{ asset('/assets/js/jquery.parsley/dist/parsley.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/jquery.select2/select2.min.js') }}"></script>
+    {{ parent() }}
+{% endblock javascript_init %}

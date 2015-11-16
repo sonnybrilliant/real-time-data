@@ -14,9 +14,25 @@ mlanka_tech_app.train_create:
     requirements:
         _format:  html
 
+mlanka_tech_app.train_edit:
+    path:  /secured/train/edit/{slug}.{_format}
+    defaults: { _controller: MlankaTechAppBundle:Train:edit , _format: html}
+    schemes:  [http]
+    methods:  [GET,POST]
+    requirements:
+        _format:  html
+
 mlanka_tech_app.train_profile:
     path:  /secured/train/profile/{slug}.{_format}
     defaults: { _controller: MlankaTechAppBundle:Train:profile , _format: html}
+    schemes:  [http]
+    methods:  [GET]
+    requirements:
+        _format:  html
+
+mlanka_tech_app.train_monitor:
+    path:  /secured/train/monitor/{slug}.{_format}
+    defaults: { _controller: MlankaTechAppBundle:Train:monitor , _format: html}
     schemes:  [http]
     methods:  [GET]
     requirements:

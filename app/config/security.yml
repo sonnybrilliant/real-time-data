@@ -52,4 +52,5 @@ security:
         - { path: ^/login.html, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
         - { path: ^/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
         - { path: ^/secured/*, roles: [IS_AUTHENTICATED_FULLY,IS_AUTHENTICATED_REMEMBERED], requires_channel: http }
+        - { path: ^/api/*, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
 

@@ -11,5 +11,7 @@
 /bin/
 /composer.phar
 /vendor/
-/web/bundles/
+/web/bundles/sensiodistribution
+/web/bundles/framework
+/web/bundles/fosjsrouting
 /.idea/

@@ -26,6 +26,8 @@ class AppKernel extends Kernel
             new RaulFraile\Bundle\LadybugBundle\RaulFraileLadybugBundle(),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new Nc\Bundle\ElephantIOBundle\NcElephantIOBundle(),
+            new EightPoints\Bundle\GuzzleBundle\GuzzleBundle(),
             new MlankaTech\AppBundle\MlankaTechAppBundle()
         );
 

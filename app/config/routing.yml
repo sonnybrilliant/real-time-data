@@ -28,3 +28,7 @@ mlanka_tech_app_motor_coach:
 mlanka_tech_app_train:
     resource: "@MlankaTechAppBundle/Resources/config/routing.train.yml"
     prefix:   /
+
+mlanka_tech_app_api:
+    resource: "@MlankaTechAppBundle/Resources/config/routing.api.yml"
+    prefix:   /

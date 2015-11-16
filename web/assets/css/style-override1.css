@@ -394,3 +394,7 @@ fieldset {
     */
     #rwd-table td:before { content: attr(data-title); }
 }
+
+.fa-refresh {
+    color: #02AAE4;
+}

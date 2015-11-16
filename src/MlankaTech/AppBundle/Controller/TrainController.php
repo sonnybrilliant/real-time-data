@@ -73,6 +73,34 @@ class TrainController extends Controller
         ));
     }
 
+
+    /**
+     * Edit train
+     *
+     * @author Mfana Ronald Conco <ronald.conco@mlankatech.co.za>
+     * @param Request $request
+     * @Secure(roles="ROLE_TRAIN_CREATE")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function editAction(Request $request, Train $train)
+    {
+        $this->get('logger')->info('TrainController editAction()');
+
+        $form = $this->createForm("TrainEditType",$train);
+        $formHandler = $this->get('mlanka_tech_app.train_edit_handler');
+        if($formHandler->handle($form,$request)){
+            return $this->redirect($this->generateUrl('mlanka_tech_app.train_list') . '.html');
+        }
+
+        return $this->render('MlankaTechAppBundle:Train:edit.html.twig',array(
+            'action' => 'train_edit',
+            'train'=> $train,
+            'form' => $form->createView(),
+            'page_header' => 'Edit train',
+            'breadcrumb' => 'Edit'
+        ));
+    }
+
     /**
      * Train profile
      *
@@ -92,6 +120,36 @@ class TrainController extends Controller
             'train'=> $train,
             'page_header' => 'Train profile',
             'breadcrumb' => 'Profile'
+        ));
+    }
+
+
+    /**
+     * Train monitor
+     *
+     * @author Mfana Ronald Conco <ronald.conco@mlankatech.co.za>
+     * @param Request $request
+     * @param Train $train
+     * @ParamConverter("train", class="MlankaTechAppBundle:Train", options={"slug" = "slug"})
+     * @Secure(roles="ROLE_TRAIN_MONITOR")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function monitorAction(Request $request, Train $train)
+    {
+        $this->get('logger')->info('TrainController  profileAction()');
+
+        $motorCoaches = array();
+        foreach($train->getMotorcoaches() as $motorCoach){
+            $motorCoaches[] = $motorCoach->getUnit();
+        ;}
+
+        shuffle($motorCoaches);
+        return $this->render('MlankaTechAppBundle:Train:monitor.html.twig',array(
+            'action' => 'train_monitor',
+            'train'=> $train,
+            'page_header' => 'Train monitor',
+            'breadcrumb' => 'Monitor',
+            'motorCoaches' => $motorCoaches
         ));
     }
 
