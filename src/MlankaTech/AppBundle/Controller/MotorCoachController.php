@@ -36,6 +36,7 @@ class MotorCoachController extends Controller
         $pagination = $handler->handle($request,$page);
         $showOptions = array(10, 20, 30, 40, 50);
 
+        $this->get('motor.coach.manager')->setOffLine();
         return $this->render('MlankaTechAppBundle:MotorCoach:list.html.twig',array(
             'action' => 'motor_coach_list',
             'pagination' => $pagination['pagination'],

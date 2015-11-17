@@ -3,6 +3,16 @@
 var express = require('express');
 var app = express();
 
+
+if (process.argv.length <= 2) {
+    console.log("Usage: " + __filename + " Hostname /Ip Address");
+    process.exit(-1);
+}
+
+var param = process.argv[2];
+
+console.log('Param: ' + param);
+
 /**
  *  Allows third party clients to connect to the socket server
  */
@@ -24,8 +34,8 @@ server.on('upgrade', function(req, socket, head) {
  *  Have our server listen on port 3000
  */
 var port = process.env.PORT || 3000;
-server.listen(port, function(){
-    console.log('Server listening on port %d', port);
+server.listen(port,process.argv[2], function(){
+    console.log('Server '+process.argv[2]+' listening on port %d', port);
 });
 
 /**
@@ -41,13 +51,6 @@ app.get('/', function(req, res){
 });
 
 var socket;
-
-app.on('upgrade', function(req, sock) {
-    console.log('upgrading....');
-    socket = sock;
-    socket.write('hello');
-});
-
 
 var clients = {};
 

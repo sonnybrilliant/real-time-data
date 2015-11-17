@@ -24,7 +24,7 @@ class TrainRepository extends EntityRepository
         $defaultOptions = array(
             'search' => '',
             'filterBy' => '',
-            'sort' => 't.id',
+            'sort' => 't.updatedAt',
             'direction' => 'desc',
             'show' => 10,
         );

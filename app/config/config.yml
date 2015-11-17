@@ -233,11 +233,11 @@ old_sound_rabbit_mq:
 nc_elephant_io:
     clients:
         default:
-            connection: http://localhost:3000
+            connection: http://%site_domain%:3000
             # specify version 0.x for 0.* version and 1.x for 1.0 version
             version: 1.x
         your_key:
-            connection: http://localhost:3000
+            connection: http://%site_domain%:3000
             version: 1.x
 
 guzzle:

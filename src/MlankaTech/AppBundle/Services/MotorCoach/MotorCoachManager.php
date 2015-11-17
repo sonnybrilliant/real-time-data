@@ -172,4 +172,20 @@ class MotorCoachManager
         return $motorCoach;
     }
 
+    /**
+     * Set motor coaches which have not recorded any data in 5 minutes or more to be set to "offline"
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function setOffLine()
+    {
+        $this->logger->info('Service MotorCoachManager setOffLine()');
+
+
+        $sql  = "UPDATE MOTOR_COACH SET status_id = '31' , updated_at = NOW() ";
+        $sql .= "WHERE status_id = '30' AND updated_at  < (NOW() - INTERVAL 5 MINUTE)";
+
+        $statement = $this->em->getConnection()->prepare($sql);
+        $statement->execute();
+    }
+
 }

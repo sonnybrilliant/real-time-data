@@ -95,8 +95,8 @@ class TrainListHandler
         $this->logger->info('TrainListHandler handle()');
 
         $search = $request->query->get('search');
-        $sort = $request->query->get('sort', 't.id');
-        $direction = $request->query->get('direction', 'asc');
+        $sort = $request->query->get('sort', 't.updatedAt');
+        $direction = $request->query->get('direction', 'DESC');
         $show = $request->query->get('show', '10');
 
         $options = array(
