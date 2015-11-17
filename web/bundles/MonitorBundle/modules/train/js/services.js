@@ -82,7 +82,7 @@ angular.module('prasaMonitor.train.services',[]).factory('TrainService', functio
         }
     }
 }).factory('socket', function(socketFactory){
-    var myIoSocket = io.connect('local.mct:3000');
+    var myIoSocket = io.connect(g_domain+':3000');
 
     var socket = socketFactory({
         ioSocket: myIoSocket

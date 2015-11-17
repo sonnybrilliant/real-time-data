@@ -12,6 +12,7 @@
 {% block javascript_init %}
     {{ parent() }}
 <script type="text/javascript">
+    var g_domain = '{{ g_site_domain }}';
     var g_motorCoaches = {{ motorCoaches | json_encode| raw }};
     var g_siteUrl = "{{ g_site_url }}";
     var g_templatePath = g_siteUrl+'../bundles/MonitorBundle/modules/train/views/train.html';
