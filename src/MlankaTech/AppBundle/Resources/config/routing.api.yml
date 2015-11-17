@@ -1,5 +1,5 @@
 mlankatech_app.app_broadcast:
-    path:  /api/broadcast.{_format}
+    path:  /api/broadcast
     defaults: { _controller: MlankaTechAppBundle:Api:broadcast , _format: html}
     schemes:  [http]
     methods:  [GET]

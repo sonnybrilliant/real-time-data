@@ -210,14 +210,46 @@ class TrainManager
      */
     public function setOffLine()
     {
-        $this->logger->info('Service MotorCoachManager setOffLine()');
-
-
+        $this->logger->info('Service TrainManager setOffLine()');
         $sql  = "UPDATE TRAIN SET status_id = '31' , updated_at = NOW() ";
         $sql .= "WHERE status_id = '30' AND updated_at  < (NOW() - INTERVAL 5 MINUTE)";
 
         $statement = $this->em->getConnection()->prepare($sql);
         $statement->execute();
+    }
+
+    /**
+     * Get Count of Total Trains
+     * @return mixed
+     */
+    public function getCountOfTrains()
+    {
+        $this->logger->info('Service TrainManager getCountOfTrains()');
+
+        $repo = $this->em->getRepository('MlankaTechAppBundle:Train');
+
+        $qb = $repo->createQueryBuilder('t');
+        $qb->select('COUNT(t)');
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Get Count of Online Trains
+     * @return mixed
+     */
+    public function getCountOnlineTrains()
+    {
+        $this->logger->info('Service TrainManager getCountOnlineTrains()');
+
+        $repo = $this->em->getRepository('MlankaTechAppBundle:Train');
+
+        $qb = $repo->createQueryBuilder('t');
+        $qb->select('COUNT(t)')
+            ->andWhere('t.status =:status')
+            ->setParameters(array(
+                'status' => $this->sm->online(),
+            ));
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
 }
