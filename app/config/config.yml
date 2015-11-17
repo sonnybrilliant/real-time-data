@@ -243,6 +243,6 @@ nc_elephant_io:
 guzzle:
     clients:
         api_broadcast:
-            base_url: %site_url%app_dev.php/api/
+            base_url: %site_url%api/
             headers:
                 Accept: "application/json"

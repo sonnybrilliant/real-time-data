@@ -130,7 +130,7 @@ class MotorCoachTransactionHandler
         if(!strpos($latitude,"S-")){
             $latitude =  str_replace("S",'S-',$latitude);
         }
-        var_dump($latitude);
+
         $latitude =  $this->parse($latitude);
 
         $longitude = preg_replace("/[^A-Za-z0-9\\/'.-]/", '-',$payload->long);
@@ -140,7 +140,7 @@ class MotorCoachTransactionHandler
         if(!strpos($longitude,"E-")){
             $longitude=  str_replace("E",'E-',$longitude);
         }
-        var_dump($longitude);
+
         $longitude =  $this->parse($longitude);
 
         $sanitizedData = array(
