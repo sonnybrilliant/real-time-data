@@ -2,6 +2,10 @@
 
 {% block title %}MCT | {{ page_header }}{% endblock title %}
 
+{% block javascript_header %}
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;amp;sensor=false" type="text/javascript"></script>
+{% endblock %}
+
 {% block body %}
     <div class="row" ng-app="prasaMonitor">
         <div ui-view></div>
@@ -28,6 +32,7 @@
 <script type="text/javascript" src="{{ asset('bundles/MonitorBundle/lib/ngRadialGauge/d3.v3.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/MonitorBundle/lib/ngRadialGauge/ng-radial-gauge-dir.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/MonitorBundle/lib/angular-socket-io/socket.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/MonitorBundle/lib/ng-map/ng-map.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/MonitorBundle/js/app.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/MonitorBundle/js/controllers.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/MonitorBundle/js/directives.js') }}"></script>

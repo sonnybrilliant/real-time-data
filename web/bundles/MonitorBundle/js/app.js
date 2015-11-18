@@ -4,6 +4,7 @@ angular.module('prasaMonitor',[
     'ui.router',
     'ngJustGage',
     'btford.socket-io',
+    'ngMap',
     'ngRadialGauge',
     'prasaMonitor.train',
     'prasaMonitor.controllers',

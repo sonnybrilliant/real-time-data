@@ -9,6 +9,13 @@ angular.module('prasaMonitor.train.controllers',[]).controller('TrainController'
         $scope.motorCoachDataOne = TrainService.motorCoachData1;
         $scope.motorCoachDataTwo = TrainService.motorCoachData2;
         $scope.motorCoachDataThree = TrainService.motorCoachData3;
+        $scope.MapLatitude  = -25.73;
+        $scope.Markerlatitude  = 0;
+        $scope.MapLongitude = 28.18;
+        $scope.MarkerLongitude = 0;
+
+
+        $scope.zoomlevel = 4;
 
         if(trainCoaches.length > 0)
         {
@@ -111,6 +118,13 @@ angular.module('prasaMonitor.train.controllers',[]).controller('TrainController'
             conditionName: data.condition
         };
 
+        if(data.lat !== '' && data.long){
+            $scope.MapLatitude  = data.lat;
+            $scope.Markerlatitude  = data.lat;
+            $scope.MapLongitude = data.long;
+            $scope.MarkerLongitude = data.long;
+            $scope.zoomlevel = 16;
+        }
 
         totalSpeed = data.speedo;
 
