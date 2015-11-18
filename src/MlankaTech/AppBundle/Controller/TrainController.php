@@ -143,7 +143,6 @@ class TrainController extends Controller
             $motorCoaches[] = $motorCoach->getUnit();
         ;}
 
-        shuffle($motorCoaches);
         return $this->render('MlankaTechAppBundle:Train:monitor.html.twig',array(
             'action' => 'train_monitor',
             'train'=> $train,
