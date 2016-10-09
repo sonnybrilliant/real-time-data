@@ -239,7 +239,8 @@
 
     </script>
     {{  parent() }}
-    <script type="text/javascript" src="{{ asset('/assets/js/socket.io-1.3.7.js') }}"></script>
+    {#<script type="text/javascript" src="{{ asset('/assets/js/socket.io-1.3.7.js') }}"></script>#}
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
     <script type="text/javascript">
         var domain = '{{ g_site_domain }}';
         var socket = io(domain+':3000');
