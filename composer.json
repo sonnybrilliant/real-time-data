@@ -25,7 +25,6 @@
         "twig/extensions": "1.0.*",
         "raulfraile/ladybug-bundle": "~1.0",
         "egulias/email-validator": "~1.2",
-        "oldsound/rabbitmq-bundle": "1.2.*",
         "nc/elephantio-bundle": "^2.0"
     },
     "require-dev": {
