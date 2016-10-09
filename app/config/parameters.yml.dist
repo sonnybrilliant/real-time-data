@@ -26,8 +26,8 @@ parameters:
     site_version: "0.0.1"
 
     #rabbitmq settings
-    rabbitmq_host: localhost
-    rabbitmq_port: 5672
-    rabbitmq_user: user
-    rabbitmq_password: password
-    rabbitmq_vhost: vhost
+    #rabbitmq_host: localhost
+    #rabbitmq_port: 5672
+    #rabbitmq_user: user
+    #rabbitmq_password: password
+    #rabbitmq_vhost: vhost
